@@ -4,10 +4,13 @@ import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../../../common/widgets/appbar.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/not_loggedIn_text_widget.dart';
+import '../../../../configs/backendUrl.dart';
 import '../../../../configs/theme.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../services/cubit/ewallet_cubit.dart';
@@ -174,45 +177,41 @@ class _EwalletInfoLoadedState extends State<EwalletInfoLoaded> {
                     alignment: WrapAlignment.center,
                     runAlignment: WrapAlignment.center,
                     children: [
+                      // khalti
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
-                          // KhaltiConfig khaltiConfig = KhaltiConfig(
-                          //   publicKey: khaltiKey,
-                          //   amount: (double.parse(amountController.text) * 100)
-                          //       .toInt(),
-                          //   productIdentity: "gift_${randomAlphaNumeric(10)}",
-                          //   productName: "Go Buddy Goo Payment for gift card",
-                          //   productUrl: callBackUrl,
-                          // );
-
-                          // KhaltiResponse result = await Khalti(
-                          //         config: khaltiConfig,
-                          //         theme: MyTheme.themeData)
-                          //     .makePayment(context);
-
-                          // if (result.success) {
-                          //   Get.back();
-                          //   widget.cubit.buyGiftCard(
-                          //     amount:
-                          //         (double.parse(amountController.text) * 100)
-                          //             .toInt(),
-                          //     email: emailController.text,
-                          //     name: fullNameController.text,
-                          //     provider: "khalti",
-                          //     token: result.token,
-                          //   );
-
-                          //   // fullNameController.clear();
-                          //   // emailController.clear();
-                          //   // amountController.clear();
-                          //   // Get.back();
-                          // } else {
-                          //   showToast(
-                          //     text: result.message,
-                          //     time: 5,
-                          //   );
-                          // }
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount:
+                                  (double.parse(amountController.text) * 100)
+                                      .toInt(),
+                              productIdentity: "gift_${randomAlphaNumeric(10)}",
+                              productName: "Go Buddy Goo Payment for gift card",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (result) {
+                              Get.back();
+                              widget.cubit.buyGiftCard(
+                                amount:
+                                    (double.parse(amountController.text) * 100)
+                                        .toInt(),
+                                email: emailController.text,
+                                name: fullNameController.text,
+                                provider: "khalti",
+                                token: result.token,
+                              );
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: result.message,
+                                time: 5,
+                              );
+                            },
+                          );
                         },
                         child: Column(
                           children: [
@@ -224,6 +223,55 @@ class _EwalletInfoLoadedState extends State<EwalletInfoLoaded> {
                           ],
                         ),
                       ),
+
+                      // connectIPS
+
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () async {
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount:
+                                  (double.parse(amountController.text) * 100)
+                                      .toInt(),
+                              productIdentity: "gift_${randomAlphaNumeric(10)}",
+                              productName: "Go Buddy Goo Payment for gift card",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.connectIPS,
+                            ],
+                            onSuccess: (result) {
+                              Get.back();
+                              widget.cubit.buyGiftCard(
+                                amount:
+                                    (double.parse(amountController.text) * 100)
+                                        .toInt(),
+                                email: emailController.text,
+                                name: fullNameController.text,
+                                provider: "connectIPS",
+                                token: result.token,
+                              );
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: result.message,
+                                time: 5,
+                              );
+                            },
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              "assets/images/connectips.png",
+                              height: 50,
+                            ),
+                            const Text("Pay with ConnectIPS"),
+                          ],
+                        ),
+                      ),
+
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {

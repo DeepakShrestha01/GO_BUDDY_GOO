@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
+import '../../../../configs/backendUrl.dart';
 import '../../../../configs/theme.dart';
 import '../../../hotel/ui/widgets/filterCard.dart';
 import '../../model/bus.dart';
@@ -255,6 +258,8 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                   runSpacing: 40.0,
                   alignment: WrapAlignment.center,
                   children: [
+
+                    // khalti
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
@@ -284,39 +289,38 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                             time: 5,
                           );
 
-                          // KhaltiConfig khaltiConfig = KhaltiConfig(
-                          //   publicKey: khaltiKey,
-                          //   amount:
-                          //       (widget.cubit.finalTotalPrice * 100).toInt(),
-                          //   productIdentity: "bus_${randomAlphaNumeric(10)}",
-                          //   productName:
-                          //       "Go Buddy Goo Payment for ${widget.cubit.parameters.selectedBus.busTag}",
-                          //   productUrl: callBackUrl,
-                          // );
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount:
+                                  (widget.cubit.finalTotalPrice! * 100).toInt(),
+                              productIdentity: "bus_${randomAlphaNumeric(10)}",
+                              productName:
+                                  "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (result) {
+                              if (widget.countDownController
+                                      .currentRemainingTime !=
+                                  null) {
+                                // print(result.token);
 
-                          // KhaltiResponse result = await Khalti(
-                          //         config: khaltiConfig,
-                          //         theme: MyTheme.themeData)
-                          //     .makePayment(context);
-
-                          // if (result.success) {
-                          //   if (widget
-                          //           .countDownController.currentRemainingTime !=
-                          //       null) {
-                          //     // print(result.token);
-
-                          //     widget.cubit.pay("khalti", result.token);
-                          //   } else {
-                          //     showToast(
-                          //         text:
-                          //             "Payment time expired. Go back, check availability again and proceed further.",
-                          //         time: 5);
-                          //   }
-                          // } else {
-                          //   showToast(
-                          //     text: "Khalti Payment Error: " + result.message,
-                          //   );
-                          // }
+                                widget.cubit.pay("khalti", result.token);
+                              } else {
+                                showToast(
+                                    text:
+                                        "Payment time expired. Go back, check availability again and proceed further.",
+                                    time: 5);
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: "Khalti Payment Error: ${result.message}",
+                              );
+                            },
+                          );
                         } else {
                           showToast(
                               text:
@@ -334,6 +338,89 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                         ],
                       ),
                     ),
+
+                    // connectIPS
+
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        if (widget.countDownController.currentRemainingTime !=
+                            null) {
+                          String minString = widget.countDownController
+                                      .currentRemainingTime?.min ==
+                                  null
+                              ? "0"
+                              : widget
+                                  .countDownController.currentRemainingTime!.min
+                                  .toString();
+
+                          String secString = widget.countDownController
+                                      .currentRemainingTime?.sec ==
+                                  null
+                              ? "0"
+                              : widget
+                                  .countDownController.currentRemainingTime!.sec
+                                  .toString();
+
+                          String timeRemText =
+                              "$minString minutes and $secString seconds ";
+
+                          showToast(
+                            text: "You have $timeRemText to make the payment.",
+                            time: 5,
+                          );
+
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount:
+                                  (widget.cubit.finalTotalPrice! * 100).toInt(),
+                              productIdentity: "bus_${randomAlphaNumeric(10)}",
+                              productName:
+                                  "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.connectIPS,
+                            ],
+                            onSuccess: (result) {
+                              if (widget.countDownController
+                                      .currentRemainingTime !=
+                                  null) {
+                                // print(result.token);
+
+                                widget.cubit.pay("connectIPS", result.token);
+                              } else {
+                                showToast(
+                                    text:
+                                        "Payment time expired. Go back, check availability again and proceed further.",
+                                    time: 5);
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: "ConnectIPS Payment Error: ${result.message}",
+                              );
+                            },
+                          );
+                        } else {
+                          showToast(
+                              text:
+                                  "Payment time expired. Go back, check availability again and proceed further.",
+                              time: 5);
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/connectips.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with ConnectIPS"),
+                        ],
+                      ),
+                    ),
+
+
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {

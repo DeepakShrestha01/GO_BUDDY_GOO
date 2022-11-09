@@ -8,11 +8,14 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/route_manager.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../../../common/model/user.dart';
 import '../../../../common/model/user_detail.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
+import '../../../../configs/backendUrl.dart';
 import '../../../../configs/theme.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../model/hotel_booking_detail.dart';
@@ -21,16 +24,20 @@ import '../widgets/filterCard.dart';
 import '../widgets/promotion_widget.dart';
 
 class HotelBookingPaymentPage extends StatelessWidget {
+  const HotelBookingPaymentPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => GuestDetailAndPaymentCubit(),
-      child: HotelBookingPaymentBody(),
+      child: const HotelBookingPaymentBody(),
     );
   }
 }
 
 class HotelBookingPaymentBody extends StatefulWidget {
+  const HotelBookingPaymentBody({super.key});
+
   @override
   _HotelBookingPaymentBodyState createState() =>
       _HotelBookingPaymentBodyState();
@@ -808,6 +815,7 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
                         ],
                       ),
                     ),
+                    // khalti
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
@@ -834,37 +842,37 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
                             time: 5,
                           );
 
-                          // KhaltiConfig khaltiConfig = KhaltiConfig(
-                          //   publicKey: khaltiKey,
-                          //   amount: (cubit.finalTotalPrice * 100).toInt(),
-                          //   productIdentity: "hotel_${randomAlphaNumeric(10)}",
-                          //   productName:
-                          //       "Go Buddy Goo Payment for ${cubit.bookings[0].hotelName}",
-                          //   productUrl: callBackUrl,
-                          // );
-
-                          // KhaltiResponse result = await Khalti(
-                          //         config: khaltiConfig,
-                          //         theme: MyTheme.themeData)
-                          //     .makePayment(context);
-
-                          // if (result.success) {
-                          //   if (countdownController.currentRemainingTime !=
-                          //       null) {
-                          //     // print(result);
-                          //     cubit.pay("khalti", result.token);
-                          //   } else {
-                          //     showToast(
-                          //       text:
-                          //           "Payment time expired. Go back, check availability again and proceed further.",
-                          //       time: 5,
-                          //     );
-                          //   }
-                          // } else {
-                          //   showToast(
-                          //     text: "Khalti Payment Error: " + result.message,
-                          //   );
-                          // }
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: (cubit!.finalTotalPrice * 100).toInt(),
+                              productIdentity:
+                                  "hotel_${randomAlphaNumeric(10)}",
+                              productUrl: callBackUrl,
+                              productName:
+                                  "Go Buddy Goo Payment for ${cubit?.bookings?[0].hotelName}",
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (result) {
+                              if (countdownController?.currentRemainingTime !=
+                                  null) {
+                                // print(result);
+                                cubit?.pay("khalti", result.token);
+                              } else {
+                                showToast(
+                                  text:
+                                      "Payment time expired. Go back, check availability again and proceed further.",
+                                  time: 5,
+                                );
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: "Khalti Payment Error: ${result.message}",
+                              );
+                            },
+                          );
                         } else {
                           showToast(
                             text:
@@ -883,6 +891,86 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
                         ],
                       ),
                     ),
+
+                    // connectIPS
+
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        if (countdownController?.currentRemainingTime != null) {
+                          String minString = countdownController
+                                      ?.currentRemainingTime?.min ==
+                                  null
+                              ? "0"
+                              : countdownController!.currentRemainingTime!.min
+                                  .toString();
+
+                          String secString = countdownController
+                                      ?.currentRemainingTime?.sec ==
+                                  null
+                              ? "0"
+                              : countdownController!.currentRemainingTime!.sec
+                                  .toString();
+
+                          String timeRemText =
+                              "$minString minutes and $secString seconds ";
+
+                          showToast(
+                            text: "You have $timeRemText to make the payment.",
+                            time: 5,
+                          );
+
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: (cubit!.finalTotalPrice * 100).toInt(),
+                              productIdentity:
+                                  "hotel_${randomAlphaNumeric(10)}",
+                              productUrl: callBackUrl,
+                              productName:
+                                  "Go Buddy Goo Payment for ${cubit?.bookings?[0].hotelName}",
+                            ),
+                            preferences: [
+                              PaymentPreference.connectIPS,
+                            ],
+                            onSuccess: (result) {
+                              if (countdownController?.currentRemainingTime !=
+                                  null) {
+                                // print(result);
+                                cubit?.pay("connectIPS", result.token);
+                              } else {
+                                showToast(
+                                  text:
+                                      "Payment time expired. Go back, check availability again and proceed further.",
+                                  time: 5,
+                                );
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text:
+                                    "ConnectIPS Payment Error: ${result.message}",
+                              );
+                            },
+                          );
+                        } else {
+                          showToast(
+                            text:
+                                "Payment time expired. Go back, check availability again and proceed further.",
+                            time: 5,
+                          );
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/connectips.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with ConnectIPS"),
+                        ],
+                      ),
+                    ),
+
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {

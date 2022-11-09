@@ -6,11 +6,14 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../../../common/model/country_list.dart';
 import '../../../../common/services/get_it.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
+import '../../../../configs/backendUrl.dart';
 import '../../../../configs/theme.dart';
 import '../../../hotel/ui/widgets/filterCard.dart';
 import '../../model/flight_passanger.dart';
@@ -697,6 +700,7 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
                   runSpacing: 40.0,
                   alignment: WrapAlignment.center,
                   children: [
+                    // khalti
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
@@ -723,37 +727,37 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
                             time: 5,
                           );
 
-                          // KhaltiConfig khaltiConfig = KhaltiConfig(
-                          //   publicKey: khaltiKey,
-                          //   amount: (cubit.finalTotalPrice * 100).toInt(),
-                          //   productIdentity: "flight_${randomAlphaNumeric(10)}",
-                          //   productName:
-                          //       "Go Buddy Goo Payment for flight ${cubit.selectedFlights.outBound.sectorPair}",
-                          //   productUrl: callBackUrl,
-                          // );
-
-                          // KhaltiResponse result = await Khalti(
-                          //         config: khaltiConfig,
-                          //         theme: MyTheme.themeData)
-                          //     .makePayment(context);
-
-                          // if (result.success) {
-                          //   if (countdownController.currentRemainingTime !=
-                          //       null) {
-                          //     // print(result);
-                          //     cubit.pay("khalti", result.token);
-                          //   } else {
-                          //     showToast(
-                          //       text:
-                          //           "Payment time expired. Go back, check availability again and proceed further.",
-                          //       time: 5,
-                          //     );
-                          //   }
-                          // } else {
-                          //   showToast(
-                          //     text: "Khalti Payment Error: " + result.message,
-                          //   );
-                          // }
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: (cubit!.finalTotalPrice * 100).toInt(),
+                              productIdentity:
+                                  "flight_${randomAlphaNumeric(10)}",
+                              productName:
+                                  "Go Buddy Goo Payment for flight ${cubit?.selectedFlights.outBound?.sectorPair}",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.khalti,
+                            ],
+                            onSuccess: (result) {
+                              if (countdownController?.currentRemainingTime !=
+                                  null) {
+                                // print(result);
+                                cubit?.pay("khalti", result.token);
+                              } else {
+                                showToast(
+                                  text:
+                                      "Payment time expired. Go back, check availability again and proceed further.",
+                                  time: 5,
+                                );
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: "Khalti Payment Error: ${result.message}",
+                              );
+                            },
+                          );
                         } else {
                           showToast(
                             text:
@@ -772,6 +776,87 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
                         ],
                       ),
                     ),
+
+                    // connectIPS
+
+                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        if (countdownController?.currentRemainingTime != null) {
+                          String minString = countdownController
+                                      ?.currentRemainingTime?.min ==
+                                  null
+                              ? "0"
+                              : countdownController!.currentRemainingTime!.min
+                                  .toString();
+
+                          String secString = countdownController
+                                      ?.currentRemainingTime?.sec ==
+                                  null
+                              ? "0"
+                              : countdownController!.currentRemainingTime!.sec
+                                  .toString();
+
+                          String timeRemText =
+                              "$minString minutes and $secString seconds ";
+
+                          showToast(
+                            text: "You have $timeRemText to make the payment.",
+                            time: 5,
+                          );
+
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: (cubit!.finalTotalPrice * 100).toInt(),
+                              productIdentity:
+                                  "flight_${randomAlphaNumeric(10)}",
+                              productName:
+                                  "Go Buddy Goo Payment for flight ${cubit?.selectedFlights.outBound?.sectorPair}",
+                              productUrl: callBackUrl,
+                            ),
+                            preferences: [
+                              PaymentPreference.connectIPS,
+                            ],
+                            onSuccess: (result) {
+                              if (countdownController?.currentRemainingTime !=
+                                  null) {
+                                // print(result);
+                                cubit?.pay("connectIPS", result.token);
+                              } else {
+                                showToast(
+                                  text:
+                                      "Payment time expired. Go back, check availability again and proceed further.",
+                                  time: 5,
+                                );
+                              }
+                            },
+                            onFailure: (result) {
+                              showToast(
+                                text: "ConnectIPS Payment Error: ${result.message}",
+                              );
+                            },
+                          );
+                        } else {
+                          showToast(
+                            text:
+                                "Payment time expired. Go back, check availability again and proceed further.",
+                            time: 5,
+                          );
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/connectips.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with connectIPS"),
+                        ],
+                      ),
+                    ),
+
+
+
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
@@ -1215,15 +1300,14 @@ class _TravellerDetailWidgetState extends State<TravellerDetailWidget> {
                     suggestionsCallback: (pattern) async {
                       return await countryList.getPatternCountries(pattern);
                     },
-                    itemBuilder: (context,dynamic suggestion) {
-                      return  ListTile(
+                    itemBuilder: (context, dynamic suggestion) {
+                      return ListTile(
                         title: Text(suggestion.name),
                       );
                     },
                     onSuggestionSelected: (dynamic suggestion) {
                       countryController.text = suggestion.name;
-                      widget.passenger.nationalityRcd =
-                          suggestion.countryCode;
+                      widget.passenger.nationalityRcd = suggestion.countryCode;
                       widget.passenger.countryRcd = suggestion.countryCode;
                       setState(() {});
                     },

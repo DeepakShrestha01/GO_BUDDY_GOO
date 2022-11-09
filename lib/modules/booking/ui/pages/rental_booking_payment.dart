@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
@@ -282,28 +284,29 @@ class _RentalBookingBodyState extends State<RentalBookingBody> {
                   runSpacing: 40.0,
                   alignment: WrapAlignment.center,
                   children: [
+                    // khalti
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
-                        // KhaltiConfig khaltiConfig = KhaltiConfig(
-                        //   publicKey: khaltiKey,
-                        //   amount: (cubit.finalTotalPrice * 100).toInt(),
-                        //   productIdentity: "rental_${randomAlphaNumeric(10)}",
-                        //   productName: "Go  Buddy Goo Payment for rental",
-                        //   productUrl: callBackUrl,
-                        // );
-
-                        // KhaltiResponse result = await Khalti(
-                        //         config: khaltiConfig, theme: MyTheme.themeData)
-                        //     .makePayment(context);
-
-                        // if (result.success) {
-                        //   cubit.pay("khalti", result.token, nextPaymentMethod);
-                        // } else {
-                        //   showToast(
-                        //     text: "Khalti Payment Error: " + result.message,
-                        //   );
-                        // }
+                        KhaltiScope.of(context).pay(
+                          config: PaymentConfig(
+                            amount: (cubit!.finalTotalPrice! * 100).toInt(),
+                            productIdentity: "rental_${randomAlphaNumeric(10)}",
+                            productName: "Go  Buddy Goo Payment for rental",
+                          ),
+                          preferences: [
+                            PaymentPreference.khalti,
+                          ],
+                          onSuccess: (result) {
+                            cubit?.pay(
+                                "khalti", result.token, nextPaymentMethod);
+                          },
+                          onFailure: (result) {
+                            showToast(
+                              text: "Khalti Payment Error: ${result.message}",
+                            );
+                          },
+                        );
                       },
                       child: Column(
                         children: [
@@ -312,6 +315,42 @@ class _RentalBookingBodyState extends State<RentalBookingBody> {
                             height: 50,
                           ),
                           const Text("Pay with Khalti"),
+                        ],
+                      ),
+                    ),
+
+                    // connectips
+
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        KhaltiScope.of(context).pay(
+                          config: PaymentConfig(
+                            amount: (cubit!.finalTotalPrice! * 100).toInt(),
+                            productIdentity: "rental_${randomAlphaNumeric(10)}",
+                            productName: "Go  Buddy Goo Payment for rental",
+                          ),
+                          preferences: [
+                            PaymentPreference.connectIPS,
+                          ],
+                          onSuccess: (result) {
+                            cubit?.pay(
+                                "connectIPS", result.token, nextPaymentMethod);
+                          },
+                          onFailure: (result) {
+                            showToast(
+                              text: "ConnectIPS Payment Error: ${result.message}",
+                            );
+                          },
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/connectips.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with ConnectIPS"),
                         ],
                       ),
                     ),
