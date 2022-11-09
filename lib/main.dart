@@ -1,7 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_buddy_goo_mobile/firebase_options.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -15,9 +17,10 @@ import 'configs/theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
+await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   // await FlutterDownloader.initialize(debug: kDebugMode);
-  // await Firebase.initializeApp();
   // FirebaseCrashlytics.instance.crash();
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 

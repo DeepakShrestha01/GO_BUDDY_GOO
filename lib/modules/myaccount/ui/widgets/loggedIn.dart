@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,7 @@ import '../../../../common/services/get_it.dart';
 import '../../../../common/services/logger.dart';
 import '../../../../common/widgets/divider.dart';
 import '../../../../configs/theme.dart';
+import '../../../main/services/firebase_messaging.dart';
 import '../../services/cubit/account/account_cubit.dart';
 import '../../services/hive/hive_user.dart';
 
@@ -38,11 +40,11 @@ class _LoggedInWidgetState extends State<LoggedInWidget> {
 
     countryList = locator<CountryList>();
 
-    // final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    // firebaseMessaging.requestPermission();
-    // firebaseMessaging.getToken().then((fcmToken) {
-    //   updateFcmAndLocation(fcmToken.toString());
-    // });
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    firebaseMessaging.requestPermission();
+    firebaseMessaging.getToken().then((fcmToken) {
+      updateFcmAndLocation(fcmToken.toString());
+    });
 
     values = [
       user?.email ?? "NA",

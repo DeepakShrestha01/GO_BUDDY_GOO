@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "129370609547",
+    "project_id": "gobudddygoo-push-notification",
+    "storage_bucket": "gobudddygoo-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129370609547:android:8fc703b16f0752f09bc18e",
+        "android_client_info": {
+          "package_name": "com.example.go_buddy_goo_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129370609547-ovlesu4jea40caaq5terh4bhnh5rqbou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ2BII3w0nM1BpN-fLFWhPkEb-_wn_71I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129370609547-ovlesu4jea40caaq5terh4bhnh5rqbou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

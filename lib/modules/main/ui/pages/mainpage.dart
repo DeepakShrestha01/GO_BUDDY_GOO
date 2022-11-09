@@ -1,4 +1,6 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -15,7 +17,9 @@ import '../../../ewallet/ui/pages/ewallet.dart';
 import '../../../home/ui/pages/home.dart';
 import '../../../hotel/model/hotel_booking_detail_parameters.dart';
 import '../../../more/ui/pages/more.dart';
+import '../../../myaccount/services/hive/hive_user.dart';
 import '../../../rental/model/rental_booking_detail_parameters.dart';
+import '../../services/firebase_messaging.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -107,7 +111,7 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   @override
   void initState() {
@@ -128,24 +132,27 @@ class _MainPageState extends State<MainPage> {
         locator<BusBookingDetailParameters>();
     busBookingDetailParameters.clearAllField();
 
-    // if (HiveUser.getLoggedIn()) {
-    //   _firebaseMessaging.requestPermission();
+    if (HiveUser.getLoggedIn()) {
+      _firebaseMessaging.requestPermission();
 
-    //   _firebaseMessaging.getToken().then((fcmToken) {
-    //     updateFcmAndLocation(fcmToken.toString());
-    //   });
-    //   // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {});
-    //   // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
-    //   //   return myBackgroundMessageHandler(message.data);
-    //   // });
+      _firebaseMessaging.getToken().then((fcmToken) {
+        updateFcmAndLocation(fcmToken.toString());
+      });
 
-    //   // _firebaseMessaging.configure(
-    //   //   onMessage: (Map<String, dynamic> message) async {
-    //   //     // printLog.d(message);
-    //   //   },
-    //   //   onBackgroundMessage: myBackgroundMessageHandler,
-    //   // );
-    // }
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+        log(message.toString());
+      });
+      FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+        return myBackgroundMessageHandler(message.data);
+      });
+
+      // _firebaseMessaging.configure(
+      //   onMessage: (Map<String, dynamic> message) async {
+      //     // printLog.d(message);
+      //   },
+      //   onBackgroundMessage: myBackgroundMessageHandler,
+      // );
+    }
   }
 
   @override
