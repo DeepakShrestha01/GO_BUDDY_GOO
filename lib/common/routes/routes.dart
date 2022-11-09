@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/ui/pages/new_ui/account_screen.dart';
 
 import '../../modules/booking/ui/pages/bus_booking_detail.dart';
 import '../../modules/booking/ui/pages/flight_booking_detail.dart';
@@ -53,7 +54,8 @@ import '../widgets/photoview.dart';
 List<GetPage> routes = [
   GetPage(name: "/", page: () => const MainPage()),
   GetPage(name: "/main", page: () => const MainPage()),
-  GetPage(name: "/accountPage", page: () => const AccountPage()),
+  // GetPage(name: "/accountPage", page: () => const AccountPage()),
+  GetPage(name: "/accountPage", page: () => const AccountScreen()),
   GetPage(name: "/updateProfile", page: () => const UpdateProfilePage()),
   GetPage(name: "/updatePassword", page: () => UpdatePasswordPage()),
   GetPage(name: "/activateAccount", page: () => const ActivateAccountPage()),
