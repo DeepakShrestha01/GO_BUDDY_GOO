@@ -272,7 +272,8 @@ class _TourBookingPaymentWidgetState extends State<TourBookingPaymentWidget> {
                           },
                           onFailure: (result) {
                             showToast(
-                              text: "ConnectIPS Payment Error: ${result.message}",
+                              text:
+                                  "ConnectIPS Payment Error: ${result.message}",
                             );
                           },
                         );
@@ -287,8 +288,6 @@ class _TourBookingPaymentWidgetState extends State<TourBookingPaymentWidget> {
                         ],
                       ),
                     ),
-
-
 
                     // GestureDetector(
                     //   behavior: HitTestBehavior.opaque,
