@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/new_ui/custom_textformfield.dart';
@@ -26,11 +27,16 @@ class _AccountScreenState extends State<AccountScreen> {
                     const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
                 child: Align(
                   alignment: Alignment.topRight,
-                  child: Text("Skip",
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF9B97A0))),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Text("Skip",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF9B97A0))),
+                  ),
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.150),
@@ -128,4 +134,3 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 }
-
