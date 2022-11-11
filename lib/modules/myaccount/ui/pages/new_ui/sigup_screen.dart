@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/custom_textformfield.dart';
@@ -15,6 +18,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  CountdownTimerController? countdownController;
+
   GlobalKey<AnimatorWidgetState>? _keyFirstName;
   GlobalKey<AnimatorWidgetState>? _keyLastName;
   GlobalKey<AnimatorWidgetState>? _keyEmail;
@@ -22,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<AnimatorWidgetState>? _keyOTP;
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
-  final _EmailController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _referralCodeController = TextEditingController();
   final _otpController = TextEditingController();
@@ -36,6 +41,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _keyEmail = GlobalKey<AnimatorWidgetState>();
     _keyPassword = GlobalKey<AnimatorWidgetState>();
     _keyOTP = GlobalKey<AnimatorWidgetState>();
+
+    countdownController = CountdownTimerController(
+        endTime: DateTime.now()
+            .add(const Duration(seconds: 1))
+            .millisecondsSinceEpoch,
+        onEnd: () {
+          countdownController?.disposeTimer();
+        });
   }
 
   @override
@@ -138,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           preferences: const AnimationPreferences(
                               autoPlay: AnimationPlayStates.None),
                           child: CustomTextFormField(
-                              controller: _EmailController,
+                              controller: _emailController,
                               validator: (x) {
                                 if (!RegExp(
                                         r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -183,14 +196,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           )),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
-                      Center(
-                        child: Text(
-                          'OTP sent to 9860009939. Resend OTP in 0:59',
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: const Color(0xFF111827)),
-                        ),
+                      RichText(
+                        text: TextSpan(
+                            text: 'OTP sent to *****. Resend OTP in ',
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF000000)),
+                            children: [
+                              TextSpan(children: [
+                                WidgetSpan(
+                                    child: CountdownTimer(
+                                  controller: countdownController,
+                                  textStyle: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFF000000),
+                                  ),
+                                  widgetBuilder:
+                                      (_, CurrentRemainingTime? time) {
+                                    if (time == null) {
+                                      return Text(
+                                        '0:00',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xFF000000)),
+                                      );
+                                    }
+                                    String secString =
+                                        time.sec.toString().length == 1
+                                            ? "0${time.sec ?? 0}"
+                                            : time.sec.toString();
+
+                                    return Text('0:$secString',
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: const Color(0xFF000000)));
+                                  },
+                                ))
+                              ])
+                            ]),
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.024),

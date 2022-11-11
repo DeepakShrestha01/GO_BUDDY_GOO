@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:flutter_countdown_timer/index.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/auth_privacy_tc.dart';
@@ -15,6 +16,8 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  CountdownTimerController? countdownController;
+
   GlobalKey<AnimatorWidgetState>? _keyPhoneNumber;
   GlobalKey<AnimatorWidgetState>? _keyPassword;
   GlobalKey<AnimatorWidgetState>? _keyOTP;
@@ -33,6 +36,19 @@ class _AccountScreenState extends State<AccountScreen> {
     _keyPhoneNumber = GlobalKey<AnimatorWidgetState>();
     _keyPassword = GlobalKey<AnimatorWidgetState>();
     _keyOTP = GlobalKey<AnimatorWidgetState>();
+    countdownController = CountdownTimerController(
+        endTime: DateTime.now()
+            .add(const Duration(seconds: 1))
+            .millisecondsSinceEpoch,
+        onEnd: () {
+          countdownController?.disposeTimer();
+        });
+  }
+
+  @override
+  void dispose() {
+    countdownController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -172,13 +188,58 @@ class _AccountScreenState extends State<AccountScreen> {
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.012),
-                                    Text(
-                                      'OTP sent to ${phoneController.text}. Resend OTP in ',
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: const Color(0xFF000000)),
-                                    )
+                                    RichText(
+                                      text: TextSpan(
+                                          text:
+                                              'OTP sent to ${phoneController.text}. Resend OTP in ',
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: const Color(0xFF000000)),
+                                          children: [
+                                            TextSpan(children: [
+                                              WidgetSpan(
+                                                  child: CountdownTimer(
+                                                controller: countdownController,
+                                                textStyle: GoogleFonts.poppins(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color:
+                                                      const Color(0xFF000000),
+                                                ),
+                                                widgetBuilder: (_,
+                                                    CurrentRemainingTime?
+                                                        time) {
+                                                  if (time == null) {
+                                                    return Text(
+                                                      '0:00',
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: const Color(
+                                                              0xFF000000)),
+                                                    );
+                                                  }
+                                                  String secString = time.sec
+                                                              .toString()
+                                                              .length ==
+                                                          1
+                                                      ? "0${time.sec ?? 0}"
+                                                      : time.sec.toString();
+
+                                                  return Text('0:$secString',
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: const Color(
+                                                              0xFF000000)));
+                                                },
+                                              ))
+                                            ])
+                                          ]),
+                                    ),
                                   ],
                                 )
                               : Container()
@@ -251,8 +312,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             color: const Color(0xFF9B97A0)),
                       ),
                     ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.195),
-              const AuthPrivacyTC()
+              SizedBox(height: MediaQuery.of(context).size.height * 0.190),
+              const AuthPrivacyTC(),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.018),
             ],
           ),
         ),
