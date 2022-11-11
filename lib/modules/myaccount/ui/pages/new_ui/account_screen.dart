@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:get/get.dart';
+import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/auth_privacy_tc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/new_ui/custom_textformfield.dart';
@@ -14,16 +16,23 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   GlobalKey<AnimatorWidgetState>? _keyPhoneNumber;
+  GlobalKey<AnimatorWidgetState>? _keyPassword;
+  GlobalKey<AnimatorWidgetState>? _keyOTP;
+  final _formkey = GlobalKey<FormState>();
 
   final phoneController = TextEditingController();
-  bool isPassword = false;
+  final passwordController = TextEditingController();
+  final otpController = TextEditingController();
 
+  bool isPassword = false;
   bool isOTPVerified = false;
 
   @override
   void initState() {
     super.initState();
     _keyPhoneNumber = GlobalKey<AnimatorWidgetState>();
+    _keyPassword = GlobalKey<AnimatorWidgetState>();
+    _keyOTP = GlobalKey<AnimatorWidgetState>();
   }
 
   @override
@@ -35,23 +44,41 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Text("Skip",
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF9B97A0))),
-                  ),
-                ),
-              ),
+              isOTPVerified == true
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 17, vertical: 10),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Text("Back",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xFF9B97A0))),
+                        ),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 17, vertical: 10),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Text("Skip",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: const Color(0xFF9B97A0))),
+                        ),
+                      ),
+                    ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.080),
               Image.asset('assets/images/newlogo.png'),
               SizedBox(height: MediaQuery.of(context).size.height * 0.056),
@@ -77,64 +104,112 @@ class _AccountScreenState extends State<AccountScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.023),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 36),
-                child: Column(
-                  children: [
-                    Shake(
-                      key: _keyPhoneNumber,
-                      preferences: const AnimationPreferences(
-                          autoPlay: AnimationPlayStates.None),
-                      child: CustomTextFormField(
-                        text: 'Enter Your Phone Number',
-                        controller: phoneController,
+                child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      Shake(
+                        key: _keyPhoneNumber,
+                        preferences: const AnimationPreferences(
+                            autoPlay: AnimationPlayStates.None),
+                        child: CustomTextFormField(
+                          readOnly: isOTPVerified ? true : false,
+                          keyboardType: TextInputType.number,
+                          validator: (x) {
+                            if (x!.isEmpty) {
+                              _keyPhoneNumber!.currentState!.forward();
+                              return "Phone Number is required";
+                            }
+                            return null;
+                          },
+                          text: 'Enter Your Phone Number',
+                          controller: phoneController,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.012),
-                    isPassword == true
-                        ? const CustomTextFormField(text: "Enter Your Password")
-                        : Container(),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.012),
-                    isPassword == true
-                        ? Container()
-                        : isOTPVerified == true
-                            ? Column(
-                                children: [
-                                  const CustomTextFormField(text: 'OTP'),
-                                  SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.012),
-                                  Text(
-                                    'OTP sent to ${phoneController.text}. Resend OTP in ',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: const Color(0xFF000000)),
-                                  )
-                                ],
-                              )
-                            : Container()
-                  ],
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.012),
+                      isPassword == true
+                          ? Shake(
+                              key: _keyPassword,
+                              preferences: const AnimationPreferences(
+                                  autoPlay: AnimationPlayStates.None),
+                              child: CustomTextFormField(
+                                  controller: passwordController,
+                                  validator: (x) {
+                                    if (x!.isEmpty) {
+                                      _keyPassword!.currentState!.forward();
+                                      return "Password is required";
+                                    }
+                                    return null;
+                                  },
+                                  text: "Enter Your Password"),
+                            )
+                          : Container(),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.012),
+                      isPassword == true
+                          ? Container()
+                          : isOTPVerified == true
+                              ? Column(
+                                  children: [
+                                    Shake(
+                                      key: _keyOTP,
+                                      preferences: const AnimationPreferences(
+                                          autoPlay: AnimationPlayStates.None),
+                                      child: CustomTextFormField(
+                                        controller: otpController,
+                                        validator: (x) {
+                                          if (x!.isEmpty) {
+                                            _keyOTP?.currentState?.forward();
+                                            return "Enter OPT code";
+                                          }
+                                          return null;
+                                        },
+                                        text: 'OTP',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.012),
+                                    Text(
+                                      'OTP sent to ${phoneController.text}. Resend OTP in ',
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: const Color(0xFF000000)),
+                                    )
+                                  ],
+                                )
+                              : Container()
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.044),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.020),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 52),
                 child: GestureDetector(
                   onTap: () {
-                    if (phoneController.text.isEmpty) {
-                      _keyPhoneNumber?.currentState?.forward();
-                    } else {
+                    hideKeyboad(context);
+                    if (_formkey.currentState!.validate()) {
                       isOTPVerified = true;
                       setState(() {});
+                      if (otpController.text.isNotEmpty) {
+                        Get.toNamed('/main');
+                      }
+                      if (phoneController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
+                        Get.toNamed('/main');
+                      }
                     }
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.056,
                     width: MediaQuery.of(context).size.width * 325,
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: const LinearGradient(
                             colors: [Color(0xffF6BB01), Color(0xffF59200)])),
                     child: Center(
                         child: Text(
@@ -176,6 +251,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             color: const Color(0xFF9B97A0)),
                       ),
                     ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.195),
+              const AuthPrivacyTC()
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/pages/new_ui/account_screen.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/ui/pages/new_ui/sigup_screen.dart';
 
 import '../../modules/booking/ui/pages/bus_booking_detail.dart';
 import '../../modules/booking/ui/pages/flight_booking_detail.dart';
@@ -28,7 +29,6 @@ import '../../modules/hotel/ui/pages/searchhotel.dart';
 import '../../modules/hotel/ui/pages/selectOnMap.dart';
 import '../../modules/main/ui/pages/mainpage.dart';
 import '../../modules/myaccount/ui/pages/activateAccount.dart';
-import '../../modules/myaccount/ui/pages/myaccount.dart';
 import '../../modules/myaccount/ui/pages/signup.dart';
 import '../../modules/myaccount/ui/pages/updatePassword.dart';
 import '../../modules/myaccount/ui/pages/updateProfile.dart';
@@ -56,6 +56,7 @@ List<GetPage> routes = [
   GetPage(name: "/main", page: () => const MainPage()),
   // GetPage(name: "/accountPage", page: () => const AccountPage()),
   GetPage(name: "/accountPage", page: () => const AccountScreen()),
+  GetPage(name: "/signupScreen", page: () => const SignUpScreen()),
   GetPage(name: "/updateProfile", page: () => const UpdateProfilePage()),
   GetPage(name: "/updatePassword", page: () => UpdatePasswordPage()),
   GetPage(name: "/activateAccount", page: () => const ActivateAccountPage()),
@@ -77,7 +78,9 @@ List<GetPage> routes = [
   GetPage(name: "/photoView", page: () => const PhotoViewPage()),
   GetPage(name: "/vehicleDetail", page: () => const RentalDetailPage()),
   GetPage(name: "/vehicleList", page: () => const RentalSearchListPage()),
-  GetPage(name: "/hotelBookingPayment", page: () => HotelBookingPaymentPage()),
+  GetPage(
+      name: "/hotelBookingPayment",
+      page: () => const HotelBookingPaymentPage()),
   GetPage(
       name: "/rentalBookingDetail", page: () => const RentalGuestDetailPage()),
   GetPage(name: "/tourPage", page: () => const TourPage()),
