@@ -3,9 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String text;
-  const CustomTextFormField({
+final String? Function(String?)? validator;
+  final TextEditingController? controller;
+   const CustomTextFormField({
     Key? key,
     required this.text,
+    this.controller, this.validator,
   }) : super(key: key);
 
   @override
@@ -17,11 +20,15 @@ class CustomTextFormField extends StatelessWidget {
           color: const Color(0xFFFEFEFE),
           borderRadius: BorderRadius.circular(5)),
       child: TextFormField(
+        validator:validator ,
+        keyboardType: TextInputType.number,
+        controller: controller,
+        textAlign: TextAlign.center,
         decoration: InputDecoration(
           fillColor: const Color(0xFFFEFEFE),
           hintText: text,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 65, vertical: 20),
+              const EdgeInsets.symmetric(horizontal: 50, vertical: 17),
           hintStyle: GoogleFonts.poppins(
               fontSize: 16,
               fontWeight: FontWeight.w400,

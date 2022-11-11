@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animator/flutter_animator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,13 +13,25 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  GlobalKey<AnimatorWidgetState>? _keyPhoneNumber;
+
+  final phoneController = TextEditingController();
   bool isPassword = false;
+
+  bool isOTPVerified = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _keyPhoneNumber = GlobalKey<AnimatorWidgetState>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFf3eee5),
-      body: SafeArea(
-        child: Form(
+      body: SingleChildScrollView(
+        child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -39,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.150),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.080),
               Image.asset('assets/images/newlogo.png'),
               SizedBox(height: MediaQuery.of(context).size.height * 0.056),
               Text(
@@ -51,7 +64,7 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.011),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 75),
+                padding: const EdgeInsets.symmetric(horizontal: 35),
                 child: Text(
                   'Welcome, Sign in or Register to explore hourly hotels',
                   textAlign: TextAlign.center,
@@ -66,20 +79,57 @@ class _AccountScreenState extends State<AccountScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 36),
                 child: Column(
                   children: [
-                    const CustomTextFormField(text: 'Enter Your Phone Number'),
+                    Shake(
+                      key: _keyPhoneNumber,
+                      preferences: const AnimationPreferences(
+                          autoPlay: AnimationPlayStates.None),
+                      child: CustomTextFormField(
+                        text: 'Enter Your Phone Number',
+                        controller: phoneController,
+                      ),
+                    ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.012),
                     isPassword == true
                         ? const CustomTextFormField(text: "Enter Your Password")
                         : Container(),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.044)
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.012),
+                    isPassword == true
+                        ? Container()
+                        : isOTPVerified == true
+                            ? Column(
+                                children: [
+                                  const CustomTextFormField(text: 'OTP'),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.012),
+                                  Text(
+                                    'OTP sent to ${phoneController.text}. Resend OTP in ',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: const Color(0xFF000000)),
+                                  )
+                                ],
+                              )
+                            : Container()
                   ],
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.044),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 52),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (phoneController.text.isEmpty) {
+                      _keyPhoneNumber?.currentState?.forward();
+                    } else {
+                      isOTPVerified = true;
+                      setState(() {});
+                    }
+                  },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.056,
                     width: MediaQuery.of(context).size.width * 325,
@@ -101,12 +151,12 @@ class _AccountScreenState extends State<AccountScreen> {
               isPassword == true
                   ? GestureDetector(
                       onTap: () {
-                        setState(() {
-                          isPassword = !isPassword;
-                        });
+                        isPassword = !isPassword;
+                        isOTPVerified = false;
+                        setState(() {});
                       },
                       child: Text(
-                        'Use OTP instead?',
+                        'Use Otp instead?',
                         style: GoogleFonts.poppins(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -115,9 +165,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     )
                   : GestureDetector(
                       onTap: () {
-                        setState(() {
-                          isPassword = !isPassword;
-                        });
+                        isPassword = !isPassword;
+                        setState(() {});
                       },
                       child: Text(
                         'Use Password instead?',
