@@ -1,8 +1,8 @@
 // ignore: must_be_immutable
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
 
-import '../../../../common/functions/format_date.dart';
 import '../../../../common/services/get_it.dart';
 import '../../../../common/widgets/png_icon_widget.dart';
 import '../../../../configs/theme.dart';
@@ -23,6 +23,36 @@ class SingleBookingDetail extends StatefulWidget {
 
 class _SingleBookingDetailState extends State<SingleBookingDetail> {
   HotelBookingDetail? hotelBookingDetail;
+  DateTime? checkInDate;
+  DateTime? checkOutDate;
+
+  DateTime? checkInDated;
+  DateTime? checkOutDated;
+
+  DateTime currentDateTime = DateTime.now();
+  DateTimeRange dateRange = DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now().add(
+      const Duration(days: 1),
+    ),
+  );
+
+  Future pickDateRange() async {
+    DateTimeRange? newDateRange = await showDateRangePicker(
+      context: context,
+      currentDate: DateTime.now(),
+      initialDateRange: dateRange,
+      firstDate: currentDateTime.subtract(const Duration(days: 1)),
+      lastDate: currentDateTime.add(const Duration(days: 365 * 2)),
+    );
+    if (newDateRange != null) {
+      setState(() {
+        dateRange = newDateRange;
+      });
+    } else {
+      showToast(text: "Select proper date");
+    }
+  }
 
   @override
   void initState() {
@@ -74,6 +104,9 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final start = dateRange.start;
+    final end = dateRange.end;
+    final difference = dateRange.duration;
     return ExpandedTileWidget(
       subtitleWidget: Padding(
         padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 5),
@@ -101,21 +134,13 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              // decoration: TextDecoration.underline,
             ),
           ),
         ),
       ),
       expandedWidgets: [
         ListTile(
-          leading:
-
-              // Icon(
-              //   Icons.room,
-              //   color: MyTheme.primaryColor,
-              // ),
-
-              const PNGIconWidget(
+          leading: const PNGIconWidget(
             asset: "assets/images/address.png",
             color: MyTheme.primaryColor,
           ),
@@ -143,20 +168,15 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
           child: Builder(
             builder: (context) {
               return ListTile(
-                leading:
-
-                    // Icon(
-                    //   CupertinoIcons.calendar,
-                    //   color: MyTheme.primaryColor,
-                    // ),
-
-                    const PNGIconWidget(
+                leading: const PNGIconWidget(
                   asset: "assets/images/calendar.png",
                   color: MyTheme.primaryColor,
                 ),
                 title: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () async {
+                    pickDateRange();
+                    setState(() {});
                     // await hotelBookingDetail?.selectDates(context);
                     // setState(() {});
                   },
@@ -172,10 +192,14 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            DateTimeFormatter.formatDate(
-                                hotelBookingDetail!.checkInDate!),
+                            '${start.day} ${start.month}, ${start.year}',
                             style: valueTextStyle,
-                          ),
+                          )
+                          // Text(
+                          //   DateTimeFormatter.formatDate(
+                          //       hotelBookingDetail!.checkInDate!),
+                          //   style: valueTextStyle,
+                          // ),
                         ],
                       ),
                       Column(
@@ -187,10 +211,14 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            DateTimeFormatter.formatDate(
-                                hotelBookingDetail!.checkOutDate!),
+                            '${end.day} ${end.month}, ${end.year}',
                             style: valueTextStyle,
-                          ),
+                          )
+                          // Text(
+                          //   DateTimeFormatter.formatDate(
+                          //       hotelBookingDetail!.checkOutDate!),
+                          //   style: valueTextStyle,
+                          // ),
                         ],
                       ),
                     ],
@@ -265,7 +293,9 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Number of Days", style: priceTextStyle),
-                  Text("x${hotelBookingDetail?.noOfDays}"),
+
+                  Text("x${difference.inDays}"),
+                  // Text("x${hotelBookingDetail?.noOfDays?.value}"),
                 ],
               ),
               const SizedBox(height: 10),

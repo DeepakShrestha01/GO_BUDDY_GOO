@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-// import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/functions/format_date.dart';
+import '../../../common/widgets/common_widgets.dart';
 import 'hotel_inventory.dart';
 
 class HotelBookingDetail {
@@ -119,9 +119,9 @@ class HotelBookingDetail {
         room.hashCode;
   }
 
-  void updateDates(List<DateTime> selectedDates) {
-    checkInDate = selectedDates[0];
-    checkOutDate = selectedDates[1];
+  void updateDates(DateTimeRange selectedDates) {
+    checkInDate = selectedDates.start;
+    checkOutDate = selectedDates.end;
 
     noOfDays = DateTimeFormatter.getNoOfDays(checkInDate, checkOutDate)
         as ValueNotifier<int>?;
@@ -160,6 +160,24 @@ class HotelBookingDetail {
       print(e.toString());
     }
   }
+
+  // selectDates(BuildContext context) async {
+  //   DateTime currentDateTime = DateTime.now();
+  //   DateTimeRange dateTimeRange = DateTimeRange(
+  //     start: checkInDate ?? currentDateTime,
+  //     end: checkOutDate ?? currentDateTime.add(const Duration(days: 1)),
+  //   );
+  //   DateTimeRange? selectedDates = await showDateRangePicker(
+  //       context: context,
+  //       initialDateRange: dateTimeRange,
+  //       firstDate: currentDateTime.subtract(const Duration(days: 1)),
+  //       lastDate: currentDateTime.add(const Duration(days: 365 * 2)));
+  //   if (selectedDates != null) {
+  //     updateDates(selectedDates);
+  //   } else {
+  //     showToast(text: "Select proper date");
+  //   }
+  // }
 
   // selectDates(BuildContext context) async {
   //   DateTime currentDateTime = DateTime.now();
