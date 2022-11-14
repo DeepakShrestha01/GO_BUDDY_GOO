@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../../../common/functions/format_date.dart';
 import '../../../../common/model/city_list.dart';
 import '../../../../common/services/get_it.dart';
+import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/custom_clip_shodow.dart';
 import '../../../../common/widgets/png_icon_widget.dart';
 import '../../../../configs/theme.dart';
@@ -533,12 +534,14 @@ class _HotelSearchState extends State<HotelSearch> {
                                 return GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
+                                    DateTime currentDateTime = DateTime.now();
                                     showCustomDateRangePicker(
                                       context,
                                       dismissible: true,
-                                      minimumDate: DateTime.now(),
-                                      maximumDate: DateTime.now()
-                                          .add(const Duration(days: 90)),
+                                      minimumDate: currentDateTime
+                                          .subtract(const Duration(days: 1)),
+                                      maximumDate: currentDateTime
+                                          .add(const Duration(days: 365 * 2)),
                                       startDate: checkOutDated,
                                       endDate: checkOutDated,
                                       onApplyClick: ((startDate, endDate) {
@@ -551,6 +554,7 @@ class _HotelSearchState extends State<HotelSearch> {
                                         setState(() {
                                           checkInDated = null;
                                           checkOutDated = null;
+                                          showToast(text: "Select proper date");
                                         });
                                       },
                                     );
