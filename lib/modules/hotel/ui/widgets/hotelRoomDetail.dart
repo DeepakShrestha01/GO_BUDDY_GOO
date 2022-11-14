@@ -172,10 +172,9 @@ class _RoomDetailLoadedWidgetState extends State<RoomDetailLoadedWidget> {
                             parameters?.dateRange?.end),
                         hotelId: parameters?.hotel?.hotelId,
                         hotelName: parameters?.hotel?.hotelName,
-                        noOfDays: ValueNotifier<int>(
-                            DateTimeFormatter.getNoOfDays(
-                                parameters?.dateRange?.start,
-                                parameters?.dateRange?.end)),
+                        noOfDays: (DateTimeFormatter.getNoOfDays(
+                            parameters?.dateRange?.start,
+                            parameters?.dateRange?.end)),
                         // noOfDays: DateTimeFormatter.getNoOfDays(
                         //     parameters.dateRange.start,
                         //     parameters.dateRange.end),

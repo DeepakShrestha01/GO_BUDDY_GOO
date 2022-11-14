@@ -161,7 +161,7 @@ class _HotelRoomState extends State<HotelRoom> {
                                         text: "Rs. ${price.toStringAsFixed(0)}",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText1
+                                            .bodyLarge
                                             ?.copyWith(
                                               color: MyTheme.primaryColor,
                                               fontSize: 16,
@@ -171,7 +171,7 @@ class _HotelRoomState extends State<HotelRoom> {
                                         text: " per room per night",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText1
+                                            .bodyLarge
                                             ?.copyWith(
                                               color: MyTheme.primaryColor,
                                               fontSize: 10,
@@ -217,9 +217,9 @@ class _HotelRoomState extends State<HotelRoom> {
                                             parameters.dateRange?.end),
                                     hotelId: parameters.hotel?.hotelId,
                                     hotelName: parameters.hotel?.hotelName,
-                                    // noOfDays: DateTimeFormatter.getNoOfDays(
-                                    //     parameters.dateRange.start,
-                                    //     parameters.dateRange.end),
+                                    noOfDays: DateTimeFormatter.getNoOfDays(
+                                        parameters.dateRange?.start,
+                                        parameters.dateRange?.end),
                                     room: widget.room,
                                     maxAdults: ValueNotifier<int>(
                                         parameters.maxAdults!),
@@ -235,7 +235,6 @@ class _HotelRoomState extends State<HotelRoom> {
                                 });
                           },
                         ),
-                       
                       ],
                     ),
                   ),

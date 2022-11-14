@@ -1,9 +1,11 @@
 // ignore: must_be_immutable
+import 'package:custom_date_range_picker/custom_date_range_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
 
+import '../../../../common/functions/format_date.dart';
 import '../../../../common/services/get_it.dart';
+import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/png_icon_widget.dart';
 import '../../../../configs/theme.dart';
 import '../../model/hotel_booking_detail.dart';
@@ -23,35 +25,31 @@ class SingleBookingDetail extends StatefulWidget {
 
 class _SingleBookingDetailState extends State<SingleBookingDetail> {
   HotelBookingDetail? hotelBookingDetail;
-  DateTime? checkInDate;
-  DateTime? checkOutDate;
 
   DateTime? checkInDated;
   DateTime? checkOutDated;
 
-  DateTime currentDateTime = DateTime.now();
-  DateTimeRange dateRange = DateTimeRange(
-    start: DateTime.now(),
-    end: DateTime.now().add(
-      const Duration(days: 1),
-    ),
-  );
-
-  Future pickDateRange() async {
-    DateTimeRange? newDateRange = await showDateRangePicker(
-      context: context,
-      currentDate: DateTime.now(),
-      initialDateRange: dateRange,
-      firstDate: currentDateTime.subtract(const Duration(days: 1)),
-      lastDate: currentDateTime.add(const Duration(days: 365 * 2)),
+  selectDates(BuildContext context) async {
+    DateTime currentDateTime = DateTime.now();
+    showCustomDateRangePicker(
+      context,
+      dismissible: true,
+      minimumDate: currentDateTime.subtract(const Duration(days: 1)),
+      maximumDate: currentDateTime.add(const Duration(days: 365 * 2)),
+      onApplyClick: (startDate, endDate) {
+        setState(() {});
+        checkInDated = startDate;
+        checkOutDated = endDate;
+        hotelBookingDetail?.updateDates([startDate, endDate]);
+      },
+      onCancelClick: () {
+        setState(() {});
+        checkInDated = null;
+        checkOutDated = null;
+        showToast(text: "Select proper date");
+        setState(() {});
+      },
     );
-    if (newDateRange != null) {
-      setState(() {
-        dateRange = newDateRange;
-      });
-    } else {
-      showToast(text: "Select proper date");
-    }
   }
 
   @override
@@ -104,9 +102,6 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final start = dateRange.start;
-    final end = dateRange.end;
-    final difference = dateRange.duration;
     return ExpandedTileWidget(
       subtitleWidget: Padding(
         padding: const EdgeInsets.only(left: 20.0, top: 5, bottom: 5),
@@ -175,10 +170,7 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                 title: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () async {
-                    pickDateRange();
-                    setState(() {});
-                    // await hotelBookingDetail?.selectDates(context);
-                    // setState(() {});
+                    selectDates(context);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,14 +184,10 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            '${start.day} ${start.month}, ${start.year}',
+                            DateTimeFormatter.formatDate(
+                                hotelBookingDetail!.checkInDate!),
                             style: valueTextStyle,
-                          )
-                          // Text(
-                          //   DateTimeFormatter.formatDate(
-                          //       hotelBookingDetail!.checkInDate!),
-                          //   style: valueTextStyle,
-                          // ),
+                          ),
                         ],
                       ),
                       Column(
@@ -211,14 +199,10 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            '${end.day} ${end.month}, ${end.year}',
+                            DateTimeFormatter.formatDate(
+                                hotelBookingDetail!.checkOutDate!),
                             style: valueTextStyle,
-                          )
-                          // Text(
-                          //   DateTimeFormatter.formatDate(
-                          //       hotelBookingDetail!.checkOutDate!),
-                          //   style: valueTextStyle,
-                          // ),
+                          ),
                         ],
                       ),
                     ],
@@ -293,9 +277,7 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Number of Days", style: priceTextStyle),
-
-                  Text("x${difference.inDays}"),
-                  // Text("x${hotelBookingDetail?.noOfDays?.value}"),
+                  Text("x${hotelBookingDetail?.noOfDays}"),
                 ],
               ),
               const SizedBox(height: 10),

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/functions/format_date.dart';
-import '../../../common/widgets/common_widgets.dart';
 import 'hotel_inventory.dart';
 
 class HotelBookingDetail {
@@ -17,7 +16,7 @@ class HotelBookingDetail {
   ValueNotifier<int>? maxAdults;
   ValueNotifier<int>? maxChildren;
   ValueNotifier<int>? noOfRooms;
-  ValueNotifier<int>? noOfDays;
+  int? noOfDays;
 
   double? totalPrice;
 
@@ -46,7 +45,7 @@ class HotelBookingDetail {
     ValueNotifier<int>? maxAdults,
     ValueNotifier<int>? maxChildren,
     ValueNotifier<int>? noOfRooms,
-    ValueNotifier<int>? noOfDays,
+    int? noOfDays,
     double? roomRate,
     double? totalPrice,
     HotelInventory? room,
@@ -119,12 +118,11 @@ class HotelBookingDetail {
         room.hashCode;
   }
 
-  void updateDates(DateTimeRange selectedDates) {
-    checkInDate = selectedDates.start;
-    checkOutDate = selectedDates.end;
+  void updateDates(List<DateTime> selectedDates) {
+    checkInDate = selectedDates[0];
+    checkOutDate = selectedDates[1];
 
-    noOfDays = DateTimeFormatter.getNoOfDays(checkInDate, checkOutDate)
-        as ValueNotifier<int>?;
+    noOfDays = DateTimeFormatter.getNoOfDays(checkInDate, checkOutDate);
 
     updateTotalAmount();
   }
@@ -134,25 +132,25 @@ class HotelBookingDetail {
       if (room!.europeanPlanSelected!) {
         if (room!.percentage!) {
           totalPrice = double.parse(room!.inventoryEuropeanPlan!) *
-              // noOfDays *
+              noOfDays! *
               noOfRooms!.value *
               (1 - (room!.offerRate! / 100));
         } else {
           totalPrice =
               (double.parse(room!.inventoryEuropeanPlan!) - room!.offerRate!) *
-                  // noOfDays *
+                  noOfDays! *
                   noOfRooms!.value;
         }
       } else {
         if (room!.percentage!) {
           totalPrice = double.parse(room!.inventoryBedAndBreakfastPlan!) *
-              // noOfDays *
+              noOfDays! *
               noOfRooms!.value *
               (1 - (room!.offerRate! / 100));
         } else {
           totalPrice = (double.parse(room!.inventoryBedAndBreakfastPlan!) -
                   room!.offerRate!) *
-              // noOfDays *
+              noOfDays! *
               noOfRooms!.value;
         }
       }
@@ -160,47 +158,6 @@ class HotelBookingDetail {
       print(e.toString());
     }
   }
-
-  // selectDates(BuildContext context) async {
-  //   DateTime currentDateTime = DateTime.now();
-  //   DateTimeRange dateTimeRange = DateTimeRange(
-  //     start: checkInDate ?? currentDateTime,
-  //     end: checkOutDate ?? currentDateTime.add(const Duration(days: 1)),
-  //   );
-  //   DateTimeRange? selectedDates = await showDateRangePicker(
-  //       context: context,
-  //       initialDateRange: dateTimeRange,
-  //       firstDate: currentDateTime.subtract(const Duration(days: 1)),
-  //       lastDate: currentDateTime.add(const Duration(days: 365 * 2)));
-  //   if (selectedDates != null) {
-  //     updateDates(selectedDates);
-  //   } else {
-  //     showToast(text: "Select proper date");
-  //   }
-  // }
-
-  // selectDates(BuildContext context) async {
-  //   DateTime currentDateTime = DateTime.now();
-  //   // List<DateTime> selectedDates = await DateRangePicker.showDatePicker(
-  //   //   context: context,
-  //   //   initialFirstDate: checkInDate ?? currentDateTime,
-  //   //   initialLastDate:
-  //   //       checkOutDate ?? currentDateTime.add(const Duration(days: 1)),
-  //   //   firstDate: currentDateTime.subtract(const Duration(days: 1)),
-  //   //   lastDate: currentDateTime.add(const Duration(days: 365 * 2)),
-  //   // );
-
-  //   if (selectedDates != null) {
-  //     if (selectedDates.length == 2 &&
-  //         selectedDates[0].isBefore(selectedDates[1])) {
-  //       updateDates(selectedDates);
-  //     } else {
-  //       showToast(text: "Select proper date");
-  //     }
-  //   } else {
-  //     showToast(text: "Select proper date");
-  //   }
-  // }
 
   increaseMaxAdult() {
     maxAdults?.value++;
