@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_countdown_timer/index.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/auth_privacy_tc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../widgets/new_ui/custom_textformfield.dart';
 
@@ -251,9 +254,12 @@ class _AccountScreenState extends State<AccountScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 52),
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     hideKeyboad(context);
+
                     if (_formkey.currentState!.validate()) {
+                      var appSignatureID = await SmsAutoFill().getAppSignature;
+                      log('signatureid :  $appSignatureID');
                       isOTPVerified = true;
                       setState(() {});
                       if (otpController.text.isNotEmpty) {
