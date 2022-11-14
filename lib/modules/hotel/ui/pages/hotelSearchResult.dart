@@ -65,7 +65,7 @@ class _HotelSearchResultBodyState extends State<HotelSearchResultBody> {
         title: Text("Hotel List",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white)),
         leading: GestureDetector(
           onTap: () {

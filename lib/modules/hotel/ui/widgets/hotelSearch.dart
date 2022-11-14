@@ -542,7 +542,7 @@ class _HotelSearchState extends State<HotelSearch> {
                                           .subtract(const Duration(days: 1)),
                                       maximumDate: currentDateTime
                                           .add(const Duration(days: 365 * 2)),
-                                      startDate: checkOutDated,
+                                      startDate: checkInDated,
                                       endDate: checkOutDated,
                                       onApplyClick: ((startDate, endDate) {
                                         setState(() {
