@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:go_buddy_goo_mobile/configs/keys.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -36,10 +37,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KhaltiScope(
-      publicKey: "test_public_key_30e12814fed64afa9a7d4a92a2194aeb",
+      // publicKey: "test_public_key_8e00f9ac707a4719ab12d1d8078d5ef1",
+      publicKey: khaltiKey,
       builder: (context, navigatorKey) {
         return GetMaterialApp(
-          navigatorKey:navigatorKey ,
+          navigatorKey: navigatorKey,
           title: "Go Buddy Goo",
           getPages: routes,
           initialRoute: "/",
