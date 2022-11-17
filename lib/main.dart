@@ -1,8 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/keys.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/check_phonenumber/check_phone_number_cubit.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -36,32 +38,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KhaltiScope(
-      // publicKey: "test_public_key_8e00f9ac707a4719ab12d1d8078d5ef1",
-      publicKey: khaltiKey,
-      builder: (context, navigatorKey) {
-        return GetMaterialApp(
-          navigatorKey: navigatorKey,
-          title: "Go Buddy Goo",
-          getPages: routes,
-          initialRoute: "/",
-          unknownRoute: GetPage(name: "/404", page: () => PageNotFound()),
-          debugShowCheckedModeBanner: false,
-          supportedLocales: const [
-            Locale('en', 'US'),
-            Locale('ne', 'NP'),
-          ],
-          localizationsDelegates: const [
-            KhaltiLocalizations.delegate,
-          ],
-          theme: MyTheme.themeData,
-          defaultTransition: Transition.cupertino,
-          builder: BotToastInit(),
-          navigatorObservers: [BotToastNavigatorObserver()],
-          home: const MainApp(),
-        );
-      },
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              return CheckPhoneNumberCubit();
+            },
+          )
+        ],
+        child: KhaltiScope(
+          // publicKey: "test_public_key_8e00f9ac707a4719ab12d1d8078d5ef1",
+          publicKey: khaltiKey,
+          builder: (context, navigatorKey) {
+            return GetMaterialApp(
+              navigatorKey: navigatorKey,
+              title: "Go Buddy Goo",
+              getPages: routes,
+              initialRoute: "/",
+              unknownRoute: GetPage(name: "/404", page: () => PageNotFound()),
+              debugShowCheckedModeBanner: false,
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ne', 'NP'),
+              ],
+              localizationsDelegates: const [
+                KhaltiLocalizations.delegate,
+              ],
+              theme: MyTheme.themeData,
+              // defaultTransition: Transition.cupertino,
+              builder: BotToastInit(),
+              navigatorObservers: [BotToastNavigatorObserver()],
+              home: const MainApp(),
+            );
+          },
+        ));
   }
 }
 
