@@ -18,15 +18,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  var otp = Get.arguments;
+
   CountdownTimerController? countdownController;
 
-  GlobalKey<AnimatorWidgetState>? _keyFirstName;
-  GlobalKey<AnimatorWidgetState>? _keyLastName;
+  GlobalKey<AnimatorWidgetState>? _keyContact;
   GlobalKey<AnimatorWidgetState>? _keyEmail;
   GlobalKey<AnimatorWidgetState>? _keyPassword;
   GlobalKey<AnimatorWidgetState>? _keyOTP;
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  final _contactController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _referralCodeController = TextEditingController();
@@ -36,8 +36,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    _keyFirstName = GlobalKey<AnimatorWidgetState>();
-    _keyLastName = GlobalKey<AnimatorWidgetState>();
+
+    _keyContact = GlobalKey<AnimatorWidgetState>();
     _keyEmail = GlobalKey<AnimatorWidgetState>();
     _keyPassword = GlobalKey<AnimatorWidgetState>();
     _keyOTP = GlobalKey<AnimatorWidgetState>();
@@ -49,6 +49,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         onEnd: () {
           countdownController?.disposeTimer();
         });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _contactController.dispose();
   }
 
   @override
@@ -68,9 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
+                      onTap: () => Get.back(),
                       child: Text(
                         "Back",
                         style: GoogleFonts.poppins(
@@ -98,12 +102,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'New Here?',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 30,
-                            color: const Color(0xFF111827)),
+                      GestureDetector(
+                        onTap: () =>
+                            Get.offNamedUntil('/accountPage', (route) => false),
+                        child: Text(
+                          'New Here?',
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 30,
+                              color: const Color(0xFF111827)),
+                        ),
                       ),
                       Text(
                         'Let’s create an account for you',
@@ -115,35 +123,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.020),
                       Shake(
-                          key: _keyFirstName,
+                          key: _keyContact,
                           preferences: const AnimationPreferences(
                               autoPlay: AnimationPlayStates.None),
                           child: CustomTextFormField(
-                              controller: _firstNameController,
+                              keyboardType: TextInputType.number,
+                              controller: _contactController,
                               validator: (x) {
                                 if (x!.isEmpty) {
-                                  _keyFirstName?.currentState?.forward();
-                                  return 'First Name is Required';
+                                  _keyContact?.currentState?.forward();
+                                  return 'Contact Number is Required';
                                 }
                                 return null;
                               },
-                              text: 'Enter First Name')),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.012),
-                      Shake(
-                          key: _keyLastName,
-                          preferences: const AnimationPreferences(
-                              autoPlay: AnimationPlayStates.None),
-                          child: CustomTextFormField(
-                              controller: _lastNameController,
-                              validator: (x) {
-                                if (x!.isEmpty) {
-                                  _keyLastName?.currentState?.forward();
-                                  return 'Last Name is Required';
-                                }
-                                return null;
-                              },
-                              text: 'Enter Last Name')),
+                              text: 'Enter Contact Number')),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
                       Shake(
@@ -151,6 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           preferences: const AnimationPreferences(
                               autoPlay: AnimationPlayStates.None),
                           child: CustomTextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               controller: _emailController,
                               validator: (x) {
                                 if (!RegExp(
@@ -191,8 +185,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           preferences: const AnimationPreferences(
                               autoPlay: AnimationPlayStates.None),
                           child: CustomTextFormField(
-                            controller: _otpController,
-                            text: 'Enter OTP ',
+                            keyboardType: TextInputType.number,
+                            controller: _otpController..text = '$otp',
+                            text: "Enter Otp",
                           )),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
@@ -246,7 +241,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: GestureDetector(
                           onTap: () {
                             hideKeyboad(context);
-                            if (_formkey.currentState!.validate()) {}
+                            if (_formkey.currentState!.validate()) {
+                              Map<String, dynamic> credentials = {
+                                'contact': _contactController.text,
+                                'password': _passwordController.text,
+                                'email': _emailController.text,
+                                'referral_code': _referralCodeController.text,
+                              };
+                            }
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.056,

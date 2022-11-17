@@ -222,7 +222,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
           "Update Profile",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
@@ -363,15 +363,15 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                                     return countryList
                                         ?.getPatternCountries(pattern);
                                   },
-                                  itemBuilder: (context,dynamic suggestion) {
-                                    return  ListTile(
+                                  itemBuilder: (context, dynamic suggestion) {
+                                    return ListTile(
                                       title: Text(suggestion.name),
                                     );
                                   },
                                   onSuggestionSelected: (dynamic suggestion) {
                                     countryController.text = suggestion.name;
                                     countryId = suggestion.id;
-                                   
+
                                     setState(() {});
                                   },
                                   noItemsFoundBuilder: (context) {
@@ -595,7 +595,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                           }
 
                           return Text("Update",
-                              style: MyTheme.mainTextTheme.headline4
+                              style: MyTheme.mainTextTheme.headlineMedium
                                   ?.copyWith(color: Colors.white));
                         },
                       ),

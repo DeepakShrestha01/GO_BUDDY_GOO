@@ -7,8 +7,20 @@ class CheckPhoneNumberInitial extends CheckPhoneNumberState {}
 
 class CheckPhoneNumberLoadingState extends CheckPhoneNumberState {}
 
-class CheckPhoneNumberVerifyingState extends CheckPhoneNumberState {}
+class CheckPhoneNumberVerifyingState extends CheckPhoneNumberState {
+  final CheckPhoneNumber response;
 
-class CheckPhoneNumberNotVerifyingState extends CheckPhoneNumberState {}
+  CheckPhoneNumberVerifyingState({required this.response});
+}
 
-class CheckPhoneNumberErrorState extends CheckPhoneNumberState {}
+class CheckPhoneNumberNotVerifyingState extends CheckPhoneNumberState {
+ final CheckPhoneNumber response;
+
+  CheckPhoneNumberNotVerifyingState({required this.response});
+}
+
+class CheckPhoneNumberErrorState extends CheckPhoneNumberState {
+  final String error;
+
+  CheckPhoneNumberErrorState({required this.error});
+}

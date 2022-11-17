@@ -3,4 +3,5 @@
 // String backendServerUrl = "https://sbteam.c4cdev.live/";
 String backendServerUrl = "https://test-gbg.ktm.yetiappcloud.com/";
 
-String callBackUrl = "https://gobuddygoo.com/";
+// String callBackUrl = "https://gobuddygoo.com/";
+String callBackUrl = "https://test-gbg.ktm.yetiappcloud.com/";

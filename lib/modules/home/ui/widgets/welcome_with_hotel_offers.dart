@@ -51,7 +51,7 @@ class _WelcomeWithHotDealsState extends State<WelcomeWithHotDeals> {
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(
                   // "https://sbteam.c4cdev.live/media/mobile_banner/banner.jpg",
-                  "https://vendor.gobuddygoo.com/media/mobile_banner/banner.jpg",
+                  "https://test-gbg.ktm.yetiappcloud.com/media/mobile_banner/banner.jpg",
                 ),
               ),
             ),
