@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/custom_textformfield.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -246,9 +248,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 'contact': _contactController.text,
                                 'password': _passwordController.text,
                                 'email': _emailController.text,
-                                'referral_code': _referralCodeController.text,
+                                'referral_code':
+                                    _referralCodeController.text.isEmpty
+                                        ? ''
+                                        : _referralCodeController.text,
                               };
+                               BlocProvider.of<RegistrationCubit>(context)
+                                .registration(credentials);
                             }
+                           
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.056,

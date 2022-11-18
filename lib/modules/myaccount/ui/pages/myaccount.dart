@@ -43,7 +43,7 @@ class _AccountBodyState extends State<AccountBody> {
             "My Account",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white),
           ),
           leading: GestureDetector(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/index.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/check_phonenumber/check_phone_number_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/new/account/account_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/auth_privacy_tc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -81,7 +82,7 @@ class _AccountScreenState extends State<AccountScreen> {
           if (state is CheckPhoneNumberNotVerifyingState) {
             var otp = state.response;
             showToast(text: "Please Register");
-            Get.toNamed('/signupScreen', arguments:{otp} );
+            Get.toNamed('/signupScreen', arguments: {otp});
           }
           return SingleChildScrollView(
             child: SafeArea(
@@ -158,7 +159,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 autoPlay: AnimationPlayStates.None),
                             child: CustomTextFormField(
                               readOnly: isOTPVerified ? true : false,
-                              keyboardType: TextInputType.number,
+                              // keyboardType: TextInputType.number,
                               validator: (x) {
                                 if (x!.isEmpty) {
                                   _keyPhoneNumber!.currentState!.forward();
@@ -173,26 +174,26 @@ class _AccountScreenState extends State<AccountScreen> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.012),
-                          // isPassword == true
-                          //     ? Shake(
-                          //         key: _keyPassword,
-                          //         preferences: const AnimationPreferences(
-                          //             autoPlay: AnimationPlayStates.None),
-                          //         child: CustomTextFormField(
-                          //             controller: passwordController,
-                          //             validator: (x) {
-                          //               if (x!.isEmpty) {
-                          //                 _keyPassword!.currentState!.forward();
-                          //                 return "Password is required";
-                          //               }
-                          //               return null;
-                          //             },
-                          //             text: "Enter Your Password"),
-                          //       )
-                          //     : Container(),
-                          // SizedBox(
-                          //     height:
-                          //         MediaQuery.of(context).size.height * 0.012),
+                          isPassword == true
+                              ? Shake(
+                                  key: _keyPassword,
+                                  preferences: const AnimationPreferences(
+                                      autoPlay: AnimationPlayStates.None),
+                                  child: CustomTextFormField(
+                                      controller: passwordController,
+                                      validator: (x) {
+                                        if (x!.isEmpty) {
+                                          _keyPassword!.currentState!.forward();
+                                          return "Password is required";
+                                        }
+                                        return null;
+                                      },
+                                      text: "Enter Your Password"),
+                                )
+                              : Container(),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.012),
                           isPassword == true
                               ? Container()
                               : isOTPVerified == true
@@ -213,21 +214,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                               },
                                               decoration: const InputDecoration(
                                                   border: OutlineInputBorder()),
-                                            )
-
-                                            //  CustomTextFormField(
-                                            //   controller: otpController,
-                                            //   validator: (x) {
-                                            //     if (x!.isEmpty) {
-                                            //       _keyOTP?.currentState
-                                            //           ?.forward();
-                                            //       return "Enter OPT code";
-                                            //     }
-                                            //     return null;
-                                            //   },
-                                            //   text: 'OTP',
-                                            // ),
-                                            ),
+                                            )),
                                         SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
@@ -301,76 +288,126 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.020),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 52),
-                    child: GestureDetector(
-                      onTap: () async {
-                        hideKeyboad(context);
+                      padding: const EdgeInsets.symmetric(horizontal: 52),
+                      child: isPassword == true
+                          ? GestureDetector(
+                              onTap: () async {
+                                hideKeyboad(context);
 
-                        if (_formkey.currentState!.validate()) {
-                          // submit(context);
-                          BlocProvider.of<CheckPhoneNumberCubit>(context)
-                              .checkPhoneNumber(phoneController.text);
+                                if (_formkey.currentState!.validate()) {
+                                  if (isPassword) {
+                                  
+                                    BlocProvider.of<AccountCubit>(context)
+                                        .loginWithPassword(
+                                            password: passwordController.text,
+                                            phone: phoneController.text);
+                                  }
 
-                          // isOTPVerified = true;
-                          // setState(() {});
-                          // if (otpController.text.isNotEmpty) {
-                          //   Get.toNamed('/main');
-                          // }
-                          // if (phoneController.text.isNotEmpty &&
-                          //     passwordController.text.isNotEmpty) {
-                          //   Get.toNamed('/main');
-                          // }
-                        }
-                      },
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.056,
-                        width: MediaQuery.of(context).size.width * 325,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            gradient: const LinearGradient(colors: [
-                              Color(0xffF6BB01),
-                              Color(0xffF59200)
-                            ])),
-                        child: Center(
-                            child: Text(
-                          'Proceed',
-                          style: GoogleFonts.poppins(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xFFFFFFFF)),
-                        )),
-                      ),
-                    ),
-                  ),
+                                  // submit(context);
+                                  // BlocProvider.of<CheckPhoneNumberCubit>(context)
+                                  //     .checkPhoneNumber(phoneController.text);
+
+                                  // isOTPVerified = true;
+                                  // setState(() {});
+                                  // if (otpController.text.isNotEmpty) {
+                                  //   Get.toNamed('/main');
+                                  // }
+                                  // if (phoneController.text.isNotEmpty &&
+                                  //     passwordController.text.isNotEmpty) {
+                                  //   Get.toNamed('/main');
+                                  // }
+                                }
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.056,
+                                width: MediaQuery.of(context).size.width * 325,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0xffF6BB01),
+                                      Color(0xffF59200)
+                                    ])),
+                                child: Center(
+                                    child: Text(
+                                  'Proceed',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFFFFFFF)),
+                                )),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                hideKeyboad(context);
+
+                                if (_formkey.currentState!.validate()) {
+                                  // submit(context);
+                                  BlocProvider.of<CheckPhoneNumberCubit>(
+                                          context)
+                                      .checkPhoneNumber(phoneController.text);
+
+                                  // isOTPVerified = true;
+                                  // setState(() {});
+                                  // if (otpController.text.isNotEmpty) {
+                                  //   Get.toNamed('/main');
+                                  // }
+                                  // if (phoneController.text.isNotEmpty &&
+                                  //     passwordController.text.isNotEmpty) {
+                                  //   Get.toNamed('/main');
+                                  // }
+                                }
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.056,
+                                width: MediaQuery.of(context).size.width * 325,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    gradient: const LinearGradient(colors: [
+                                      Color(0xffF6BB01),
+                                      Color(0xffF59200)
+                                    ])),
+                                child: Center(
+                                    child: Text(
+                                  'Proceed',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFFFFFFF)),
+                                )),
+                              ),
+                            )),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.026),
-                  // isPassword == true
-                  //     ? GestureDetector(
-                  //         onTap: () {
-                  //           isPassword = !isPassword;
-                  //           isOTPVerified = false;
-                  //           setState(() {});
-                  //         },
-                  //         child: Text(
-                  //           'Use Otp instead?',
-                  //           style: GoogleFonts.poppins(
-                  //               fontSize: 14,
-                  //               fontWeight: FontWeight.w400,
-                  //               color: const Color(0xFF9B97A0)),
-                  //         ),
-                  //       )
-                  //     : GestureDetector(
-                  //         onTap: () {
-                  //           isPassword = !isPassword;
-                  //           setState(() {});
-                  //         },
-                  //         child: Text(
-                  //           'Use Password instead?',
-                  //           style: GoogleFonts.poppins(
-                  //               fontSize: 14,
-                  //               fontWeight: FontWeight.w400,
-                  //               color: const Color(0xFF9B97A0)),
-                  //         ),
-                  //       ),
+                  isPassword == true
+                      ? GestureDetector(
+                          onTap: () {
+                            isPassword = !isPassword;
+                            isOTPVerified = false;
+                            setState(() {});
+                          },
+                          child: Text(
+                            'Use Otp instead?',
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF9B97A0)),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            isPassword = !isPassword;
+                            setState(() {});
+                          },
+                          child: Text(
+                            'Use Password instead?',
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF9B97A0)),
+                          ),
+                        ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.190),
                   const AuthPrivacyTC(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.018),

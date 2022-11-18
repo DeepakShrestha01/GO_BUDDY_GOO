@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/keys.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/check_phonenumber/check_phone_number_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/login_with_password/login_with_password_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/new/account/account_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -43,6 +46,21 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) {
               return CheckPhoneNumberCubit();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return LoginWithPasswordCubit();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return RegistrationCubit();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return AccountCubit();
             },
           )
         ],
