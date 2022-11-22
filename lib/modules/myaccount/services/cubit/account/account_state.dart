@@ -12,3 +12,9 @@ class AccountLoggedOut extends AccountState {}
 class AccountProcessing extends AccountState {}
 
 class AccountLoggingIn extends AccountState {}
+
+class AccountLogginWithOTP extends AccountState {
+  final OtpResponse otp;
+
+  AccountLogginWithOTP({required this.otp});
+}

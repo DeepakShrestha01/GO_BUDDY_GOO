@@ -17,6 +17,8 @@ import '../../services/cubit/account/account_cubit.dart';
 import '../../services/hive/hive_user.dart';
 
 class LoggedInWidget extends StatefulWidget {
+  const LoggedInWidget({super.key});
+
   @override
   _LoggedInWidgetState createState() => _LoggedInWidgetState();
 }
@@ -78,7 +80,7 @@ class _LoggedInWidgetState extends State<LoggedInWidget> {
       builder: (context) => AlertDialog(
         content: Text(
           "You are about to logout. Are you sure?",
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         actions: [
           ElevatedButton(
@@ -191,7 +193,7 @@ class _LoggedInWidgetState extends State<LoggedInWidget> {
                   child: Center(
                     child: Text(
                       "Log out",
-                      style: MyTheme.mainTextTheme.headline4
+                      style: MyTheme.mainTextTheme.headlineMedium
                           ?.copyWith(color: Colors.white),
                     ),
                   ),

@@ -67,7 +67,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
   final picker = ImagePicker();
 
   Future<void> retrieveLostData() async {
-    final LostData response = await picker.getLostData();
+    final LostDataResponse response = await picker.retrieveLostData();
     if (response.isEmpty) {
       return;
     }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/route_manager.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/model/otp_response.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
@@ -19,7 +20,7 @@ part 'account_state.dart';
 
 class AccountCubit extends Cubit<AccountState> {
   AccountCubit() : super(AccountInitial());
-
+  String? otpcode;
   getAccountState() async {
     emit(AccountProcessing());
     bool loggedIn = HiveUser.getLoggedIn();
@@ -28,6 +29,132 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountLoggedIn());
     } else {
       emit(AccountLoggedOut());
+    }
+  }
+
+  loginWithOTP({required Map<String, dynamic> credentials}) async {
+    emit(AccountLoggingIn());
+
+    Response response = await DioHttpService().handlePostRequest(
+        'booking/api_v_1/login_front_end_user/',
+        data: credentials);
+
+    if (response.statusCode == 200) {
+      if (response.data["profile_status"] == "True") {
+        User newUser = User.fromJson(response.data);
+
+        Response responseDetail = await DioHttpService().handleGetRequest(
+          "booking/api_v_1/profile_get_front_end_user/",
+          options:
+              Options(headers: {"Authorization": "Token ${newUser.token}"}),
+        );
+
+        if (responseDetail.statusCode == 200) {
+          await HiveUser.setUser(newUser);
+          await HiveUser.setLoggedIn(loggedIn: true);
+          UserDetail userDetail = UserDetail.fromJson(responseDetail.data);
+          await HiveUser.setUserDetail(userDetail);
+
+          emit(AccountLoggedIn());
+        } else {
+          showToast(text: "Some error occured! Try Again!!", time: 5);
+          emit(AccountLoggedOut());
+        }
+      } else {
+        Get.offAndToNamed("/updateProfile",
+            arguments: User.fromJson(response.data));
+      }
+    } else if (response.statusCode == 400) {
+      try {
+        showToast(text: response.data['data']['non_field_errors'][0], time: 5);
+      } catch (e) {
+        showToast(text: "Some error occured! Try Again!!", time: 5);
+      }
+      emit(AccountLoggedOut());
+    } else {
+      showToast(text: "Some error occured! Try Again!!", time: 5);
+      emit(AccountLoggedOut());
+    }
+  }
+
+  loginWithPassword({required String phone, required String password}) async {
+    emit(AccountLoggingIn());
+    FormData formData = FormData.fromMap(
+      {
+        'phone': phone,
+        'password': password,
+        'is_verified': true,
+      },
+    );
+
+    Response response = await DioHttpService().handlePostRequest(
+      "booking/api_v_1/login_front_end_user/",
+      data: formData,
+    );
+
+    if (response.statusCode == 200) {
+      if (response.data["profile_status"] == "True") {
+        User newUser = User.fromJson(response.data);
+
+        Response responseDetail = await DioHttpService().handleGetRequest(
+          "booking/api_v_1/profile_get_front_end_user/",
+          options:
+              Options(headers: {"Authorization": "Token ${newUser.token}"}),
+        );
+
+        if (responseDetail.statusCode == 200) {
+          await HiveUser.setUser(newUser);
+          await HiveUser.setLoggedIn(loggedIn: true);
+          UserDetail userDetail = UserDetail.fromJson(responseDetail.data);
+          await HiveUser.setUserDetail(userDetail);
+
+          emit(AccountLoggedIn());
+        } else {
+          showToast(text: "Some error occured! Try Again!!", time: 5);
+          emit(AccountLoggedOut());
+        }
+      } else {
+        Get.offAndToNamed("/updateProfile",
+            arguments: User.fromJson(response.data));
+      }
+    } else if (response.statusCode == 400) {
+      try {
+        showToast(text: response.data['data']['non_field_errors'][0], time: 5);
+      } catch (e) {
+        showToast(text: "Some error occured! Try Again!!", time: 5);
+      }
+      emit(AccountLoggedOut());
+    } else {
+      showToast(text: "Some error occured! Try Again!!", time: 5);
+      emit(AccountLoggedOut());
+    }
+  }
+
+  checkPhoneNumber(String phoneNumber) async {
+    FormData formData = FormData.fromMap({
+      'contact': phoneNumber,
+    });
+    Response response = await DioHttpService().handlePostRequest(
+        'booking/api_v_1/get_otp_front_end_user/',
+        data: formData);
+
+    if (response.statusCode == 200) {
+      var responsedata = OtpResponse.fromJson(response.data);
+      emit(AccountLogginWithOTP(otp: responsedata));
+    } else if (response.statusCode == 404) {
+      if (response.data['data']['message']
+          .toString()
+          .toLowerCase()
+          .contains("user doesnot exist")) {
+        showToast(text: '${response.data['data']['message']} ');
+        Get.toNamed('/signupScreen', arguments: 
+          phoneNumber
+          
+
+        );
+      } else {
+        showToast(text: response.data["data"]["message"], time: 5);
+      }
     }
   }
 

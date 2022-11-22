@@ -75,7 +75,7 @@ class _SignUpBodyState extends State<SignUpBody> {
           "Sign Up",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
@@ -407,7 +407,7 @@ class _SignUpBodyState extends State<SignUpBody> {
 
                               return Text(
                                 "Register",
-                                style: MyTheme.mainTextTheme.headline4
+                                style: MyTheme.mainTextTheme.headlineMedium
                                     ?.copyWith(color: Colors.white),
                               );
                             },

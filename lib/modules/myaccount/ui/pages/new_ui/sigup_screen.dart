@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
-import 'package:flutter_countdown_timer/current_remaining_time.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
@@ -20,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  var otp = Get.arguments;
+  var phoneNumber = Get.arguments;
 
   CountdownTimerController? countdownController;
 
@@ -76,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: GestureDetector(
-                      onTap: () => Get.back(),
+                      onTap: () => Get.toNamed('/accountPage'),
                       child: Text(
                         "Back",
                         style: GoogleFonts.poppins(
@@ -130,7 +128,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               autoPlay: AnimationPlayStates.None),
                           child: CustomTextFormField(
                               keyboardType: TextInputType.number,
-                              controller: _contactController,
+                              controller: _contactController
+                                ..text = phoneNumber,
                               validator: (x) {
                                 if (x!.isEmpty) {
                                   _keyContact?.currentState?.forward();
@@ -182,60 +181,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           text: 'Enter Referral Code'),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
-                      Shake(
-                          key: _keyOTP,
-                          preferences: const AnimationPreferences(
-                              autoPlay: AnimationPlayStates.None),
-                          child: CustomTextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: _otpController..text = '$otp',
-                            text: "Enter Otp",
-                          )),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
-                      RichText(
-                        text: TextSpan(
-                            text: 'OTP sent to *****. Resend OTP in ',
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF000000)),
-                            children: [
-                              TextSpan(children: [
-                                WidgetSpan(
-                                    child: CountdownTimer(
-                                  controller: countdownController,
-                                  textStyle: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xFF000000),
-                                  ),
-                                  widgetBuilder:
-                                      (_, CurrentRemainingTime? time) {
-                                    if (time == null) {
-                                      return Text(
-                                        '0:00',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xFF000000)),
-                                      );
-                                    }
-                                    String secString =
-                                        time.sec.toString().length == 1
-                                            ? "0${time.sec ?? 0}"
-                                            : time.sec.toString();
-
-                                    return Text('0:$secString',
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: const Color(0xFF000000)));
-                                  },
-                                ))
-                              ])
-                            ]),
-                      ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.024),
                       Padding(
@@ -253,10 +200,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ? ''
                                         : _referralCodeController.text,
                               };
-                               BlocProvider.of<RegistrationCubit>(context)
-                                .registration(credentials);
+                              BlocProvider.of<RegistrationCubit>(context)
+                                  .registration(credentials);
                             }
-                           
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * 0.056,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/new_loggedOut.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../services/cubit/account/account_cubit.dart';
 import '../../services/hive/hive_user.dart';
 import '../widgets/loggedIn.dart';
-import '../widgets/loggedOut.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -76,9 +76,12 @@ class _AccountBodyState extends State<AccountBody> {
             if (state is AccountProcessing) {
               return const LoadingWidget();
             } else if (state is AccountLoggedIn) {
-              return LoggedInWidget();
+              return const LoggedInWidget();
             } else if (state is AccountLoggedOut || state is AccountLoggingIn) {
-              return LoggedOutWidget();
+              // return LoggedOutWidget();
+              return const LoggedOutWidget();
+            } else if (state is AccountLogginWithOTP) {
+              return const LoggedOutWidget();
             }
 
             return const Center(

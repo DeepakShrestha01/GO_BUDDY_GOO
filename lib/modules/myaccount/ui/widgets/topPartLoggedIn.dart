@@ -5,10 +5,10 @@ import '../../../../common/widgets/network_image.dart';
 import '../../../../configs/theme.dart';
 
 class TopPartLoggedIn extends StatelessWidget {
-  final String? image;
-  final String? initials;
+  final String image;
+  final String initials;
 
-  const TopPartLoggedIn({Key? key, this.image, this.initials})
+  const TopPartLoggedIn({Key? key, required this.image, required this.initials})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -33,11 +33,6 @@ class TopPartLoggedIn extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-
-                // image: DecorationImage(
-                //   image: AssetImage("assets/images/bg_profile.jpg"),
-                //   fit: BoxFit.cover,
-                // ),
               ),
             ),
           ),
@@ -46,7 +41,7 @@ class TopPartLoggedIn extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: CircularProfileAvatar(
-                image!.contains("http")
+                image.contains("http")
                     ? image.toString()
                     : backendServerUrlImage.toString() + image.toString(),
 

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 // import 'package:go_buddy_goo/configs/backendUrl.dart';
 
 // const String backendServerUrlImage = "https://sbteam.c4cdev.live";
-const String backendServerUrlImage = "https://vendor.gobuddygoo.com";
+// const String backendServerUrlImage = "https://vendor.gobuddygoo.com";
+const String backendServerUrlImage = "https://test-gbg.ktm.yetiappcloud.com/";
 
 Widget showNetworkImage(String url) {
   return FadeInImage.assetNetwork(
