@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_balance_wallet),
-        title: "eWallet",
+        title: "Redeem",
         iconSize: 20,
         activeColorPrimary: activeColor,
         inactiveColorPrimary: inactiveColor,
