@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../../../common/functions/format_date.dart';
 import '../../../../common/model/city_list.dart';
 import '../../../../common/services/get_it.dart';
+import '../../../../common/services/location_service.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/custom_clip_shodow.dart';
 import '../../../../common/widgets/png_icon_widget.dart';
@@ -402,7 +403,8 @@ class _HotelSearchState extends State<HotelSearch> {
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap: () {
+                          onTap: ()async {
+                              await setUserLocation();
                             destinationTextController?.clear();
                             selectedKeyword = null;
                             Get.toNamed("/selectOnMap")?.whenComplete(() {

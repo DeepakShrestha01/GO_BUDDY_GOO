@@ -13,7 +13,6 @@ import 'common/pages/not_found.dart';
 import 'common/routes/routes.dart';
 import 'common/services/get_it.dart';
 import 'common/services/hive.dart';
-import 'common/services/location_service.dart';
 import 'configs/theme.dart';
 import 'modules/internet_connection/service/internet_check/int_check_cubit.dart';
 
@@ -29,8 +28,6 @@ Future<void> main() async {
   await setUpHive();
 
   await setUpLocator();
-
-  await setUserLocation();
 
   runApp(const MyApp());
 }
