@@ -15,6 +15,7 @@ import 'common/services/get_it.dart';
 import 'common/services/hive.dart';
 import 'common/services/location_service.dart';
 import 'configs/theme.dart';
+import 'modules/internet_connection/service/internet_check/int_check_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +44,11 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) {
+              return IntCheckCubit()..checkInternet();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
               return LoginWithPasswordCubit();
             },
           ),
@@ -51,11 +57,6 @@ class MyApp extends StatelessWidget {
               return RegistrationCubit();
             },
           ),
-          // BlocProvider(
-          //   create: (context) {
-          //     return AccountCubit();
-          //   },
-          // )
         ],
         child: KhaltiScope(
           // publicKey: "test_public_key_8e00f9ac707a4719ab12d1d8078d5ef1",

@@ -83,7 +83,7 @@ class AccountCubit extends Cubit<AccountState> {
       {
         'phone': phone,
         'password': password,
-        'is_verified': true,
+        'is_verified': false,
       },
     );
 

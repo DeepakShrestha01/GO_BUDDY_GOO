@@ -11,7 +11,6 @@ import '../../model/hotel_booking_detail_parameters.dart';
 import '../../services/cubit/hotel_detail/hotel_detail_cubit.dart';
 import '../widgets/hotelDetail.dart';
 
-
 class HotelDetailPage extends StatelessWidget {
   const HotelDetailPage({super.key});
 
@@ -59,7 +58,7 @@ class _HotelDetailBodyState extends State<HotelDetailBody> {
         title: Text("Hotel Detail",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white)),
         leading: GestureDetector(
           onTap: () {

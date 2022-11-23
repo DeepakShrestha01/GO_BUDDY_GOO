@@ -57,7 +57,7 @@ class _HotelBookingDetailBodyState extends State<HotelBookingDetailBody> {
         title: Text("Booking Detail",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white)),
         leading: GestureDetector(
           onTap: () {

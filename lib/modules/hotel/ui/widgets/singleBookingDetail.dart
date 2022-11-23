@@ -29,28 +29,30 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
   DateTime? checkInDated;
   DateTime? checkOutDated;
 
-  selectDates(BuildContext context) async {
-    DateTime currentDateTime = DateTime.now();
-    showCustomDateRangePicker(
-      context,
-      dismissible: true,
-      minimumDate: currentDateTime.subtract(const Duration(days: 1)),
-      maximumDate: currentDateTime.add(const Duration(days: 365 * 2)),
-      onApplyClick: (startDate, endDate) {
-        setState(() {});
-        checkInDated = startDate;
-        checkOutDated = endDate;
-        hotelBookingDetail?.updateDates([startDate, endDate]);
-      },
-      onCancelClick: () {
-        setState(() {});
-        checkInDated = null;
-        checkOutDated = null;
-        showToast(text: "Select proper date");
-        setState(() {});
-      },
-    );
-  }
+  DateTime? checkInDate;
+  DateTime? checkOutDate;
+  // selectDates(BuildContext context) {
+  //   DateTime currentDateTime = DateTime.now();
+  //   showCustomDateRangePicker(
+  //     context,
+  //     dismissible: true,
+  //     minimumDate: currentDateTime.subtract(const Duration(days: 1)),
+  //     maximumDate: currentDateTime.add(const Duration(days: 365 * 2)),
+  //     onApplyClick: (startDate, endDate) {
+  //       setState(() {});
+  //       checkInDated = startDate;
+  //       checkOutDated = endDate;
+  //       hotelBookingDetail?.updateDates([startDate, endDate]);
+  //     },
+  //     onCancelClick: () {
+  //       setState(() {});
+  //       checkInDated = null;
+  //       checkOutDated = null;
+  //       showToast(text: "Select proper date");
+  //       setState(() {});
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
@@ -169,8 +171,34 @@ class _SingleBookingDetailState extends State<SingleBookingDetail> {
                 ),
                 title: GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () async {
-                    selectDates(context);
+                  onTap: () {
+                    // selectDates(context);
+
+                    DateTime currentDateTime = DateTime.now();
+                    showCustomDateRangePicker(
+                      context,
+                      dismissible: true,
+                      startDate: checkInDated ?? currentDateTime,
+                      endDate: checkOutDated ??
+                          currentDateTime.add(const Duration(days: 1)),
+                      minimumDate:
+                          currentDateTime.subtract(const Duration(days: 1)),
+                      maximumDate:
+                          currentDateTime.add(const Duration(days: 365 * 2)),
+                      onApplyClick: (startDate, endDate) {
+                        setState(() {});
+                        checkInDated = startDate;
+                        checkOutDated = endDate;
+                        hotelBookingDetail?.updateDates([startDate, endDate]);
+                      },
+                      onCancelClick: () {
+                        setState(() {});
+                        checkInDated = null;
+                        checkOutDated = null;
+                        showToast(text: "Select proper date");
+                        setState(() {});
+                      },
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

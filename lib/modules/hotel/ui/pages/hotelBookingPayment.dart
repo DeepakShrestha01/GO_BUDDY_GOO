@@ -107,7 +107,7 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
       builder: (context) => AlertDialog(
         content: Text(
           "You are about to cancel your current booking and go back. Are you sure to continue?",
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         actions: [
           ElevatedButton(
@@ -156,7 +156,7 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
           title: Text("Booking Confirmation",
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headlineMedium
                   ?.copyWith(color: Colors.white)),
           leading: GestureDetector(
             onTap: () async {

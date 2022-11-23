@@ -98,19 +98,6 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
     fontSize: 17,
   );
 
-  // final emailController = TextEditingController();
-  // final passwordController = TextEditingController();
-
-  // GlobalKey<AnimatorWidgetState>? _keyEmail;
-  // GlobalKey<AnimatorWidgetState>? _keyPassword;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _keyEmail = GlobalKey<AnimatorWidgetState>();
-  //   _keyPassword = GlobalKey<AnimatorWidgetState>();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -282,13 +269,12 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                               var credentials = {
                                 'phone': phoneController.text,
                                 'otp': otpCode,
-                                'is_verified': true
+                                'is_verified': false
                               };
-
-                              BlocProvider.of<AccountCubit>(context)
-                                  .loginWithOTP(credentials: credentials);
-                              // if (_formkey.currentState!.validate()) {
-                              // }
+                              if (_formkey.currentState!.validate()) {
+                                BlocProvider.of<AccountCubit>(context)
+                                    .loginWithOTP(credentials: credentials);
+                              }
                             },
                             child: Container(
                               height:

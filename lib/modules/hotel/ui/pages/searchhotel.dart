@@ -7,7 +7,6 @@ import '../../../home/services/cubit/hotel_list/hotel_list_cubit.dart';
 import '../../../home/services/cubit/hotel_offer/hotel_offer_cubit.dart';
 import '../../model/hotel_booking_detail_parameters.dart';
 import '../../model/value_notifier.dart';
-
 import '../../services/cubit/keyword_search/keyword_search_cubit.dart';
 import '../widgets/hotelOffers.dart';
 import '../widgets/hotelSearch.dart';
@@ -92,7 +91,7 @@ class _SearchHotelBodyState extends State<SearchHotelBody> {
           "Search Hotels",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
