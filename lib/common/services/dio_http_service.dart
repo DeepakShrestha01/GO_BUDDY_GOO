@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:get/route_manager.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../configs/backendUrl.dart';
-import '../widgets/common_widgets.dart';
 
 class DioHttpService {
   Dio getDioClient() {
@@ -40,7 +40,8 @@ class DioHttpService {
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout ||
           e.type == DioErrorType.other) {
-        showToast(text: "No internet connection.", time: 10);
+        // showToast(text: "No internet connection.", time: 10);
+        Get.offNamedUntil('/errorPage', (route) => false);
       }
       return Response(
         data: {
@@ -78,7 +79,9 @@ class DioHttpService {
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout ||
           e.type == DioErrorType.other) {
-        showToast(text: "No internet connection.", time: 10);
+        Get.offNamedUntil('/errorPage', (route) => false);
+
+        // showToast(text: "No internet connection.", time: 10);
       }
       return Response(
         data: {
@@ -116,7 +119,8 @@ class DioHttpService {
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.sendTimeout ||
           e.type == DioErrorType.other) {
-        showToast(text: "No internet connection.", time: 10);
+        // showToast(text: "No internet connection.", time: 10);
+        Get.offNamedUntil('/errorPage', (route) => false);
       }
       return Response(
         data: {

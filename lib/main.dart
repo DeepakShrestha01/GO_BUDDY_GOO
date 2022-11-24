@@ -103,6 +103,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     getPackageInfo();
+
     Future.delayed(const Duration(seconds: 4), () {
       Get.offNamedUntil("/main", (route) => false);
     });

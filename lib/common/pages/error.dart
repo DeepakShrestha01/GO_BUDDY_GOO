@@ -4,6 +4,8 @@ import 'package:get/route_manager.dart';
 import '../../configs/theme.dart';
 
 class ErrorPage extends StatelessWidget {
+  const ErrorPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +32,7 @@ class ErrorPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Get.back();
+                Get.toNamed('/main');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: MyTheme.primaryColor,

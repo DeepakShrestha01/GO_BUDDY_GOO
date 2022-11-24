@@ -1,9 +1,6 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_buddy_goo_mobile/modules/internet_connection/service/internet_check/int_check_cubit.dart';
-import 'package:go_buddy_goo_mobile/modules/internet_connection/ui/internet_check.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../../common/functions/city_list.dart';
@@ -153,62 +150,22 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<IntCheckCubit, IntCheckState>(
-      listener: (context, state) {
-        // if (state == InternetState.Gained) {
-        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //     content: Text('Internet Connected'),
-        //     backgroundColor: Colors.green,
-        //   ));
-        // } else if (state == InternetState.Lost) {
-        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //     content: Text('Internet Disconnected'),
-        //     backgroundColor: Colors.red,
-        //   ));
-        // }
-      },
-      builder: (context, state) {
-        if (state is IntCheckLostState) {
-          return const InternetCheckScreen();
-        }
-        if (state is IntCheckGainedState) {
-          return PersistentTabView(
-            context,
-            controller: _tabController,
-            screens: _buildScreens(),
-            items: _navBarsItems(),
-            confineInSafeArea: true,
-            navBarStyle: NavBarStyle.style7,
-            backgroundColor: Colors.white,
-            handleAndroidBackButtonPress: true,
-            resizeToAvoidBottomInset: true,
-            stateManagement: true,
-            hideNavigationBarWhenKeyboardShows: true,
-            popAllScreensOnTapOfSelectedTab: true,
-            popActionScreens: PopActionScreensType.all,
-            screenTransitionAnimation:
-                const ScreenTransitionAnimation(animateTabTransition: true),
-          );
-        }
-
-        return PersistentTabView(
-          context,
-          controller: _tabController,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
-          confineInSafeArea: true,
-          navBarStyle: NavBarStyle.style7,
-          backgroundColor: Colors.white,
-          handleAndroidBackButtonPress: true,
-          resizeToAvoidBottomInset: true,
-          stateManagement: true,
-          hideNavigationBarWhenKeyboardShows: true,
-          popAllScreensOnTapOfSelectedTab: true,
-          popActionScreens: PopActionScreensType.all,
-          screenTransitionAnimation:
-              const ScreenTransitionAnimation(animateTabTransition: true),
-        );
-      },
+    return PersistentTabView(
+      context,
+      controller: _tabController,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      navBarStyle: NavBarStyle.style7,
+      backgroundColor: Colors.white,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
+      popAllScreensOnTapOfSelectedTab: true,
+      popActionScreens: PopActionScreensType.all,
+      screenTransitionAnimation:
+          const ScreenTransitionAnimation(animateTabTransition: true),
     );
   }
 }
