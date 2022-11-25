@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
+import 'package:recase/recase.dart';
 
 import '../../../../common/functions/format_date.dart';
 import '../../../../common/model/city_list.dart';
@@ -58,10 +59,124 @@ class _HotelSearchState extends State<HotelSearch> {
   KeywordSearchResult? selectedKeyword;
 
   HotelBookingDetailParameters? parameters;
+  DateTime? date;
+  TimeOfDay? time;
+  DateTime? mydateTime;
+
+  String? shift;
+
+  final headerTextStyle = TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 12,
+    color: Colors.grey.shade700,
+  );
+
+  final valueTextStyle = const TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: 17,
+  );
+  List<String> shiftList = ["Hourly", " Daily"];
+
+  showShiftMenu(BuildContext context, Offset offset) async {
+    return showMenu(
+      context: context,
+      items: List<PopupMenuEntry>.generate(shiftList.length, (i) {
+        return PopupMenuItem(
+          value: i,
+          child: Text(shiftList[i].titleCase),
+        );
+      }),
+      position: RelativeRect.fromLTRB(
+        75,
+        offset.dy,
+        MediaQuery.of(context).size.height,
+        MediaQuery.of(context).size.width,
+      ),
+    );
+  }
+
+  Future<DateTime?> pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: date ?? initialDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 28)),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            dialogBackgroundColor: Colors.white,
+            colorScheme: const ColorScheme.light(primary: MyTheme.primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            highlightColor: MyTheme.primaryColor,
+            textTheme: MyTheme.mainTextTheme,
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: Colors.grey,
+              selectionColor: MyTheme.primaryColor,
+            ),
+          ),
+          child: child as Widget,
+        );
+      },
+    );
+    if (newDate == null) return null;
+    setState(() {
+      date = newDate;
+    });
+    return date;
+  }
+
+  Future<TimeOfDay?> pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay.now();
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: time ?? initialTime,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            dialogBackgroundColor: Colors.white,
+            colorScheme: const ColorScheme.light(primary: MyTheme.primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            highlightColor: MyTheme.primaryColor,
+            textTheme: MyTheme.mainTextTheme,
+            textSelectionTheme: const TextSelectionThemeData(
+              cursorColor: Colors.grey,
+              selectionColor: MyTheme.primaryColor,
+            ),
+          ),
+          child: child as Widget,
+        );
+      },
+    );
+    if (newTime == null) return null;
+    setState(() {
+      time = newTime;
+    });
+    return time;
+  }
+
+  Future pickDateTime(BuildContext context) async {
+    var mydate = await pickDate(context);
+    if (mydate == null) return;
+    final mytime = await pickTime(context);
+    if (mytime == null) return;
+    setState(() {
+      mydateTime = DateTime(
+        mydate.year,
+        mydate.month,
+        mydate.day,
+        mytime.hour,
+        mytime.minute,
+      );
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    shift ??= shiftList[0];
     destinationTextController = TextEditingController();
     destinationTextController?.text =
         searchHotelString.value == "Search" ? "" : searchHotelString.value;
@@ -627,6 +742,92 @@ class _HotelSearchState extends State<HotelSearch> {
                               },
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 3,
+                    thickness: 1,
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () => pickDateTime(context),
+                    child: Row(
+                      children: [
+                        const PNGIconWidget(
+                          asset: "assets/images/calendar.png",
+                          color: MyTheme.primaryColor,
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Check-Date-Time",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              mydateTime != null
+                                  ? DateTimeFormatter.formatDateTime(
+                                      mydateTime!)
+                                  : 'Chose Date and Time',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 3,
+                    thickness: 1,
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: (TapDownDetails details) async {
+                      int selectedGenderIndex =
+                          await showShiftMenu(context, details.globalPosition);
+                      shift = shiftList[selectedGenderIndex];
+                      setState(() {});
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          CupertinoIcons.clock,
+                          color: MyTheme.primaryColor,
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Hourly/Daily",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              shift.toString().titleCase,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

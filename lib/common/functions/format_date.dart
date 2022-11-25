@@ -70,6 +70,10 @@ class DateTimeFormatter {
     return "${dateTime.day} ${getMonthString(dateTime.month)}, ${dateTime.year}";
   }
 
+  static String formatDateTime(DateTime dateTime) {
+    return "${dateTime.day}, ${getMonthString(dateTime.month)}, ${dateTime.year}     ${dateTime.hour.toString().padLeft(2, '0')} : ${dateTime.minute.toString().padLeft(2, '0')}";
+  }
+
   static String formatDateServer(var dateTimeValue) {
     DateTime? dateTime;
 

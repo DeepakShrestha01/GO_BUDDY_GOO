@@ -71,7 +71,7 @@ class _BusSearchBodyState extends State<BusSearchBody> {
         title: Text("Search Bus",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white)),
         leading: GestureDetector(
           onTap: () {
