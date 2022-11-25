@@ -403,13 +403,13 @@ class _HotelSearchState extends State<HotelSearch> {
                         ),
                         const SizedBox(width: 10),
                         GestureDetector(
-                          onTap: ()async {
-                              await setUserLocation();
+                          onTap: () async {
+                            await setUserLocation();
                             destinationTextController?.clear();
                             selectedKeyword = null;
                             Get.toNamed("/selectOnMap")?.whenComplete(() {
                               destinationTextController?.text =
-                                  parameters!.query.toString();
+                                  parameters!.query!;
                             });
                           },
                           child: Image.asset(

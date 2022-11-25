@@ -31,7 +31,7 @@ class ErrorPage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Get.back();
+                // Get.back();
                 Get.toNamed('/main');
               },
               style: ElevatedButton.styleFrom(
