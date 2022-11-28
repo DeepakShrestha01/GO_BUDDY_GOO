@@ -863,6 +863,7 @@ class _HotelSearchState extends State<HotelSearch> {
                   parameters?.noOfRooms = room.value;
                   parameters?.isSearch = true;
                   parameters?.selectedKeyword = selectedKeyword;
+                  parameters?.bookingHour = shift?.toLowerCase();
                   Get.toNamed("/hotelList");
                 }
               },

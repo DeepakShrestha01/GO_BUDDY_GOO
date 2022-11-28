@@ -25,6 +25,7 @@ class HotelSearchResultCubit extends Cubit<HotelSearchResultState> {
   int? maxChildren;
   int? noOfHotels;
   int? noOfRooms;
+  String? bookingHour;
   HotelFilter? filter;
   HotelFilter? originalFilter;
 
@@ -90,6 +91,7 @@ class HotelSearchResultCubit extends Cubit<HotelSearchResultState> {
     maxAdults = parameters?.maxAdults;
     maxChildren = parameters?.maxChildren;
     noOfRooms = parameters?.noOfRooms;
+    bookingHour = parameters?.bookingHour;
 
     emit(HotelSearchLoading());
 
@@ -102,6 +104,7 @@ class HotelSearchResultCubit extends Cubit<HotelSearchResultState> {
       "check_in_date": DateTimeFormatter.formatDateServer(dateRange?.start),
       "check_out_date": DateTimeFormatter.formatDateServer(dateRange?.end),
       "required_room": noOfRooms,
+      'booking_hour': bookingHour,
     });
 
     if (parameters?.selectedKeyword != null) {

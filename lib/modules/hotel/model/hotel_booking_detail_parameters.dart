@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_buddy_goo_mobile/modules/hotel/model/range.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'hotel.dart';
@@ -16,6 +15,7 @@ class HotelBookingDetailParameters {
   int? maxChildren;
   Range? dateRange;
   int? noOfRooms;
+  String? bookingHour;
   bool isSearch = false;
   List<HotelBookingDetail> bookings = [];
   int? hotelId;
