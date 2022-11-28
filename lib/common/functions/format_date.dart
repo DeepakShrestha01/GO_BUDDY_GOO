@@ -71,7 +71,7 @@ class DateTimeFormatter {
   }
 
   static String formatDateTime(DateTime dateTime) {
-    return "${dateTime.day}, ${getMonthString(dateTime.month)}, ${dateTime.year}     ${dateTime.hour.toString().padLeft(2, '0')} : ${dateTime.minute.toString().padLeft(2, '0')}";
+    return "${dateTime.day}, ${getMonthString(dateTime.month)}, ${dateTime.year}   ||   ${dateTime.hour.toString().padLeft(2, '0')} : ${dateTime.minute.toString().padLeft(2, '0')}";
   }
 
   static String formatDateServer(var dateTimeValue) {

@@ -542,85 +542,85 @@ class _HotelSearchState extends State<HotelSearch> {
                     thickness: 1,
                   ),
                   const SizedBox(height: 30),
-                  Row(
-                    children: [
-                      const Icon(
-                        CupertinoIcons.person_2,
-                        color: MyTheme.primaryColor,
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            showGuestCounterDialog();
-                          },
-                          child: Shake(
-                            key: _guestsCountKey,
-                            preferences: const AnimationPreferences(
-                                autoPlay: AnimationPlayStates.None),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Guests & No. of Rooms",
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    ValueListenableBuilder(
-                                      builder: (BuildContext context, value,
-                                          Widget? child) {
-                                        return Text(
-                                          "${adults.value} Adults,",
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                          ),
-                                        );
-                                      },
-                                      valueListenable: adults,
-                                    ),
-                                    ValueListenableBuilder(
-                                      builder: (BuildContext context, value,
-                                          Widget? child) {
-                                        return Text(
-                                          " ${children.value} Children",
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                          ),
-                                        );
-                                      },
-                                      valueListenable: children,
-                                    ),
-                                    const Text("   ||   "),
-                                    ValueListenableBuilder(
-                                      builder: (BuildContext context, value,
-                                          Widget? child) {
-                                        return Text(
-                                          "${room.value} Rooms",
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                          ),
-                                        );
-                                      },
-                                      valueListenable: room,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 3),
-                              ],
-                            ),
-                          ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTapDown: (TapDownDetails details) async {
+                      int selectedGenderIndex =
+                          await showShiftMenu(context, details.globalPosition);
+                      shift = shiftList[selectedGenderIndex];
+                      setState(() {});
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          CupertinoIcons.clock,
+                          color: MyTheme.primaryColor,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Hourly/Daily",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              shift.toString().titleCase,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 3,
+                    thickness: 1,
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () => pickDateTime(context),
+                    child: Row(
+                      children: [
+                        const PNGIconWidget(
+                          asset: "assets/images/calendar.png",
+                          color: MyTheme.primaryColor,
+                        ),
+                        const SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Check-Date-Time",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              mydateTime != null
+                                  ? DateTimeFormatter.formatDateTime(
+                                      mydateTime!)
+                                  : 'Chose Date and Time',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                      ],
+                    ),
                   ),
                   const Divider(
                     color: Colors.grey,
@@ -752,85 +752,85 @@ class _HotelSearchState extends State<HotelSearch> {
                     thickness: 1,
                   ),
                   const SizedBox(height: 30),
-                  GestureDetector(
-                    onTap: () => pickDateTime(context),
-                    child: Row(
-                      children: [
-                        const PNGIconWidget(
-                          asset: "assets/images/calendar.png",
-                          color: MyTheme.primaryColor,
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Check-Date-Time",
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 12,
-                              ),
+                  Row(
+                    children: [
+                      const Icon(
+                        CupertinoIcons.person_2,
+                        color: MyTheme.primaryColor,
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            showGuestCounterDialog();
+                          },
+                          child: Shake(
+                            key: _guestsCountKey,
+                            preferences: const AnimationPreferences(
+                                autoPlay: AnimationPlayStates.None),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Guests & No. of Rooms",
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    ValueListenableBuilder(
+                                      builder: (BuildContext context, value,
+                                          Widget? child) {
+                                        return Text(
+                                          "${adults.value} Adults,",
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      },
+                                      valueListenable: adults,
+                                    ),
+                                    ValueListenableBuilder(
+                                      builder: (BuildContext context, value,
+                                          Widget? child) {
+                                        return Text(
+                                          " ${children.value} Children",
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      },
+                                      valueListenable: children,
+                                    ),
+                                    const Text("   ||   "),
+                                    ValueListenableBuilder(
+                                      builder: (BuildContext context, value,
+                                          Widget? child) {
+                                        return Text(
+                                          "${room.value} Rooms",
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      },
+                                      valueListenable: room,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                              ],
                             ),
-                            const SizedBox(height: 3),
-                            Text(
-                              mydateTime != null
-                                  ? DateTimeFormatter.formatDateTime(
-                                      mydateTime!)
-                                  : 'Chose Date and Time',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                        const SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    height: 3,
-                    thickness: 1,
-                  ),
-                  const SizedBox(height: 30),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapDown: (TapDownDetails details) async {
-                      int selectedGenderIndex =
-                          await showShiftMenu(context, details.globalPosition);
-                      shift = shiftList[selectedGenderIndex];
-                      setState(() {});
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          CupertinoIcons.clock,
-                          color: MyTheme.primaryColor,
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Hourly/Daily",
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              shift.toString().titleCase,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const Divider(
                     color: Colors.grey,
