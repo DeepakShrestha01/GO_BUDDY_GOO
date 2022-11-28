@@ -60,6 +60,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "My Account",
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium
+              ?.copyWith(color: Colors.white),
+        ),
+        leading: GestureDetector(
+          onTap: () {
+            Get.offNamedUntil('/accountPage', (route) => false);
+          },
+          child: const Icon(Icons.arrow_back),
+        ),
+      ),
       backgroundColor: const Color(0xFFf3eee5),
       body: SingleChildScrollView(
         child: SafeArea(
