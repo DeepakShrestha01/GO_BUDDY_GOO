@@ -256,38 +256,38 @@ class _TourBookingPaymentWidgetState extends State<TourBookingPaymentWidget> {
                       ),
                     ),
 
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        KhaltiScope.of(context).pay(
-                          config: PaymentConfig(
-                              amount:
-                                  (widget.cubit.finalTotalPrice! * 100).toInt(),
-                              productIdentity: "tour_${randomAlphaNumeric(10)}",
-                              productName:
-                                  "${"Go Buddy Goo Payment for ${widget.cubit.tour?.packageName}"} tour package"),
-                          preferences: [PaymentPreference.connectIPS],
-                          onSuccess: (result) {
-                            widget.cubit.pay("connectips", result.token);
-                          },
-                          onFailure: (result) {
-                            showToast(
-                              text:
-                                  "ConnectIPS Payment Error: ${result.message}",
-                            );
-                          },
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/connectips.png",
-                            height: 50,
-                          ),
-                          const Text("Pay with ConnectIPS"),
-                        ],
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   onTap: () async {
+                    //     KhaltiScope.of(context).pay(
+                    //       config: PaymentConfig(
+                    //           amount:
+                    //               (widget.cubit.finalTotalPrice! * 100).toInt(),
+                    //           productIdentity: "tour_${randomAlphaNumeric(10)}",
+                    //           productName:
+                    //               "${"Go Buddy Goo Payment for ${widget.cubit.tour?.packageName}"} tour package"),
+                    //       preferences: [PaymentPreference.connectIPS],
+                    //       onSuccess: (result) {
+                    //         widget.cubit.pay("connectips", result.token);
+                    //       },
+                    //       onFailure: (result) {
+                    //         showToast(
+                    //           text:
+                    //               "ConnectIPS Payment Error: ${result.message}",
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/connectips.png",
+                    //         height: 50,
+                    //       ),
+                    //       const Text("Pay with ConnectIPS"),
+                    //     ],
+                    //   ),
+                    // ),
 
                     // GestureDetector(
                     //   behavior: HitTestBehavior.opaque,

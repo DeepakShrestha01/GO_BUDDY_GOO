@@ -226,115 +226,115 @@ class _EwalletInfoLoadedState extends State<EwalletInfoLoaded> {
 
                       // connectIPS
 
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () async {
-                          KhaltiScope.of(context).pay(
-                            config: PaymentConfig(
-                              amount:
-                                  (double.parse(amountController.text) * 100)
-                                      .toInt(),
-                              productIdentity: "gift_${randomAlphaNumeric(10)}",
-                              productName: "Go Buddy Goo Payment for gift card",
-                              productUrl: callBackUrl,
-                            ),
-                            preferences: [
-                              PaymentPreference.connectIPS,
-                            ],
-                            onSuccess: (result) {
-                              Get.back();
-                              widget.cubit.buyGiftCard(
-                                amount:
-                                    (double.parse(amountController.text) * 100)
-                                        .toInt(),
-                                email: emailController.text,
-                                name: fullNameController.text,
-                                provider: "connectIPS",
-                                token: result.token,
-                              );
-                            },
-                            onFailure: (result) {
-                              showToast(
-                                text: result.message,
-                                time: 5,
-                              );
-                            },
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/images/connectips.png",
-                              height: 50,
-                            ),
-                            const Text("Pay with ConnectIPS"),
-                          ],
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   behavior: HitTestBehavior.opaque,
+                      //   onTap: () async {
+                      //     KhaltiScope.of(context).pay(
+                      //       config: PaymentConfig(
+                      //         amount:
+                      //             (double.parse(amountController.text) * 100)
+                      //                 .toInt(),
+                      //         productIdentity: "gift_${randomAlphaNumeric(10)}",
+                      //         productName: "Go Buddy Goo Payment for gift card",
+                      //         productUrl: callBackUrl,
+                      //       ),
+                      //       preferences: [
+                      //         PaymentPreference.connectIPS,
+                      //       ],
+                      //       onSuccess: (result) {
+                      //         Get.back();
+                      //         widget.cubit.buyGiftCard(
+                      //           amount:
+                      //               (double.parse(amountController.text) * 100)
+                      //                   .toInt(),
+                      //           email: emailController.text,
+                      //           name: fullNameController.text,
+                      //           provider: "connectIPS",
+                      //           token: result.token,
+                      //         );
+                      //       },
+                      //       onFailure: (result) {
+                      //         showToast(
+                      //           text: result.message,
+                      //           time: 5,
+                      //         );
+                      //       },
+                      //     );
+                      //   },
+                      //   child: Column(
+                      //     children: [
+                      //       Image.asset(
+                      //         "assets/images/connectips.png",
+                      //         height: 50,
+                      //       ),
+                      //       const Text("Pay with ConnectIPS"),
+                      //     ],
+                      //   ),
+                      // ),
 
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () async {
-                          // ESewaConfiguration configuration = ESewaConfiguration(
-                          //   clientID: eSewaClientId,
-                          //   secretKey: eSewaClientSecret,
+                      // GestureDetector(
+                      //   behavior: HitTestBehavior.opaque,
+                      //   onTap: () async {
+                      //     // ESewaConfiguration configuration = ESewaConfiguration(
+                      //     //   clientID: eSewaClientId,
+                      //     //   secretKey: eSewaClientSecret,
 
-                          //   // clientID:
-                          //   //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
-                          //   // secretKey:
-                          //   //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
-                          //   environment: ESewaConfiguration.ENVIRONMENT_LIVE,
+                      //     //   // clientID:
+                      //     //   //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+                      //     //   // secretKey:
+                      //     //   //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+                      //     //   environment: ESewaConfiguration.ENVIRONMENT_LIVE,
 
-                          //   // .ENVIRONMENT_TEST
-                          // );
+                      //     //   // .ENVIRONMENT_TEST
+                      //     // );
 
-                          // ESewaPnp eSewaPnp =
-                          //     ESewaPnp(configuration: configuration);
+                      //     // ESewaPnp eSewaPnp =
+                      //     //     ESewaPnp(configuration: configuration);
 
-                          // ESewaPayment payment = ESewaPayment(
-                          //   amount: double.parse(amountController.text),
-                          //   productName: "Go Buddy Goo Payment for gift card",
-                          //   productID: "gift_${randomAlphaNumeric(10)}",
-                          //   callBackURL: callBackUrl,
-                          // );
-                          // Get.back();
+                      //     // ESewaPayment payment = ESewaPayment(
+                      //     //   amount: double.parse(amountController.text),
+                      //     //   productName: "Go Buddy Goo Payment for gift card",
+                      //     //   productID: "gift_${randomAlphaNumeric(10)}",
+                      //     //   callBackURL: callBackUrl,
+                      //     // );
+                      //     // Get.back();
 
-                          // try {
-                          //   final res =
-                          //       await eSewaPnp.initPayment(payment: payment);
+                      //     // try {
+                      //     //   final res =
+                      //     //       await eSewaPnp.initPayment(payment: payment);
 
-                          //   if (res.status == "COMPLETE") {
-                          //     widget.cubit.buyGiftCard(
-                          //         amount: int.parse(amountController.text),
-                          //         email: emailController.text,
-                          //         name: fullNameController.text,
-                          //         provider: "esewa",
-                          //         token: res.referenceId.toString());
+                      //     //   if (res.status == "COMPLETE") {
+                      //     //     widget.cubit.buyGiftCard(
+                      //     //         amount: int.parse(amountController.text),
+                      //     //         email: emailController.text,
+                      //     //         name: fullNameController.text,
+                      //     //         provider: "esewa",
+                      //     //         token: res.referenceId.toString());
 
-                          //     // fullNameController.clear();
-                          //     // emailController.clear();
-                          //     // amountController.clear();
-                          //     // Get.back();
-                          //   } else {
-                          //     showToast(
-                          //         text: "Some error occured! Try Again!!");
-                          //   }
-                          // } on ESewaPaymentException catch (e) {
-                          //   showToast(
-                          //     text: "eSewa Payment Error: ${e.message}",
-                          //   );
-                          // }
-                        },
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              "assets/images/esewa.png",
-                              height: 50,
-                            ),
-                            const Text("Pay with eSewa"),
-                          ],
-                        ),
-                      ),
+                      //     //     // fullNameController.clear();
+                      //     //     // emailController.clear();
+                      //     //     // amountController.clear();
+                      //     //     // Get.back();
+                      //     //   } else {
+                      //     //     showToast(
+                      //     //         text: "Some error occured! Try Again!!");
+                      //     //   }
+                      //     // } on ESewaPaymentException catch (e) {
+                      //     //   showToast(
+                      //     //     text: "eSewa Payment Error: ${e.message}",
+                      //     //   );
+                      //     // }
+                      //   },
+                      //   child: Column(
+                      //     children: [
+                      //       Image.asset(
+                      //         "assets/images/esewa.png",
+                      //         height: 50,
+                      //       ),
+                      //       const Text("Pay with eSewa"),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
