@@ -14,7 +14,6 @@ import 'common/routes/routes.dart';
 import 'common/services/get_it.dart';
 import 'common/services/hive.dart';
 import 'configs/theme.dart';
-import 'modules/internet_connection/service/internet_check/int_check_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,11 +40,6 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) {
-              return IntCheckCubit()..checkInternet();
-            },
-          ),
-          BlocProvider(
-            create: (context) {
               return LoginWithPasswordCubit();
             },
           ),
@@ -66,10 +60,10 @@ class MyApp extends StatelessWidget {
               initialRoute: "/",
               unknownRoute: GetPage(name: "/404", page: () => PageNotFound()),
               debugShowCheckedModeBanner: false,
-              // supportedLocales: const [
-              //   Locale('en', 'US'),
-              //   Locale('ne', 'NP'),
-              // ],
+              supportedLocales: const [
+                Locale('en', 'US'),
+                // Locale('ne', 'NP'),
+              ],
               localizationsDelegates: const [
                 KhaltiLocalizations.delegate,
               ],
