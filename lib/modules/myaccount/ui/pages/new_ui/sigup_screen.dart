@@ -244,7 +244,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Center(
                         child: GestureDetector(
                           onTap: () {
-                            Get.toNamed('/accountPage');
+                            // Get.toNamed('/accountPage');
+                            Get.offNamedUntil('/accountPage', (route) => false);
                           },
                           child: Text(
                             'Already have an account ?  Login',
