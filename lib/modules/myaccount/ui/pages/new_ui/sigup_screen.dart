@@ -256,7 +256,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.095),
+                          height: MediaQuery.of(context).size.height * 0.09),
                       const AuthPrivacyTC()
                     ],
                   ),

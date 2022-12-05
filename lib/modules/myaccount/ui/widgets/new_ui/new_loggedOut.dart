@@ -100,14 +100,15 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: BlocBuilder<AccountCubit, AccountState>(
-        builder: (context, state) {
-          return AbsorbPointer(
-            absorbing: state is AccountLoggingIn,
+    return BlocBuilder<AccountCubit, AccountState>(
+      builder: (context, state) {
+        return AbsorbPointer(
+          absorbing: state is AccountLoggingIn,
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                 isOTPVerified == true
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
@@ -143,7 +144,7 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                           ),
                         ),
                       ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.080),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.050),
                 Image.asset('assets/images/newlogo.png'),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.056),
                 Text(
@@ -393,14 +394,13 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                               color: const Color(0xFF9B97A0)),
                         ),
                       ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.190),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
                 const AuthPrivacyTC(),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.018),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
