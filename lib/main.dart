@@ -66,10 +66,10 @@ class MyApp extends StatelessWidget {
               initialRoute: "/",
               unknownRoute: GetPage(name: "/404", page: () => PageNotFound()),
               debugShowCheckedModeBanner: false,
-              supportedLocales: const [
-                Locale('en', 'US'),
-                Locale('ne', 'NP'),
-              ],
+              // supportedLocales: const [
+              //   Locale('en', 'US'),
+              //   Locale('ne', 'NP'),
+              // ],
               localizationsDelegates: const [
                 KhaltiLocalizations.delegate,
               ],
