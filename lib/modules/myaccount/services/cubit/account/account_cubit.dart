@@ -130,33 +130,29 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  checkPhoneNumber(String phoneNumber) async {
-    FormData formData = FormData.fromMap({
-      'contact': phoneNumber,
-    });
-    Response response = await DioHttpService().handlePostRequest(
-        'booking/api_v_1/get_otp_front_end_user/',
-        data: formData);
+  // checkPhoneNumber(String phoneNumber) async {
+  //   FormData formData = FormData.fromMap({
+  //     'phone_number': phoneNumber,
+  //   });
+  //   Response response = await DioHttpService().handlePostRequest(
+  //       'booking/api_v_1/get_otp_front_end_user/',
+  //       data: formData);
 
-    if (response.statusCode == 200) {
-      var responsedata = OtpResponse.fromJson(response.data);
-      emit(AccountLogginWithOTP(otp: responsedata));
-    } else if (response.statusCode == 404) {
-      if (response.data['data']['message']
-          .toString()
-          .toLowerCase()
-          .contains("user doesnot exist")) {
-        showToast(text: '${response.data['data']['message']} ');
-        Get.toNamed('/signupScreen', arguments: 
-          phoneNumber
-          
-
-        );
-      } else {
-        showToast(text: response.data["data"]["message"], time: 5);
-      }
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     var responsedata = OtpResponse.fromJson(response.data);
+  //     emit(AccountLogginWithOTP(otp: responsedata));
+  //   } else if (response.statusCode == 404) {
+  //     if (response.data['data']['message']
+  //         .toString()
+  //         .toLowerCase()
+  //         .contains("register")) {
+  //       showToast(text: '${response.data['data']['message']} ');
+  //       Get.toNamed('/signupScreen', arguments: phoneNumber);
+  //     } else {
+  //       showToast(text: response.data["data"]["message"], time: 5);
+  //     }
+  //   }
+  // }
 
   loginWithEmail(String email, String password) async {
     emit(AccountLoggingIn());

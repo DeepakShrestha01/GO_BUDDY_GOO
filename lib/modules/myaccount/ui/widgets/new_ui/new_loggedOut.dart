@@ -3,6 +3,7 @@ import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/route_manager.dart';
+import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../common/services/hide_keyboard.dart';
@@ -39,7 +40,7 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
   void initState() {
     super.initState();
     // _listen();
-    otpController.text = otpCode.toString();
+
     _keyPhoneNumber = GlobalKey<AnimatorWidgetState>();
     _keyPassword = GlobalKey<AnimatorWidgetState>();
     _keyOTP = GlobalKey<AnimatorWidgetState>();
@@ -223,18 +224,16 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                                               const AnimationPreferences(
                                                   autoPlay:
                                                       AnimationPlayStates.None),
-                                          child: BlocBuilder<AccountCubit,
-                                              AccountState>(
+                                          child: BlocBuilder<RegistrationCubit,
+                                              RegistrationState>(
                                             builder: (context, state) {
                                               if (state
-                                                  is AccountLogginWithOTP) {
-                                                otpCode =
-                                                    state.otp.otp.toString();
-                                                print('myotpcde : $otpCode');
+                                                  is RegistertaionOtpState) {
                                                 return CustomTextFormField(
                                                   text: 'Enter Otp code',
-                                                  controller: otpController
-                                                    ..text = otpCode.toString(),
+                                                  // controller: otpController
+                                                  //   ..text = otpCode.toString(),
+                                                  controller: otpController,
                                                   validator: (x) {
                                                     if (x!.isEmpty) {
                                                       _keyOTP?.currentState
@@ -269,10 +268,17 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                               hideKeyboad(context);
                               var credentials = {
                                 'phone': phoneController.text,
-                                'otp': otpCode,
-                                'is_verified': false
+                                // 'otp': otpCode,
+                                'otp': otpController.text,
+                                // 'is_verified': false
                               };
                               if (_formkey.currentState!.validate()) {
+                                BlocProvider.of<RegistrationCubit>(context)
+                                    .newcheckOtp(
+                                  otp: otpController.text,
+                                  phoneNumber: phoneController.text,
+                                );
+
                                 BlocProvider.of<AccountCubit>(context)
                                     .loginWithOTP(credentials: credentials);
                               }
@@ -337,7 +343,7 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                                   hideKeyboad(context);
 
                                   if (_formkey.currentState!.validate()) {
-                                    BlocProvider.of<AccountCubit>(context)
+                                    BlocProvider.of<RegistrationCubit>(context)
                                         .checkPhoneNumber(phoneController.text);
                                     isOTPVerified = true;
                                     isOtpButton = true;

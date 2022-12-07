@@ -10,3 +10,5 @@ class RegistrationLoadingState extends RegistrationState {}
 class RegistrationSuccessState extends RegistrationState {}
 
 class RegistrationErrorState extends RegistrationState {}
+
+class RegistertaionOtpState extends RegistrationState {}
