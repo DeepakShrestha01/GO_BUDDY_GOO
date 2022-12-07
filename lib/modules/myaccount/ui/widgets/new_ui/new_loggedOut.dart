@@ -5,6 +5,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../../../common/services/hide_keyboard.dart';
 import '../../../services/cubit/account/account_cubit.dart';
@@ -39,7 +40,7 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
   @override
   void initState() {
     super.initState();
-    // _listen();
+    _listen();
 
     _keyPhoneNumber = GlobalKey<AnimatorWidgetState>();
     _keyPassword = GlobalKey<AnimatorWidgetState>();
@@ -53,13 +54,13 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
     //     });
   }
 
-  // void _listen() async {
-  //   await SmsAutoFill().listenForCode();
-  // }
+  void _listen() async {
+    await SmsAutoFill().listenForCode();
+  }
 
   @override
   void dispose() {
-    // SmsAutoFill().unregisterListener();
+    SmsAutoFill().unregisterListener();
     countdownController?.dispose();
     otpController.dispose();
     passwordController.dispose();
@@ -67,16 +68,15 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
     super.dispose();
   }
 
-  // void submit(context) async {
-  //   if (phoneController.text == "") return;
+  void submit(context) async {
+    if (phoneController.text == "") return;
 
-  //   var appSignatureID = await SmsAutoFill().getAppSignature;
-  //   Map sendOtpData = {
-  //     "mobile_number": phoneController.text,
-  //     "app_signature_id": appSignatureID
-  //   };
-  //   print(sendOtpData);
-  // }
+    var appSignatureID = await SmsAutoFill().getAppSignature;
+    Map sendOtpData = {
+      "mobile_number": phoneController.text,
+      "app_signature_id": appSignatureID
+    };
+  }
 
   Widget _divider() {
     return Divider(
@@ -186,6 +186,9 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                                 _keyPhoneNumber!.currentState!.forward();
                                 return "Phone Number is required";
                               }
+                              if (phoneController.text.length < 10) {
+                                return " Phone number must be 10 Digit.";
+                              }
                               return null;
                             },
                             text: 'Enter Your Phone Number',
@@ -229,19 +232,46 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                                             builder: (context, state) {
                                               if (state
                                                   is RegistertaionOtpState) {
-                                                return CustomTextFormField(
-                                                  text: 'Enter Otp code',
-                                                  // controller: otpController
-                                                  //   ..text = otpCode.toString(),
-                                                  controller: otpController,
-                                                  validator: (x) {
-                                                    if (x!.isEmpty) {
-                                                      _keyOTP?.currentState
-                                                          ?.forward();
-                                                      return "Otp is required";
-                                                    }
-                                                    return null;
-                                                  },
+                                                return Center(
+                                                  child: Center(
+                                                    child: TextFieldPinAutoFill(
+                                                      currentCode: otpCode,
+                                                      onCodeChanged: (otp) {
+                                                        otpCode = otp;
+                                                      },
+                                                      codeLength: 4,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        errorStyle:
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 12),
+                                                        filled: true,
+                                                        fillColor: const Color(
+                                                            0xFFFEFEFE),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 130),
+                                                        hintStyle:
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: const Color(
+                                                                    0xFF9B97A0)),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                                borderSide:
+                                                                    BorderSide
+                                                                        .none),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 );
                                               }
                                               return Container();
@@ -268,17 +298,10 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                               hideKeyboad(context);
                               var credentials = {
                                 'phone': phoneController.text,
-                                // 'otp': otpCode,
-                                'otp': otpController.text,
-                                // 'is_verified': false
+                                'otp': otpCode,
+                                'is_verified': true
                               };
                               if (_formkey.currentState!.validate()) {
-                                BlocProvider.of<RegistrationCubit>(context)
-                                    .newcheckOtp(
-                                  otp: otpController.text,
-                                  phoneNumber: phoneController.text,
-                                );
-
                                 BlocProvider.of<AccountCubit>(context)
                                     .loginWithOTP(credentials: credentials);
                               }
@@ -343,11 +366,20 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                                   hideKeyboad(context);
 
                                   if (_formkey.currentState!.validate()) {
-                                    BlocProvider.of<RegistrationCubit>(context)
-                                        .checkPhoneNumber(phoneController.text);
-                                    isOTPVerified = true;
-                                    isOtpButton = true;
-                                    setState(() {});
+                                    if (phoneController.text.length < 10) {
+                                      isOTPVerified = false;
+                                      isOtpButton = false;
+                                    } else {
+                                      var appid =
+                                          await SmsAutoFill().getAppSignature;
+                                      BlocProvider.of<RegistrationCubit>(
+                                              context)
+                                          .checkPhoneNumber(
+                                              phoneController.text, appid);
+                                      isOTPVerified = true;
+                                      isOtpButton = true;
+                                      setState(() {});
+                                    }
                                   }
                                 },
                                 child: Container(

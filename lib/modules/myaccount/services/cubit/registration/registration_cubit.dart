@@ -1,12 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_buddy_goo_mobile/common/services/dio_http_service.dart';
 import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
 import 'package:meta/meta.dart';
-
-import '../../../../../common/services/logger.dart';
 
 part 'registration_state.dart';
 
@@ -16,11 +13,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? emailAddress;
   String? phoneNumber;
   String? token;
+  String? otp;
 
-  checkPhoneNumber(String phoneNumber) async {
-    FormData formData = FormData.fromMap({
-      'phone_number': phoneNumber,
-    });
+  checkPhoneNumber(String phoneNumber, String signatureID) async {
+    emit(RegistrationLoadingState());
+    FormData formData = FormData.fromMap(
+        {'phone_number': phoneNumber, 'signature_id': signatureID});
     Response response = await DioHttpService().handlePostRequest(
         'booking/api_v_1/get_otp_front_end_user/',
         data: formData);
@@ -29,43 +27,45 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       emit(RegistertaionOtpState());
       // var responsedata = OtpResponse.fromJson(response.data);
     } else if (response.statusCode == 400) {
+      otp = response.data['data']['otp'];
+
       if (response.data['data']['message']
           .toString()
           .toLowerCase()
           .contains("register")) {
         showToast(text: 'Please Register', time: 3);
-        Get.toNamed('/signupScreen', arguments: phoneNumber);
+        Get.toNamed('/signupScreen', arguments: [phoneNumber, otp]);
       } else {
         showToast(text: response.data['data']['phone_number'][0], time: 5);
       }
     }
   }
 
-  newcheckOtp({required String otp, required String phoneNumber}) async {
-    BotToast.showLoading();
+  // newcheckOtp({required String otp, required String phoneNumber}) async {
+  //   BotToast.showLoading();
 
-    FormData formData = FormData.fromMap({
-      "otp": otp,
-      "phone_number": phoneNumber,
-    });
+  //   FormData formData = FormData.fromMap({
+  //     "otp": otp,
+  //     "phone_number": phoneNumber,
+  //   });
 
-    Response response = await DioHttpService().handlePostRequest(
-      "booking/api_v_1/registration_otp/",
-      data: formData,
-      options: Options(headers: {"Authorization": "Token $token"}),
-    );
-    BotToast.closeAllLoading();
+  //   Response response = await DioHttpService().handlePostRequest(
+  //     "booking/api_v_1/registration_otp/",
+  //     data: formData,
+  //     options: Options(headers: {"Authorization": "Token $token"}),
+  //   );
+  //   BotToast.closeAllLoading();
 
-    if (response.statusCode == 200) {
-      printLog.d(response.data);
-      // Get.back();
-      showToast(text: "Phone number verified! login please wait !!", time: 5);
-    } else if (response.statusCode == 400) {
-      showToast(text: "Sorry, the submitted OTP doesn't match.", time: 5);
-    } else {
-      showToast(text: "Some error occured ! Try Again !!", time: 5);
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     printLog.d(response.data);
+  //     // Get.back();
+  //     showToast(text: "Phone number verified! login please wait !!", time: 5);
+  //   } else if (response.statusCode == 400) {
+  //     showToast(text: "Sorry, the submitted OTP doesn't match.", time: 5);
+  //   } else {
+  //     showToast(text: "Some error occureddddd ! Try Again !!", time: 5);
+  //   }
+  // }
 
   registration(Map<String, dynamic> credentials) async {
     emit(RegistrationLoadingState());
@@ -74,7 +74,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         'booking/api_v_1/register_front_end_user/',
         data: credentials);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       token = response.data['token'];
       showToast(text: 'Successfully Registered');
       Get.offNamedUntil(

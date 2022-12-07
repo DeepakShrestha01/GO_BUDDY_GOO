@@ -60,7 +60,7 @@ class AccountCubit extends Cubit<AccountState> {
           showToast(text: "Some error occured! Try Again!!", time: 5);
           emit(AccountLoggedOut());
         }
-      } else {
+      } else if( response.data['profile_status']=='False') {
         Get.offAndToNamed("/updateProfile",
             arguments: User.fromJson(response.data));
       }

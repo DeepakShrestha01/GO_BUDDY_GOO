@@ -14,7 +14,7 @@ class BookingSuccessPage extends StatelessWidget {
           "Booking Success",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
       ),

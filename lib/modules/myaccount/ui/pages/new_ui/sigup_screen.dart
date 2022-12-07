@@ -18,7 +18,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  var phoneNumber = Get.arguments;
+  var phoneNumber = Get.arguments[0];
+  var otp = Get.arguments[1];
 
   CountdownTimerController? countdownController;
 
@@ -192,10 +193,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: MediaQuery.of(context).size.height * 0.012,
                       ),
                       CustomTextFormField(
-                          controller: _referralCodeController,
-                          text: 'Enter Referral Code'),
+                        controller: _referralCodeController,
+                        text: 'Enter Referral Code',
+                      ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.012),
+                        height: MediaQuery.of(context).size.height * 0.012,
+                      ),
+                      CustomTextFormField(
+                        readOnly: true,
+                        controller: _otpController..text = otp,
+                      ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
                       SizedBox(

@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               supportedLocales: const [
                 Locale('en', 'US'),
-                Locale('ne', 'NP'),
+                // Locale('ne', 'NP'),
               ],
               localizationsDelegates: const [
                 KhaltiLocalizations.delegate,
