@@ -93,7 +93,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    print(pickedFile?.path.toString());
+    print('my image ${pickedFile?.path.toString()}');
     await retrieveLostData();
     if (pickedFile != null) {
       _image = File(pickedFile.path);
@@ -279,35 +279,37 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                             //   return Image.network(provider.loa);
                             // },
                             child: Container(
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: Colors.white,
-                                // image: DecorationImage(
-                                //   fit: BoxFit.cover,
-                                //   image: _image == null
-                                //       ? userImage == null
-                                //           ? const AssetImage(
-                                //               "assets/images/profileb.png")
-                                //           : NetworkImage(userImage)
-                                //       : FileImage(_image),
-                                // ),
-                              ),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 5, left: 20, right: 20),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.75),
-                                  ),
-                                  child: const Text(
-                                    "Change",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                  ),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: _image == null
+                                      ? userImage == null
+                                          ? const AssetImage(
+                                              "assets/images/profileb.png")
+                                          : const AssetImage(
+                                                  "assets/images/profileb.png")
+                                              as ImageProvider
+                                      : FileImage(_image!),
                                 ),
                               ),
+                              // child: Align(
+                              //   alignment: Alignment.bottomCenter,
+                              //   child: Container(
+                              //     padding: const EdgeInsets.only(
+                              //         bottom: 5, left: 20, right: 20),
+                              //     decoration: BoxDecoration(
+                              //       color: Colors.grey.withOpacity(0.75),
+                              //     ),
+                              //     child: const Text(
+                              //       "Change",
+                              //       style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: 12,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ),
                           ),
                         ),

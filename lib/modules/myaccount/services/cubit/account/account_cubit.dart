@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+// import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/route_manager.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/model/otp_response.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -254,52 +254,52 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  loginWithFacebook() async {
-    emit(AccountLoggingIn());
+  // loginWithFacebook() async {
+  //   emit(AccountLoggingIn());
 
-    final result = await facebookLogin();
-    if (result["success"]) {
-      Response response = await DioHttpService().handlePostRequest(
-        "booking/api_v_1/social-login/",
-        options: Options(
-            headers: {"Authorization": "bearer facebook ${result["token"]}"}),
-      );
+  //   final result = await facebookLogin();
+  //   if (result["success"]) {
+  //     Response response = await DioHttpService().handlePostRequest(
+  //       "booking/api_v_1/social-login/",
+  //       options: Options(
+  //           headers: {"Authorization": "bearer facebook ${result["token"]}"}),
+  //     );
 
-      if (response.statusCode == 200) {
-        if (response.data["profile_status"] == "True") {
-          User newUser = User.fromJson(response.data);
+  //     if (response.statusCode == 200) {
+  //       if (response.data["profile_status"] == "True") {
+  //         User newUser = User.fromJson(response.data);
 
-          Response responseDetail = await DioHttpService().handleGetRequest(
-            "booking/api_v_1/profile_get_front_end_user/",
-            options:
-                Options(headers: {"Authorization": "Token ${newUser.token}"}),
-          );
+  //         Response responseDetail = await DioHttpService().handleGetRequest(
+  //           "booking/api_v_1/profile_get_front_end_user/",
+  //           options:
+  //               Options(headers: {"Authorization": "Token ${newUser.token}"}),
+  //         );
 
-          if (responseDetail.statusCode == 200) {
-            await HiveUser.setUser(newUser);
-            await HiveUser.setLoggedIn(loggedIn: true);
+  //         if (responseDetail.statusCode == 200) {
+  //           await HiveUser.setUser(newUser);
+  //           await HiveUser.setLoggedIn(loggedIn: true);
 
-            UserDetail userDetail = UserDetail.fromJson(responseDetail.data);
-            await HiveUser.setUserDetail(userDetail);
+  //           UserDetail userDetail = UserDetail.fromJson(responseDetail.data);
+  //           await HiveUser.setUserDetail(userDetail);
 
-            emit(AccountLoggedIn());
-          } else {
-            showToast(text: "Some error occured! Try Again!!", time: 5);
-            emit(AccountLoggedOut());
-          }
-        } else {
-          Get.offAndToNamed("/updateProfile",
-              arguments: User.fromJson(response.data));
-        }
-      } else {
-        showToast(text: "Some error occured! Try Again!!", time: 5);
-        emit(AccountLoggedOut());
-      }
-    } else {
-      showToast(text: result["token"], time: 5);
-      emit(AccountLoggedOut());
-    }
-  }
+  //           emit(AccountLoggedIn());
+  //         } else {
+  //           showToast(text: "Some error occured! Try Again!!", time: 5);
+  //           emit(AccountLoggedOut());
+  //         }
+  //       } else {
+  //         Get.offAndToNamed("/updateProfile",
+  //             arguments: User.fromJson(response.data));
+  //       }
+  //     } else {
+  //       showToast(text: "Some error occured! Try Again!!", time: 5);
+  //       emit(AccountLoggedOut());
+  //     }
+  //   } else {
+  //     showToast(text: result["token"], time: 5);
+  //     emit(AccountLoggedOut());
+  //   }
+  // }
 
   logout() async {
     emit(AccountProcessing());
@@ -323,24 +323,24 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
-  Future<Map<String, dynamic>> facebookLogin() async {
-    final facebookLogin = FacebookLogin();
-    await facebookLogin.logOut();
-    final result = await facebookLogin.logIn(permissions: [
-      FacebookPermission.email,
-    ]);
+  // Future<Map<String, dynamic>> facebookLogin() async {
+  //   final facebookLogin = FacebookLogin();
+  //   await facebookLogin.logOut();
+  //   final result = await facebookLogin.logIn(permissions: [
+  //     FacebookPermission.email,
+  //   ]);
 
-    // print(result.toString());
+  //   // print(result.toString());
 
-    switch (result.status) {
-      case FacebookLoginStatus.success:
-        return {'success': true, 'token': result.accessToken?.token};
-      case FacebookLoginStatus.cancel:
-        return {'success': false, 'token': ' Canceled by user'};
-      case FacebookLoginStatus.error:
-        return {'success': false, 'token': result.error};
-      default:
-        return {'success': false, 'token': 'Unknown Error'};
-    }
-  }
+  //   switch (result.status) {
+  //     case FacebookLoginStatus.success:
+  //       return {'success': true, 'token': result.accessToken?.token};
+  //     case FacebookLoginStatus.cancel:
+  //       return {'success': false, 'token': ' Canceled by user'};
+  //     case FacebookLoginStatus.error:
+  //       return {'success': false, 'token': result.error};
+  //     default:
+  //       return {'success': false, 'token': 'Unknown Error'};
+  //   }
+  // }
 }
