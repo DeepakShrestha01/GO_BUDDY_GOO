@@ -14,16 +14,20 @@ import '../widgets/bus_widget.dart';
 import '../widgets/bus_widget_shimmer.dart';
 
 class BusSearchList extends StatelessWidget {
+  const BusSearchList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => BusSearchResultCubit(),
-      child: BusSearchListBody(),
+      child: const BusSearchListBody(),
     );
   }
 }
 
 class BusSearchListBody extends StatefulWidget {
+  const BusSearchListBody({super.key});
+
   @override
   _BusSearchListBodyState createState() => _BusSearchListBodyState();
 }
@@ -46,7 +50,7 @@ class _BusSearchListBodyState extends State<BusSearchListBody> {
           "Bus List",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(

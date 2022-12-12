@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_buddy_goo_mobile/common/widgets/custom_clip_shodow.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo_mobile/modules/home/ui/widgets/customShapeClipper.dart';
 import 'package:recase/recase.dart';
 
@@ -357,7 +358,62 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                 ),
               ),
             ],
-          )
+          ),
+          Positioned(
+            bottom: 10,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                if (to == null) {
+                  _keyFromTo?.currentState?.forward();
+                } else {
+                  NewBusSearchListParameters parameters =
+                      locator<NewBusSearchListParameters>();
+                  parameters.from = from;
+                  parameters.to = to;
+                  parameters.departureDate = departureDate;
+                  parameters.shift = shift;
+                
+
+
+                  // BusBookingDetailParameters parameters =
+                  //     locator<BusBookingDetailParameters>();
+                  // parameters.from = from;
+                  // parameters.fromId = fromId;
+                  // parameters.to = to;
+                  // parameters.toId = toId;
+                  // parameters.departureDate = departureDate;
+                  // parameters.shift = shift;
+
+                  // Get.toNamed("/busList");
+                }
+              },
+              child: Container(
+                height: 50,
+                width: mediaQuery.size.width * 0.4,
+                decoration: BoxDecoration(
+                  color: MyTheme.primaryColor,
+                  borderRadius: BorderRadius.circular(17.5),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    PNGIconWidget(
+                      asset: "assets/images/search.png",
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "Search",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

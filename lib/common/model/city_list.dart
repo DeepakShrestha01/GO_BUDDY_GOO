@@ -43,7 +43,6 @@ class CityList {
     for (NewCity city in newCities) {
       if (city.label.toString().toLowerCase().contains(pattern.toLowerCase())) {
         filteredCities.add(city);
-        
       }
     }
     return filteredCities;
