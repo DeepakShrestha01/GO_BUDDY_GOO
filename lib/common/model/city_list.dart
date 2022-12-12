@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_buddy_goo_mobile/common/model/city.dart';
+import 'package:go_buddy_goo_mobile/common/model/new_city/new_city.dart';
 
 class CityList {
   List<City> cities = [];
+  // new......
+  List<NewCity> newCities = [];
 
   static final CityList _cityList = CityList._internal();
 
@@ -27,6 +30,20 @@ class CityList {
     for (City city in cities) {
       if (city.name.toString().toLowerCase().contains(pattern.toLowerCase())) {
         filteredCities.add(city);
+      }
+    }
+    return filteredCities;
+  }
+
+//  new............................
+  getPatternNewCities(String pattern) {
+    // print("citykeyword : $pattern");
+    List<NewCity> filteredCities = [];
+
+    for (NewCity city in newCities) {
+      if (city.label.toString().toLowerCase().contains(pattern.toLowerCase())) {
+        filteredCities.add(city);
+        
       }
     }
     return filteredCities;

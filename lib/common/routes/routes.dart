@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/ui/pages/new_ui/sigup_screen.dart';
 
 import '../../modules/booking/ui/pages/bus_booking_detail.dart';
@@ -8,7 +9,6 @@ import '../../modules/booking/ui/pages/rental_booking_detail.dart';
 import '../../modules/booking/ui/pages/rental_booking_payment.dart';
 import '../../modules/booking/ui/pages/tour_booking_detail.dart';
 import '../../modules/bus/ui/pages/booking.dart';
-import '../../modules/bus/ui/pages/bus.dart';
 import '../../modules/bus/ui/pages/bus_detail.dart';
 import '../../modules/bus/ui/pages/bus_offer_list.dart';
 import '../../modules/bus/ui/pages/buslist.dart';
@@ -90,7 +90,9 @@ List<GetPage> routes = [
   GetPage(name: "/tourBookingDetail", page: () => const TourGuestDetailPage()),
   GetPage(name: "/tourList", page: () => const TourSearchListPage()),
   GetPage(name: "/tourQuery", page: () => const TourInquiryPage()),
-  GetPage(name: "/searchBus", page: () => const BusSearchPage()),
+  // GetPage(name: "/searchBus", page: () => const BusSearchPage()),
+  GetPage(name: "/searchBus", page: () => const NewSearchBody()),
+
   GetPage(name: "/busList", page: () => BusSearchList()),
   GetPage(name: "/rentalBookingSuccess", page: () => RentalBookingSuccess()),
   GetPage(name: "/busDetail", page: () => const BusDetailPage()),

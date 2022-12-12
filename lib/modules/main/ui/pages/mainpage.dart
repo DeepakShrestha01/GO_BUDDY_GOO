@@ -1,6 +1,7 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_buddy_goo_mobile/common/functions/new_citylist/new_citylist.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../../common/functions/city_list.dart';
@@ -113,6 +114,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     getCityList();
+    getNewCityList();
     getCountryList();
     getFlightSectors();
 
