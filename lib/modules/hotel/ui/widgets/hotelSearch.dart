@@ -858,8 +858,11 @@ class _HotelSearchState extends State<HotelSearch> {
                   parameters?.query = destinationTextController?.text;
                   parameters?.maxAdults = adults.value;
                   parameters?.maxChildren = children.value;
-                  parameters?.dateRange =
-                      Range(start: checkInDate, end: checkOutDate);
+                  parameters?.dateRange = Range(
+                    // start: checkInDated,
+                    start: DateTimeFormatter.formatDate(checkInDated!),
+                    end: DateTimeFormatter.formatDate(checkOutDated!),
+                  );
                   parameters?.noOfRooms = room.value;
                   parameters?.isSearch = true;
                   parameters?.selectedKeyword = selectedKeyword;
