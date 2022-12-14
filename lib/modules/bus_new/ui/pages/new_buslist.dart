@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/get_it.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/bus_list_display.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/buslist_toppart.dart';
 
 class NewBusSearchList extends StatelessWidget {
   const NewBusSearchList({super.key});
@@ -29,7 +31,15 @@ class NewBusSearchListBody extends StatefulWidget {
 
 class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<BusSearchListCubit>(context).getNewBusSearchResult();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final BusSearchListCubit cubit =
+        BlocProvider.of<BusSearchListCubit>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -61,7 +71,28 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
         ],
       ),
       body: Column(
-        children: [],
+        children: [
+          BusListTopPart(
+            from: cubit.parameters.from.toString(),
+            to: cubit.parameters.to.toString(),
+            date: cubit.parameters.departureDate!,
+          ),
+          BlocBuilder<BusSearchListCubit, BusSearchListState>(
+            builder: (context, state) {
+              if (state is BusSearchListSuccessState) {
+                ListView.separated(
+                    itemBuilder: (context, index) {
+                      return const BusListDisplay();
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 1);
+                    },
+                    itemCount: cubit.newBuses.length);
+              }
+              return Container();
+            },
+          )
+        ],
       ),
     );
   }

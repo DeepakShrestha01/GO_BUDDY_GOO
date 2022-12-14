@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/widgets/custom_clip_shodow.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo_mobile/modules/home/ui/widgets/customShapeClipper.dart';
@@ -373,8 +374,8 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                   parameters.to = to;
                   parameters.departureDate = departureDate;
                   parameters.shift = shift;
-                
 
+                  Get.toNamed('/newBusList');
 
                   // BusBookingDetailParameters parameters =
                   //     locator<BusBookingDetailParameters>();

@@ -29,7 +29,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       for (var x in data) {
         newBuses.add(x);
       }
-    }
     emit(BusSearchListSuccessState());
+    }
   }
 }
