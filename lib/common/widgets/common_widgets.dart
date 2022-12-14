@@ -63,6 +63,7 @@ class WideButton extends StatelessWidget {
   final double? widthMultiplier;
 
   const WideButton({
+    super.key,
     required this.onTap,
     required this.text,
     required this.color,
@@ -111,8 +112,8 @@ class WideButton extends StatelessWidget {
                 Text(
                   text.toString(),
                   style: textColor == null
-                      ? MyTheme.mainTextTheme.headline4
-                      : MyTheme.mainTextTheme.headline4
+                      ? MyTheme.mainTextTheme.headlineMedium
+                      : MyTheme.mainTextTheme.headlineMedium
                           ?.copyWith(color: textColor),
                 ),
               ],

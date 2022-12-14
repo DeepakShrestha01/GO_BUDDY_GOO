@@ -14,6 +14,7 @@ import 'common/routes/routes.dart';
 import 'common/services/get_it.dart';
 import 'common/services/hive.dart';
 import 'configs/theme.dart';
+import 'modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'modules/internet_connection/service/internet_check/int_check_cubit.dart';
 
 Future<void> main() async {
@@ -39,6 +40,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) {
+              return BusSearchListCubit()..getNewBusSearchResult();
+            },
+          ),
           BlocProvider(
             create: (context) {
               return IntCheckCubit()..checkInternet();

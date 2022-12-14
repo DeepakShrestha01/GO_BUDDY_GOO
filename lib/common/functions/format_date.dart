@@ -70,6 +70,11 @@ class DateTimeFormatter {
     return "${dateTime.day} ${getMonthString(dateTime.month)}, ${dateTime.year}";
   }
 
+  // new bus  search date
+  static String newBusformatDate(DateTime dateTime) {
+    return "${dateTime.year} ${getMonthString(dateTime.month)}, ${dateTime.day}";
+  }
+
   static String formatDateTime(DateTime dateTime) {
     return "${dateTime.day}, ${getMonthString(dateTime.month)}, ${dateTime.year}   ||   ${dateTime.hour.toString().padLeft(2, '0')} : ${dateTime.minute.toString().padLeft(2, '0')}";
   }

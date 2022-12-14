@@ -5,22 +5,23 @@ import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/get_it.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/bus_list_display.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/buslist_toppart.dart';
 
-class NewBusSearchList extends StatelessWidget {
-  const NewBusSearchList({super.key});
+import '../widgets/bus_search_list_widget.dart';
+import '../widgets/buslist_toppart.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<BusSearchListCubit>(
-      create: (context) {
-        return BusSearchListCubit();
-      },
-      child: const NewBusSearchListBody(),
-    );
-  }
-}
+// class NewBusSearchList extends StatelessWidget {
+//   const NewBusSearchList({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider<BusSearchListCubit>(
+//       create: (context) {
+//         return BusSearchListCubit();
+//       },
+//       child: const NewBusSearchListBody(),
+//     );
+//   }
+// }
 
 class NewBusSearchListBody extends StatefulWidget {
   const NewBusSearchListBody({super.key});
@@ -34,12 +35,15 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
   void initState() {
     super.initState();
     BlocProvider.of<BusSearchListCubit>(context).getNewBusSearchResult();
+    BlocProvider.of<BusSearchListCubit>(context).buses;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final BusSearchListCubit cubit =
         BlocProvider.of<BusSearchListCubit>(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -70,29 +74,44 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          BusListTopPart(
-            from: cubit.parameters.from.toString(),
-            to: cubit.parameters.to.toString(),
-            date: cubit.parameters.departureDate!,
-          ),
-          BlocBuilder<BusSearchListCubit, BusSearchListState>(
-            builder: (context, state) {
-              if (state is BusSearchListSuccessState) {
-                ListView.separated(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            BusListTopPart(
+              from: cubit.parameters.from.toString(),
+              to: cubit.parameters.to.toString(),
+              date: cubit.parameters.departureDate!,
+              shift: cubit.parameters.shift.toString(),
+              noOfBuses: cubit.buses,
+            ),
+            const SizedBox(height: 20),
+            BlocBuilder<BusSearchListCubit, BusSearchListState>(
+              builder: (context, state) {
+                if (state is BusSearchListSuccessState) {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return const BusListDisplay();
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/newbusSearchDetail');
+                        },
+                        child: BusSeachlistWidget(
+                          data: state.response.buses![index],
+                        ),
+                      );
                     },
                     separatorBuilder: (context, index) {
-                      return const SizedBox(height: 1);
+                      return const SizedBox(height: 10);
                     },
-                    itemCount: cubit.newBuses.length);
-              }
-              return Container();
-            },
-          )
-        ],
+                    itemCount: state.response.buses!.length,
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            )
+          ],
+        ),
       ),
     );
   }

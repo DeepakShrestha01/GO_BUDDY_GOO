@@ -105,7 +105,7 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
     );
 
     departureDate = selectedDate;
-    departureDateS = DateTimeFormatter.formatDate(departureDate!);
+    departureDateS = DateTimeFormatter.newBusformatDate(departureDate!);
 
     setState(() {});
   }
@@ -117,7 +117,7 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
 
     cityList = locator<CityList>();
     departureDate = DateTime.now();
-    departureDateS = DateTimeFormatter.formatDate(departureDate!);
+    departureDateS = DateTimeFormatter.newBusformatDate(departureDate!);
 
     shift ??= shiftList[0];
   }
@@ -273,7 +273,6 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                                         toController.text = suggestion.value;
 
                                         to = suggestion.value;
-                                        // toId = suggestion.id;
 
                                         setState(() {});
                                       },
@@ -376,17 +375,6 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                   parameters.shift = shift;
 
                   Get.toNamed('/newBusList');
-
-                  // BusBookingDetailParameters parameters =
-                  //     locator<BusBookingDetailParameters>();
-                  // parameters.from = from;
-                  // parameters.fromId = fromId;
-                  // parameters.to = to;
-                  // parameters.toId = toId;
-                  // parameters.departureDate = departureDate;
-                  // parameters.shift = shift;
-
-                  // Get.toNamed("/busList");
                 }
               },
               child: Container(

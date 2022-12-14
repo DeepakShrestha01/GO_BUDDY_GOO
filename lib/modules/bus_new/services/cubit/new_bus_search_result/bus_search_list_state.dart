@@ -7,6 +7,10 @@ class BusSearchListInitial extends BusSearchListState {}
 
 class BusSearchListLoadingState extends BusSearchListState {}
 
-class BusSearchListSuccessState extends BusSearchListState {}
+class BusSearchListSuccessState extends BusSearchListState {
+  final NewBusSearchListResponse response;
+
+  BusSearchListSuccessState({required this.response});
+}
 
 class BusSearchListErrorState extends BusSearchListState {}
