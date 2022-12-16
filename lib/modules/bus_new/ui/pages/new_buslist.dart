@@ -82,7 +82,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
               to: cubit.parameters.to.toString(),
               date: cubit.parameters.departureDate!,
               shift: cubit.parameters.shift.toString(),
-              noOfBuses: cubit.buses,
+              noOfBuses: cubit.parameters.buses,
             ),
             const SizedBox(height: 20),
             BlocBuilder<BusSearchListCubit, BusSearchListState>(
@@ -94,7 +94,8 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.toNamed('/newbusSearchDetail');
+                          Get.toNamed('/newbusSearchDetail',
+                              arguments: state.response.buses?[index]);
                         },
                         child: BusSeachlistWidget(
                           data: state.response.buses![index],

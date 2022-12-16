@@ -24,6 +24,8 @@ class BusDetailPage extends StatelessWidget {
 }
 
 class BusDetailBody extends StatefulWidget {
+  const BusDetailBody({super.key});
+
   @override
   _BusDetailBodyState createState() => _BusDetailBodyState();
 }
@@ -54,7 +56,7 @@ class _BusDetailBodyState extends State<BusDetailBody> {
           "Bus Detail",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(

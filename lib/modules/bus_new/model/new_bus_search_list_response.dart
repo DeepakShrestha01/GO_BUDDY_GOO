@@ -44,11 +44,11 @@ class Buses {
   int? noOfColumn;
   // double? rating;
   // List<dynamic>? imgList;
-  // List<String>? amenities;
+  List<String>? amenities;
   // List<dynamic>? detailImage;
   int? ticketPrice;
   // List<dynamic>? passengerDetail;
-  // List<SeatLayout>? seatLayout;
+  List<SeatLayout>? seatLayout;
   String? operatorName;
   // double? commission;
 
@@ -69,11 +69,11 @@ class Buses {
     this.noOfColumn,
     // this.rating,
     // this.imgList,
-    // this.amenities,
+    this.amenities,
     // this.detailImage,
     this.ticketPrice,
     // this.passengerDetail,
-    // this.seatLayout,
+    this.seatLayout,
     this.operatorName,
     // this.commission
   });
@@ -101,7 +101,7 @@ class Buses {
     //     imgList!.add(Buses.fromJson(v));
     //   });
     // }
-    // amenities = json['amenities'].cast<String>();
+    amenities = json['amenities'].cast<String>();
     // detailImage = List<dynamic>.from(json["detail_image"].map((x) => x));
     // if (json['detail_image'] != null) {
     //   detailImage = <Buses>[];
@@ -118,12 +118,12 @@ class Buses {
     //     passengerDetail!.add(Buses.fromJson(v));
     //   });
     // }
-    // if (json['seat_layout'] != null) {
-    //   seatLayout = <SeatLayout>[];
-    //   json['seat_layout'].forEach((v) {
-    //     seatLayout!.add(SeatLayout.fromJson(v));
-    //   });
-    // }
+    if (json['seat_layout'] != null) {
+      seatLayout = <SeatLayout>[];
+      json['seat_layout'].forEach((v) {
+        seatLayout!.add(SeatLayout.fromJson(v));
+      });
+    }
     operatorName = json['operator_name'];
     // commission = json['commission'];
   }
@@ -148,7 +148,7 @@ class Buses {
     // if (imgList != null) {
     //   data['img_list'] = imgList!.map((v) => v.toJson()).toList();
     // }
-    // data['amenities'] = amenities;
+    data['amenities'] = amenities;
     // if (detailImage != null) {
     //   data['detail_image'] = detailImage!.map((v) => v.toJson()).toList();
     // }
@@ -157,9 +157,9 @@ class Buses {
     //   data['passenger_detail'] =
     //       passengerDetail!.map((v) => v.toJson()).toList();
     // }
-    // if (seatLayout != null) {
-    //   data['seat_layout'] = seatLayout!.map((v) => v.toJson()).toList();
-    // }
+    if (seatLayout != null) {
+      data['seat_layout'] = seatLayout!.map((v) => v.toJson()).toList();
+    }
     data['operator_name'] = operatorName;
     // data['commission'] = commission;
     return data;
