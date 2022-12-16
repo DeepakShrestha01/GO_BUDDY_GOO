@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
 
 class NewBusSeatsAndOthers extends StatefulWidget {
@@ -23,10 +24,8 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
     );
   }
 
-  buildBusSeat(SeatLayout seatLayout) {
-    String image = "assets/images/seat_booked.png";
-    Color? imageColor;
-    if (seatLayout.bookingStatus == "na") {
+  buildBusSeat(SeatLayout busSeats) {
+    if (busSeats.bookingStatus == "na") {
       return Container(
         height: 30,
         width: 30,
@@ -34,18 +33,38 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
       );
     }
 
-    if (seatLayout.bookingStatus == 'No') {
-      return Image.asset(
-        'assets/images/seat_available.png',
-        scale: 2.5,
-      );
-    } else if (seatLayout.bookingStatus == 'Yes') {
+    if (busSeats.bookingStatus == 'No') {
+      return isChooseSeat
+          ? Image.asset(
+              'assets/images/seat_available.png',
+              color: MyTheme.primaryColor,
+              scale: 2.5,
+            )
+          : Image.asset(
+              'assets/images/seat_available.png',
+              scale: 2.5,
+            );
+    } else if (busSeats.bookingStatus == 'Yes') {
       return Image.asset(
         'assets/images/seat_booked.png',
         scale: 2.5,
       );
     }
+    return GestureDetector(
+      onTap: () {
+        if (busSeats.displayName != null) {
+          if (selectedSeats.contains(busSeats)) {
+            busSeats.bookingStatus == 'No';
+            selectedSeats.remove(busSeats);
+          }
+        }
+      },
+    );
   }
+
+  bool isChooseSeat = false;
+
+  List<SeatLayout> selectedSeats = [];
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +118,11 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: widget.buses.noOfColumn!),
                         itemBuilder: (context, index) {
-                          return Center(
-                            child:
-                                buildBusSeat(widget.buses.seatLayout![index]),
+                          return GestureDetector(
+                            child: Center(
+                              child:
+                                  buildBusSeat(widget.buses.seatLayout![index]),
+                            ),
                           );
                         },
                       )
