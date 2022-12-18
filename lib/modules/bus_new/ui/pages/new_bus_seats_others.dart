@@ -4,8 +4,6 @@ import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 
-import '../../../../common/widgets/common_widgets.dart';
-
 class NewBusSeatsAndOthers extends StatefulWidget {
   Buses buses;
   NewBusSeatsAndOthers({
@@ -29,6 +27,7 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
   }
 
   buildBusSeat(SeatLayout busSeats, bool selecteSeat) {
+    print('mySelectttt : $selecteSeat');
     if (busSeats.bookingStatus == "na") {
       return Container(
         height: 30,
@@ -38,7 +37,7 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
     }
 
     if (busSeats.bookingStatus == 'No') {
-      return selecteSeat
+      return selecteSeat == true
           ? Image.asset(
               'assets/images/seat_available.png',
               color: MyTheme.primaryColor,
@@ -54,30 +53,13 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
         scale: 2.5,
       );
     }
-    return GestureDetector(
-      onTap: () {
-        if (busSeats.displayName != null) {
-          if (selectedSeats.contains(busSeats)) {
-            busSeats.bookingStatus == 'Yes';
-            selectedSeats.remove(busSeats);
-          } else {
-            if (selectedSeats.length < 6) {
-              busSeats.bookingStatus == "No";
-              selectedSeats.add(busSeats);
-            } else {
-              showToast(text: "You can only book 6 seats in one booking.");
-            }
-          }
-        }
-      },
-    );
   }
 
-  bool isChooseSeat = false;
-  final List<bool> _isSelectedA = List.generate(50, (index) {
-    return false;
-  });
-  List<SeatLayout> selectedSeats = [];
+  List<bool> isChooseSeat = List.generate(20, (index) => false);
+  // final List<bool> _isSelectedA = List.generate(50, (index) {
+  //   return false;
+  // });
+  List<dynamic> selectedSeats = [];
 
   @override
   Widget build(BuildContext context) {
@@ -138,41 +120,28 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              if (widget.buses.seatLayout?[index].displayName !=
-                                  null) {
-                                if (selectedSeats.contains(
-                                    widget.buses.seatLayout?[index])) {
-                                  widget.buses.seatLayout?[index]
-                                          .bookingStatus ==
-                                      'Yes';
-                                  selectedSeats
-                                      .remove(widget.buses.seatLayout?[index]);
-                                } else {
-                                  if (selectedSeats.length < 6) {
-                                    widget.buses.seatLayout?[index]
-                                            .bookingStatus ==
-                                        "No";
-                                    selectedSeats
-                                        .add(widget.buses.seatLayout![index]);
-                                  } else {
-                                    showToast(
-                                        text:
-                                            "You can only book 6 seats in one booking.");
-                                  }
-                                }
+                              var seatNo =
+                                  widget.buses.seatLayout![index].displayName;
+                              isChooseSeat[index] = !isChooseSeat[index];
+                              if (selectedSeats.contains(seatNo)) {
+                                selectedSeats.remove(seatNo);
+                              } else {
+                                selectedSeats.add(seatNo);
                               }
-                            },
-                            // onTap: () {
-                            //   _isSelectedA[index] = !_isSelectedA[index];
-                            //   // selectedSeats.add(value);
 
-                            //   print('printed seat$index');
-                            //   setState(() {});
-                            // },
+                              // selectedSeats.add(
+                              //     widget.buses.seatLayout![index].displayName);
+
+                              print(
+                                  'printed seat${widget.buses.seatLayout?[index].displayName}');
+                              setState(() {});
+
+                              print('no seats : $selectedSeats');
+                            },
                             child: Center(
                               child: buildBusSeat(
                                   widget.buses.seatLayout![index],
-                                  _isSelectedA[index]),
+                                  isChooseSeat[index]),
                             ),
                           );
                         },
@@ -180,129 +149,66 @@ class _NewBusSeatsAndOthersState extends State<NewBusSeatsAndOthers> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 200,
-                  color: Colors.red,
+                const SizedBox(height: 10),
+                Center(
+                  child: SizedBox(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          height: 5,
+                          width: MediaQuery.of(context).size.width,
+                          color: MyTheme.primaryColor,
+                        ),
+                        Positioned(
+                          left: 20,
+                          top: 12,
+                          child: Column(
+                            children: [
+                              Text(parameters.from.toString()),
+                              const SizedBox(height: 3),
+                              Container(
+                                height: 20.0,
+                                width: 20.0,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: MyTheme.primaryColor,
+                                ),
+                              ),
+                              Text(
+                                widget.buses.departureTime.toString(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          right: 20,
+                          top: 12,
+                          child: Column(
+                            children: [
+                              Text(parameters.to.toString()),
+                              const SizedBox(height: 3),
+                              Container(
+                                height: 20.0,
+                                width: 20.0,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: MyTheme.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
           ),
         ),
-        const SizedBox(height: 10),
-
-        Positioned(
-          top: 20,
-          child: Container(
-            height: 50,
-            color: Colors.black,
-          ),
-        )
-
-        // Positioned(
-        //   bottom: -10,
-        //   child: Container(
-        //     decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-        //     height: 75,
-        //     width: MediaQuery.of(context).size.width,
-        //     padding: const EdgeInsets.symmetric(horizontal: 5),
-        //     child: Row(
-        //       children: [
-        //         Expanded(
-        //           child: Center(
-        //             child: Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //               children: [
-        //                 Expanded(
-        //                   child: Column(
-        //                     mainAxisAlignment: MainAxisAlignment.center,
-        //                     crossAxisAlignment: CrossAxisAlignment.start,
-        //                     children: const [
-        //                       Text(
-        //                         "Selected Seats",
-        //                         style: TextStyle(
-        //                           color: Colors.white,
-        //                           fontSize: 12,
-        //                         ),
-        //                       ),
-        //                       // Text(
-        //                       //   getSelectedSeatsName(),
-        //                       //   maxLines: 2,
-        //                       //   overflow: TextOverflow.ellipsis,
-        //                       //   style: const TextStyle(color: Colors.white),
-        //                       // ),
-        //                     ],
-        //                   ),
-        //                 ),
-        //                 const SizedBox(width: 3),
-        //                 Column(
-        //                   mainAxisAlignment: MainAxisAlignment.center,
-        //                   crossAxisAlignment: CrossAxisAlignment.end,
-        //                   children: const [
-        //                     Text(
-        //                       "Total Price",
-        //                       style: TextStyle(
-        //                         color: Colors.white,
-        //                         fontSize: 12,
-        //                       ),
-        //                     ),
-        //                     // Text(
-        //                     //   "Rs. ${getInitialTotalAmount().toStringAsFixed(2)}",
-        //                     //   style: const TextStyle(color: Colors.white),
-        //                     // ),
-        //                   ],
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(width: 3),
-        //         ElevatedButton(
-        //           style: ElevatedButton.styleFrom(
-        //             backgroundColor: Colors.white,
-        //             padding: const EdgeInsets.symmetric(horizontal: 3),
-        //           ),
-        //           onPressed: () {
-        //             // if (selectedBusSeats.isNotEmpty) {
-        //             //   if (HiveUser.getLoggedIn()) {
-        //             //     parameters.selectedSeats = selectedBusSeats;
-        //             //     Get.toNamed("/busBookingConfirm")?.whenComplete(() {
-        //             //       BlocProvider.of<BusDetailCubit>(context).getBusDetail(
-        //             //         busId: parameters.selectedBusId,
-        //             //         bookingDate: DateTimeFormatter.formatDateServer(
-        //             //             parameters.departureDate),
-        //             //       );
-        //             //     });
-        //             //   } else {
-        //             //     Get.toNamed("/accountPage");
-        //             //   }
-        //             // } else {
-        //             //   showToast(text: "No seat selected.");
-        //             // }
-        //           },
-        //           child: Row(
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             mainAxisSize: MainAxisSize.min,
-        //             children: [
-        //               Text(
-        //                 "Proceed".toUpperCase(),
-        //                 style: TextStyle(
-        //                   color: Theme.of(context).primaryColor,
-        //                   fontWeight: FontWeight.w700,
-        //                 ),
-        //               ),
-        //               const SizedBox(width: 5),
-        //               Icon(
-        //                 Icons.arrow_forward_ios,
-        //                 color: Theme.of(context).primaryColor,
-        //                 size: 20,
-        //               ),
-        //             ],
-        //           ),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }
