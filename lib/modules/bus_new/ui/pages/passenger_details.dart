@@ -129,6 +129,56 @@ class _PassengerDetailsState extends State<PassengerDetails> {
                   _nameController.text,
                   buses.date);
             }
+            showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Payment Options",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Wrap(
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              // KhaltiScope.of(context).pay(
+                              //     config: PaymentConfig(
+                              //       amount:
+                              //           (widget.cubit.finalTotalPrice! * 100)
+                              //               .toInt(),
+                              //       productIdentity:
+                              //           "bus_${randomAlphaNumeric(10)}",
+                              //       productName:
+                              //           "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
+                              //       productUrl: callBackUrl,
+                              //     ),
+                              //     onSuccess: onSuccess,
+                              //     onFailure: onFailure);
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
           },
           child: Text(
             "Payment",

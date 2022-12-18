@@ -64,6 +64,9 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
 
   List<String> selectedSeats = [];
 
+ 
+   
+
   @override
   Widget build(BuildContext context) {
     final BusSearchListCubit cubit =
