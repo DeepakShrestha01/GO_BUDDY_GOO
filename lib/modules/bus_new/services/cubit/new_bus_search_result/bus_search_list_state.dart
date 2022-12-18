@@ -14,3 +14,15 @@ class BusSearchListSuccessState extends BusSearchListState {
 }
 
 class BusSearchListErrorState extends BusSearchListState {}
+class SelectBusSuccessState extends BusSearchListState {}
+class SelectBusErrorState extends BusSearchListState {}
+class SelectBusLoadingState extends BusSearchListState {}
+
+class PassengerDetailsLoadingState extends BusSearchListState {}
+class PassengerDetailsSuccessState extends BusSearchListState {}
+class PassengerDetailsErrorState extends BusSearchListState {}
+
+
+
+
+
