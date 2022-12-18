@@ -30,7 +30,7 @@ class NewBusSearchListResponse {
 class Buses {
   String? id;
   String? operator;
-  // String? date;
+  String? date;
   // String? faceImage;
   // String? busNo;
   String? busType;
@@ -55,7 +55,7 @@ class Buses {
   Buses({
     this.id,
     this.operator,
-    // this.date,
+    this.date,
     // this.faceImage,
     // this.busNo,
     this.busType,
@@ -81,7 +81,7 @@ class Buses {
   Buses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     operator = json['operator'];
-    // date = json['date'];
+    date = json['date'];
     // faceImage = json['face_image'];
     // busNo = json['bus_no'];
     busType = json['bus_type'];
@@ -132,7 +132,7 @@ class Buses {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['operator'] = operator;
-    // data['date'] = date;
+    data['date'] = date;
     // data['face_image'] = faceImage;
     // data['bus_no'] = busNo;
     data['bus_type'] = busType;

@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
 
 class NewBusSearchListParameters {
@@ -6,6 +8,7 @@ class NewBusSearchListParameters {
   DateTime? departureDate;
   String? shift;
   List<Buses>? buses;
+  List<String>? seats = [];
 
   void clearAllField() {
     from = null;
@@ -13,6 +16,7 @@ class NewBusSearchListParameters {
     departureDate = null;
     shift = null;
     buses = null;
+    seats = null;
   }
 
   static final NewBusSearchListParameters _busSearchListParameters =

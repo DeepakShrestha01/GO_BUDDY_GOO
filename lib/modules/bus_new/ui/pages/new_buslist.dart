@@ -9,20 +9,6 @@ import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_searc
 import '../widgets/bus_search_list_widget.dart';
 import '../widgets/buslist_toppart.dart';
 
-// class NewBusSearchList extends StatelessWidget {
-//   const NewBusSearchList({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider<BusSearchListCubit>(
-//       create: (context) {
-//         return BusSearchListCubit();
-//       },
-//       child: const NewBusSearchListBody(),
-//     );
-//   }
-// }
-
 class NewBusSearchListBody extends StatefulWidget {
   const NewBusSearchListBody({super.key});
 
@@ -94,8 +80,10 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.toNamed('/newbusSearchDetail',
-                              arguments: state.response.buses?[index]);
+                          Get.toNamed('/newbusSearchDetail', arguments: [
+                            state.response.buses?[index],
+                            state.response.sessionId
+                          ]);
                         },
                         child: BusSeachlistWidget(
                           data: state.response.buses![index],

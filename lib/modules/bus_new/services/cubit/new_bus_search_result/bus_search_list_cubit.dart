@@ -17,8 +17,11 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
 
   List<Buses>? buses = [];
   int? sessionId;
+  String? busID;
   List<String>? boardingPoint;
   String? ticketSerialNo;
+
+  List<String>? selectedSeats;
   NewBusSearchListParameters parameters = NewBusSearchListParameters();
 
   void getNewBusSearchResult() async {
@@ -33,7 +36,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       var errorResponse = NewBusErrorResponse.fromJson(response.data);
       if (responsedata.status == true) {
         buses = responsedata.buses;
-        sessionId = responsedata.sessionId;
+        // sessionId = responsedata.sessionId;
         emit(BusSearchListSuccessState(response: responsedata));
       }
 
@@ -43,14 +46,28 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     }
   }
 
-  void postSelectedBus(String busId, List<String> seats) async {
-    emit(SelectBusLoadingState());
-    Response response =
-        await DioHttpService().handlePostRequest('bus/select/', data: {
-      'session_id': sessionId,
+// -----------------------------------------------------------
+  String getBusSeatReservedString(String busSeat) {
+    return "[$busSeat]";
+  }
+
+  void postSelectedBus(
+    String busId,
+    int sessionID,
+  ) async {
+    busID = busId;
+    sessionId = sessionID;
+    selectedSeats = parameters.seats;
+
+    FormData formData = FormData.fromMap({
+      'session_id': sessionID,
       'bus_id': busId,
-      'seats': seats,
     });
+    for (String seat in selectedSeats!) {
+      formData.fields.add(MapEntry('seats', getBusSeatReservedString(seat)));
+    }
+    Response response =
+        await DioHttpService().handlePostRequest('bus/select/', data: formData);
 
     if (response.statusCode == 200) {
       var responsedata = SelectBusResponse.fromJson(response.data);
@@ -58,7 +75,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       if (responseError.status == true) {
         boardingPoint = responsedata.detail?.boardingPoint;
         ticketSerialNo = responsedata.detail?.ticketSerialNo;
-        emit(SelectBusSuccessState());
       } else if (responseError.status == false) {
         showToast(text: '${responseError.details}');
         emit(SelectBusErrorState());
@@ -66,23 +82,32 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     }
   }
 
-  void passengerDetails(
-    int mobileNumber,
-    String? email,
-    String? name,
-    DateTime boardingDate,
-    List<String> seats,
-  ) async {
-    Response response =
-        await DioHttpService().handlePostRequest('passengers/details/', data: {
+// --------------------------------------------------------------
+
+  String getBusSeatSelected(String busSeat) {
+    return "[$busSeat]";
+  }
+  void passengerDetails(String mobileNumber, String? email, String? name,
+      String? boardingDate) async {
+    FormData formData = FormData.fromMap({
       'session_id': sessionId,
+      'bus_id': busID,
       'ticket_serial_no': ticketSerialNo,
       'mobile_number': mobileNumber,
       'boarding_point': boardingPoint,
+      'boarding_date': boardingDate,
       'email': email,
       'name': name,
-      'seats': []
     });
+
+    for (String seat in selectedSeats!) {
+      formData.fields.add(MapEntry('seats', getBusSeatSelected(seat)));
+    }
+
+    Response response = await DioHttpService().handlePostRequest(
+      'bus/passengers/details/',
+      data: formData,
+    );
 
     if (response.statusCode == 200) {
       var responseData = PassengerDetailsResponse.fromJson(response.data);
