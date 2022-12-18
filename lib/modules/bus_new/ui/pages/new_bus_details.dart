@@ -64,11 +64,11 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
 
   List<String> selectedSeats = [];
 
- 
-   
-
   @override
   Widget build(BuildContext context) {
+    var totalprice = '${buses.ticketPrice! * selectedSeats.length}';
+    parameters.totalprice = int.parse(totalprice);
+
     final BusSearchListCubit cubit =
         BlocProvider.of<BusSearchListCubit>(context);
     return Scaffold(
@@ -270,22 +270,8 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                       fontSize: 13,
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(
-                width: 55,
-              ),
-              Column(
-                children: [
-                  const Text(
-                    'Total Price',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                    ),
-                  ),
                   Text(
-                    '${buses.ticketPrice! * selectedSeats.length}',
+                    'Total Price : ${buses.ticketPrice! * selectedSeats.length}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -293,49 +279,49 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                   )
                 ],
               ),
-              const SizedBox(width: 10),
-              Center(
-                child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                    onPressed: () {
-                      // parameters.seats = selectedSeats;
-                      // BlocProvider.of<BusSearchListCubit>(context)
-                      //     .postSelectedBus(
-                      //   buses.id.toString(),
-                      //   sessionid,
-                      // );
+              const SizedBox(
+                width: 55,
+              ),
+              ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  onPressed: () {
+                    // parameters.seats = selectedSeats;
+                    // BlocProvider.of<BusSearchListCubit>(context)
+                    //     .postSelectedBus(
+                    //   buses.id.toString(),
+                    //   sessionid,
+                    // );
 
-                      if (selectedSeats.isNotEmpty) {
-                        if (HiveUser.getLoggedIn()) {
-                          parameters.seats = selectedSeats;
-                          BlocProvider.of<BusSearchListCubit>(context)
-                              .postSelectedBus(
-                            buses.id.toString(),
-                            sessionid,
-                          );
-                          Get.toNamed('/passengerDetails', arguments: buses);
-                        } else {
-                          Get.toNamed("/accountPage");
-                        }
+                    if (selectedSeats.isNotEmpty) {
+                      if (HiveUser.getLoggedIn()) {
+                        parameters.seats = selectedSeats;
+                        BlocProvider.of<BusSearchListCubit>(context)
+                            .postSelectedBus(
+                          buses.id.toString(),
+                          sessionid,
+                        );
+                        Get.toNamed('/passengerDetails', arguments: buses);
                       } else {
-                        showToast(text: "No seat selected.");
+                        Get.toNamed("/accountPage");
                       }
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Proceed'.toUpperCase(),
-                          style: const TextStyle(color: MyTheme.primaryColor),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20,
-                          color: MyTheme.primaryColor,
-                        )
-                      ],
-                    )),
-              )
+                    } else {
+                      showToast(text: "No seat selected.");
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Proceed'.toUpperCase(),
+                        style: const TextStyle(color: MyTheme.primaryColor),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                        color: MyTheme.primaryColor,
+                      )
+                    ],
+                  ))
             ],
           ),
         ),

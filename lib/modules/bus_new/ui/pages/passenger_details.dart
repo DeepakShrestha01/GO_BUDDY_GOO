@@ -6,6 +6,10 @@ import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/passenge_details_input_widget.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:random_string/random_string.dart';
+
+import '../../model/new_busbooking_list_parameter.dart';
 
 class PassengerDetails extends StatefulWidget {
   const PassengerDetails({super.key});
@@ -33,6 +37,8 @@ class _PassengerDetailsState extends State<PassengerDetails> {
     _keyName = GlobalKey<AnimatorWidgetState>();
     _keyMobileNumber = GlobalKey<AnimatorWidgetState>();
   }
+
+  NewBusSearchListParameters parameters = NewBusSearchListParameters();
 
   @override
   Widget build(BuildContext context) {
@@ -128,57 +134,74 @@ class _PassengerDetailsState extends State<PassengerDetails> {
                   _emailController.text,
                   _nameController.text,
                   buses.date);
-            }
-            showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Payment Options",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+              showModalBottomSheet(
+                context: context,
+                isDismissible: true,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                barrierColor: Colors.black12.withOpacity(0.75),
+                builder: (context) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
                       ),
-                      const SizedBox(height: 20.0),
-                      Wrap(
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              // KhaltiScope.of(context).pay(
-                              //     config: PaymentConfig(
-                              //       amount:
-                              //           (widget.cubit.finalTotalPrice! * 100)
-                              //               .toInt(),
-                              //       productIdentity:
-                              //           "bus_${randomAlphaNumeric(10)}",
-                              //       productName:
-                              //           "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
-                              //       productUrl: callBackUrl,
-                              //     ),
-                              //     onSuccess: onSuccess,
-                              //     onFailure: onFailure);
-                            },
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              },
-            );
+                    ),
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Payment Options",
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Wrap(
+                          spacing: 40.0,
+                          runSpacing: 40.0,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                KhaltiScope.of(context).pay(
+                                  config: PaymentConfig(
+                                    amount: parameters.totalprice! * 100,
+                                    productIdentity:
+                                        'bus_${randomAlphaNumeric(10)}',
+                                    productName:
+                                        'Go  Buddy Goo Payment for bus',
+                                  ),
+                                  preferences: [
+                                    PaymentPreference.khalti,
+                                  ],
+                                  onSuccess: (value) {},
+                                  onFailure: (value) {},
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/khalti.png",
+                                    height: 50,
+                                  ),
+                                  const Text("Pay with Khalti"),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
           },
           child: Text(
             "Payment",

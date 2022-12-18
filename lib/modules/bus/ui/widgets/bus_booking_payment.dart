@@ -258,7 +258,6 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                   runSpacing: 40.0,
                   alignment: WrapAlignment.center,
                   children: [
-
                     // khalti
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
@@ -398,7 +397,8 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                             },
                             onFailure: (result) {
                               showToast(
-                                text: "ConnectIPS Payment Error: ${result.message}",
+                                text:
+                                    "ConnectIPS Payment Error: ${result.message}",
                               );
                             },
                           );
@@ -419,7 +419,6 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
                         ],
                       ),
                     ),
-
 
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
