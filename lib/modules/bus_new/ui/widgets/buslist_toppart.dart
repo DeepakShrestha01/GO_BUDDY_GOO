@@ -56,12 +56,26 @@ class _BusListTopPartState extends State<BusListTopPart> {
             ),
           ),
           const SizedBox(height: 5),
-          Text(
-            '${DateTimeFormatter.newBusformatDate(widget.date)} | ${widget.noOfBuses?.length} | ${widget.shift.titleCase}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+          BlocBuilder<BusSearchListCubit, BusSearchListState>(
+            builder: (context, state) {
+              if (state is BusSearchListSuccessState) {
+                return Text(
+                  '${DateTimeFormatter.newBusformatDate(widget.date)} | ${state.response.buses?.length} | ${widget.shift.titleCase}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                );
+              } else {
+                return Text(
+                  '${DateTimeFormatter.newBusformatDate(widget.date)} | 0 | ${widget.shift.titleCase}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                );
+              }
+            },
           ),
         ],
       ),

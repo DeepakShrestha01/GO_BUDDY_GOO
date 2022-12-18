@@ -86,6 +86,8 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                           ]);
                         },
                         child: BusSeachlistWidget(
+
+                          sessionId: state.response.sessionId!,
                           data: state.response.buses![index],
                         ),
                       );

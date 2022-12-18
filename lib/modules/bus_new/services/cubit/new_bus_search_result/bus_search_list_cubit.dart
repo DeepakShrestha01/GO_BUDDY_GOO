@@ -87,6 +87,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   String getBusSeatSelected(String busSeat) {
     return "[$busSeat]";
   }
+
   void passengerDetails(String mobileNumber, String? email, String? name,
       String? boardingDate) async {
     FormData formData = FormData.fromMap({
