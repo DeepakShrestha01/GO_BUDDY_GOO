@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
@@ -36,9 +40,25 @@ class _PassengerDetailsState extends State<PassengerDetails> {
     _keyEmail = GlobalKey<AnimatorWidgetState>();
     _keyName = GlobalKey<AnimatorWidgetState>();
     _keyMobileNumber = GlobalKey<AnimatorWidgetState>();
+
+    countdownController = CountdownTimerController(
+      endTime: DateTime.now()
+          .add(const Duration(minutes: 9, seconds: 59))
+          .millisecondsSinceEpoch,
+      onEnd: () {
+        countdownController?.disposeTimer();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    countdownController?.dispose();
+    super.dispose();
   }
 
   NewBusSearchListParameters parameters = NewBusSearchListParameters();
+  CountdownTimerController? countdownController;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +71,38 @@ class _PassengerDetailsState extends State<PassengerDetails> {
               .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: CountdownTimer(
+              controller: countdownController,
+              textStyle: const TextStyle(color: Colors.white),
+              widgetBuilder: (_, CurrentRemainingTime? time) {
+                if (time == null) {
+                  return const Text('00:00',
+                      style: TextStyle(color: Colors.white));
+                }
+                String minString = "0${time.min ?? 0}";
+
+                String secString = time.sec.toString().length == 1
+                    ? "0${time.sec ?? 0}"
+                    : time.sec.toString();
+
+                return Text('$minString:$secString',
+                    style: const TextStyle(color: Colors.white));
+              },
+            ),
+          ),
+          const SizedBox(width: 5),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+                onTap: () {
+                  Get.offNamedUntil("/", (route) => false);
+                },
+                child: const Icon(CupertinoIcons.multiply_circle_fill)),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
