@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/widgets/custom_clip_shodow.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/home/ui/widgets/customShapeClipper.dart';
 import 'package:recase/recase.dart';
 
@@ -57,7 +59,7 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
 
   String? shift;
 
-  List<String> shiftList = [ "day", "night"];
+  List<String> shiftList = ['both', "day", "night"];
 
   showShiftMenu(BuildContext context, Offset offset) async {
     return showMenu(
@@ -372,6 +374,8 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                   parameters.to = to;
                   parameters.departureDate = departureDate;
                   parameters.shift = shift;
+                  BlocProvider.of<BusSearchListCubit>(context)
+                      .getNewBusSearchResult();
 
                   Get.toNamed('/newBusList');
                 }

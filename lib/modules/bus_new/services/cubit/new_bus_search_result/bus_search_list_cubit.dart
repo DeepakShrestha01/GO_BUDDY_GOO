@@ -67,6 +67,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     for (String seat in selectedSeats!) {
       formData.fields.add(MapEntry('seats', getBusSeatReservedString(seat)));
     }
+
     Response response =
         await DioHttpService().handlePostRequest('bus/select/', data: formData);
 
@@ -74,6 +75,8 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       var responsedata = SelectBusResponse.fromJson(response.data);
       var responseError = NewBusErrorResponse.fromJson(response.data);
       if (responseError.status == true) {
+        emit(SelectBusSuccessState(response: responsedata));
+
         boardingPoint = responsedata.detail?.boardingPoint;
         ticketSerialNo = responsedata.detail?.ticketSerialNo;
       } else if (responseError.status == false) {

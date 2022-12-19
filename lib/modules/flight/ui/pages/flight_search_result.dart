@@ -58,7 +58,7 @@ class _FlightSearchResultBodyState extends State<FlightSearchResultBody> {
           "Available Flights",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
@@ -200,9 +200,9 @@ class _FlightSearchResultBodyState extends State<FlightSearchResultBody> {
                                   SelectedFlights selectedFlights =
                                       locator<SelectedFlights>();
                                   selectedFlights
-                                      .selectInBound(cubit!.selectedInbound!);
+                                      .selectInBound(cubit!.selectedInbound);
                                   selectedFlights
-                                      .selectOutBound(cubit!.selectedOutbound!);
+                                      .selectOutBound(cubit!.selectedOutbound);
                                   bool loggedIn = HiveUser.getLoggedIn();
 
                                   if (loggedIn) {
@@ -258,9 +258,9 @@ class _FlightSearchResultBodyState extends State<FlightSearchResultBody> {
                                   SelectedFlights selectedFlights =
                                       locator<SelectedFlights>();
                                   selectedFlights
-                                      .selectInBound(cubit!.selectedInbound!);
+                                      .selectInBound(cubit!.selectedInbound);
                                   selectedFlights
-                                      .selectOutBound(cubit!.selectedOutbound!);
+                                      .selectOutBound(cubit!.selectedOutbound);
 
                                   bool loggedIn = HiveUser.getLoggedIn();
 

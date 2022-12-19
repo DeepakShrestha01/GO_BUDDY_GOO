@@ -99,7 +99,7 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
           "Flight Booking",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
@@ -225,7 +225,7 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
                           cubit.validateDetails();
                         },
                         style: ElevatedButton.styleFrom(
-                            foregroundColor: MyTheme.primaryColor),
+                            backgroundColor: MyTheme.primaryColor),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
@@ -854,8 +854,6 @@ class _FlightReserveBodyState extends State<FlightReserveBody> {
                     //     ],
                     //   ),
                     // ),
-
-
 
                     // GestureDetector(
                     //   behavior: HitTestBehavior.opaque,

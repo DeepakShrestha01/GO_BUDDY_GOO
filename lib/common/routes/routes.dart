@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus_boarding_points.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus_details.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_buslist.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/passenger_details.dart';
@@ -99,6 +100,7 @@ List<GetPage> routes = [
   GetPage(name: "/newBusList", page: () => const NewBusSearchListBody()),
   GetPage(name: "/newbusSearchDetail", page: () => const NewBusSearchDetails()),
   GetPage(name: "/passengerDetails", page: () => const PassengerDetails()),
+  GetPage(name: "/busBordingPoint", page: () => const NewBusBoardingPoints()),
 
   GetPage(name: "/rentalBookingSuccess", page: () => RentalBookingSuccess()),
   GetPage(name: "/busDetail", page: () => const BusDetailPage()),

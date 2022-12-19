@@ -37,7 +37,7 @@ class Buses {
   String? shift;
   String? departureTime;
   int? journeyHour;
-  // String? dateEn;
+  String? dateEn;
   // bool? lockStatus;
   // bool? multiPrice;
   // double? inputTypeCode;
@@ -62,7 +62,7 @@ class Buses {
     this.shift,
     this.departureTime,
     this.journeyHour,
-    // this.dateEn,
+    this.dateEn,
     // this.lockStatus,
     // this.multiPrice,
     // this.inputTypeCode,
@@ -88,7 +88,7 @@ class Buses {
     shift = json['shift'];
     departureTime = json['departure_time'];
     journeyHour = json['journey_hour'];
-    // dateEn = json['date_en'];
+    dateEn = json['date_en'];
     // lockStatus = json['lock_status'];
     // multiPrice = json['multi_price'];
     // inputTypeCode = json['input_type_code'];
@@ -139,7 +139,7 @@ class Buses {
     data['shift'] = shift;
     data['departure_time'] = departureTime;
     data['journey_hour'] = journeyHour;
-    // data['date_en'] = dateEn;
+    data['date_en'] = dateEn;
     // data['lock_status'] = lockStatus;
     // data['multi_price'] = multiPrice;
     // data['input_type_code'] = inputTypeCode;

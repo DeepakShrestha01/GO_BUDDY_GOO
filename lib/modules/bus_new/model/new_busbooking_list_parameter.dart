@@ -10,6 +10,8 @@ class NewBusSearchListParameters {
   List<Buses>? buses;
   List<String>? seats = [];
   int? totalprice;
+  // List<String>? selectedSeats = [];
+
 
   void clearAllField() {
     from = null;

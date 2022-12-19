@@ -60,10 +60,21 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
 
   List<String> selectedSeats = [];
 
+  List<String>? boardingPoint;
+
+  @override
+  void initState() {
+    parameters.seats = selectedSeats;
+    BlocProvider.of<BusSearchListCubit>(context)
+        .postSelectedBus(buses.id.toString(), sessionid);
+    setState(() {});
+
+    super.initState();
+  }
+
+  NewBusSearchListParameters parameters = NewBusSearchListParameters();
   @override
   Widget build(BuildContext context) {
-    NewBusSearchListParameters parameters = NewBusSearchListParameters();
-
     var totalprice = '${buses.ticketPrice! * selectedSeats.length}';
     parameters.totalprice = int.tryParse(totalprice);
     // assert(totalprice is int);
@@ -139,9 +150,24 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                                   ),
                                 ),
                                 const Divider(
-                                    height: 19,
-                                    thickness: 1,
-                                    color: Colors.grey),
+                                  height: 19,
+                                  thickness: 1,
+                                  color: Colors.grey,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/driver.png",
+                                        color: Colors.black,
+                                        scale: 2.5,
+                                      )
+                                    ],
+                                  ),
+                                ),
                                 GridView.builder(
                                   itemCount: buses.seatLayout?.length,
                                   shrinkWrap: true,
@@ -242,7 +268,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -254,75 +280,79 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 100,
+        height: 120,
         width: MediaQuery.of(context).size.width,
         color: MyTheme.primaryColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Selected Seats : ${selectedSeats.length}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Selected Seats : $selectedSeats',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      Text(
+                        'Total Price : ${buses.ticketPrice! * selectedSeats.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      )
+                    ],
                   ),
-                  Text(
-                    'Total Price : ${buses.ticketPrice! * selectedSeats.length}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  )
+                  const SizedBox(
+                    width: 55,
+                  ),
                 ],
               ),
-              const SizedBox(
-                width: 55,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () {
-                  // parameters.seats = selectedSeats;
-                  // BlocProvider.of<BusSearchListCubit>(context)
-                  //     .postSelectedBus(
-                  //   buses.id.toString(),
-                  //   sessionid,
-                  // );
-
-                  if (selectedSeats.isNotEmpty) {
-                    if (HiveUser.getLoggedIn()) {
-                      parameters.seats = selectedSeats;
-                      BlocProvider.of<BusSearchListCubit>(context)
-                          .postSelectedBus(
-                        buses.id.toString(),
-                        sessionid,
-                      );
-                      Get.toNamed('/passengerDetails', arguments: buses);
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  onPressed: () {
+                    if (selectedSeats.isNotEmpty) {
+                      if (HiveUser.getLoggedIn()) {
+                        parameters.seats = selectedSeats;
+                        BlocProvider.of<BusSearchListCubit>(context)
+                            .postSelectedBus(
+                          buses.id.toString(),
+                          sessionid,
+                        );
+                        Get.toNamed('/busBordingPoint',
+                            arguments: [buses, selectedSeats]);
+                      } else {
+                        Get.toNamed("/accountPage");
+                      }
                     } else {
-                      Get.toNamed("/accountPage");
+                      showToast(text: "No seat selected.");
                     }
-                  } else {
-                    showToast(text: "No seat selected.");
-                  }
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      'Proceed'.toUpperCase(),
-                      style: const TextStyle(color: MyTheme.primaryColor),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                      color: MyTheme.primaryColor,
-                    )
-                  ],
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'Proceed'.toUpperCase(),
+                        style: const TextStyle(color: MyTheme.primaryColor),
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                        color: MyTheme.primaryColor,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],

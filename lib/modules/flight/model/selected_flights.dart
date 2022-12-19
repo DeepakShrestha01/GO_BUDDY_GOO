@@ -4,11 +4,11 @@ class SelectedFlights {
   Bound? inBound;
   Bound? outBound;
 
-  selectInBound(Bound i) {
+  selectInBound(Bound? i) {
     inBound = i;
   }
 
-  selectOutBound(Bound o) {
+  selectOutBound(Bound? o) {
     outBound = o;
   }
 

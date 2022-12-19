@@ -34,11 +34,14 @@ class BusDetailsTopPartWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
-            operatorName,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              operatorName.titleCase,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
           ),
           Text(

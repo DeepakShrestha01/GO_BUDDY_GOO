@@ -116,6 +116,14 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
           ],
         ),
       ),
+      floatingActionButton: Container(
+        height: 60,
+        width: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.red,
+        ),
+      ),
     );
   }
 }

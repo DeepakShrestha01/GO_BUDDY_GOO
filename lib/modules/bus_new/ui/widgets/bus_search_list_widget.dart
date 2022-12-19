@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:recase/recase.dart';
 
 class BusSeachlistWidget extends StatelessWidget {
   final Buses data;
@@ -37,7 +38,7 @@ class BusSeachlistWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${data.operatorName}',
+                data.operatorName!.titleCase,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
