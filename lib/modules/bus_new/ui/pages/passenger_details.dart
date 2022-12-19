@@ -55,7 +55,7 @@ class _PassengerDetailsState extends State<PassengerDetails> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(13.0),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             child: Form(
               key: _formkey,
               child: Column(
@@ -108,7 +108,7 @@ class _PassengerDetailsState extends State<PassengerDetails> {
                             .hasMatch(x.toString())) {
                           _keyEmail?.currentState?.forward();
 
-                          return "Invalid email";
+                          return "Enter your valid email";
                         }
                         return null;
                       },
@@ -125,8 +125,9 @@ class _PassengerDetailsState extends State<PassengerDetails> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
         child: ElevatedButton(
-          style:
-              ElevatedButton.styleFrom(backgroundColor: MyTheme.primaryColor),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: MyTheme.primaryColor,
+              minimumSize: Size(MediaQuery.of(context).size.width, 50)),
           onPressed: () {
             if (_formkey.currentState!.validate()) {
               BlocProvider.of<BusSearchListCubit>(context).passengerDetails(

@@ -45,7 +45,7 @@ class BusDetailsTopPartWidget extends StatelessWidget {
             '$from to $to | ${DateTimeFormatter.formatDate(date!)} | ${shift.titleCase}',
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 12,
             ),
           ),
         ],

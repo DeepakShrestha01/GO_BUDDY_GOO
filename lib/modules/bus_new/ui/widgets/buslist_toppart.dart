@@ -60,7 +60,7 @@ class _BusListTopPartState extends State<BusListTopPart> {
             builder: (context, state) {
               if (state is BusSearchListSuccessState) {
                 return Text(
-                  '${DateTimeFormatter.newBusformatDate(widget.date)} | ${state.response.buses?.length} | ${widget.shift.titleCase}',
+                  '${DateTimeFormatter.newBusformatDate(widget.date)} | ${state.response.buses?.length} Buses | ${widget.shift.titleCase} Shift',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,

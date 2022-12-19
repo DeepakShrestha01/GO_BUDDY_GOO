@@ -170,11 +170,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                                           }
                                         }
 
-                                        print(
-                                            'printed seat${buses.seatLayout?[index].displayName}');
                                         setState(() {});
-
-                                        print('no seats : $selectedSeats');
                                       },
                                       child: Center(
                                         child: buildBusSeat(
@@ -258,23 +254,26 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
         width: MediaQuery.of(context).size.width,
         color: MyTheme.primaryColor,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Selected Seats : ${selectedSeats.length}',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 16,
                     ),
                   ),
                   Text(
                     'Total Price : ${buses.ticketPrice! * selectedSeats.length}',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
                   )
                 ],
@@ -283,45 +282,45 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                 width: 55,
               ),
               ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () {
-                    // parameters.seats = selectedSeats;
-                    // BlocProvider.of<BusSearchListCubit>(context)
-                    //     .postSelectedBus(
-                    //   buses.id.toString(),
-                    //   sessionid,
-                    // );
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                onPressed: () {
+                  // parameters.seats = selectedSeats;
+                  // BlocProvider.of<BusSearchListCubit>(context)
+                  //     .postSelectedBus(
+                  //   buses.id.toString(),
+                  //   sessionid,
+                  // );
 
-                    if (selectedSeats.isNotEmpty) {
-                      if (HiveUser.getLoggedIn()) {
-                        parameters.seats = selectedSeats;
-                        BlocProvider.of<BusSearchListCubit>(context)
-                            .postSelectedBus(
-                          buses.id.toString(),
-                          sessionid,
-                        );
-                        Get.toNamed('/passengerDetails', arguments: buses);
-                      } else {
-                        Get.toNamed("/accountPage");
-                      }
+                  if (selectedSeats.isNotEmpty) {
+                    if (HiveUser.getLoggedIn()) {
+                      parameters.seats = selectedSeats;
+                      BlocProvider.of<BusSearchListCubit>(context)
+                          .postSelectedBus(
+                        buses.id.toString(),
+                        sessionid,
+                      );
+                      Get.toNamed('/passengerDetails', arguments: buses);
                     } else {
-                      showToast(text: "No seat selected.");
+                      Get.toNamed("/accountPage");
                     }
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'Proceed'.toUpperCase(),
-                        style: const TextStyle(color: MyTheme.primaryColor),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: MyTheme.primaryColor,
-                      )
-                    ],
-                  ))
+                  } else {
+                    showToast(text: "No seat selected.");
+                  }
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      'Proceed'.toUpperCase(),
+                      style: const TextStyle(color: MyTheme.primaryColor),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: MyTheme.primaryColor,
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
