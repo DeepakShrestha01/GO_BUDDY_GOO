@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class BusSeachlistWidget extends StatelessWidget {
   final Buses data;
@@ -30,7 +29,7 @@ class BusSeachlistWidget extends StatelessWidget {
             ),
           ],
         ),
-        height: 265,
+        height: 270,
         width: MediaQuery.of(context).size.width,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -131,15 +130,15 @@ class BusSeachlistWidget extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 90),
-                          child: LinearPercentIndicator(
-                            barRadius: const Radius.circular(5),
-                            percent: data.seatLayout!.length / 20,
-                            progressColor: Colors.green,
-                            lineHeight: 7.5,
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(right: 90),
+                        //   child: LinearPercentIndicator(
+                        //     barRadius: const Radius.circular(5),
+                        //     percent: data.seatLayout!.length / 20,
+                        //     progressColor: Colors.green,
+                        //     lineHeight: 7.5,
+                        //   ),
+                        // ),
                         Text(
                           "${data.seatLayout?.length} Total Seats ",
                           style: const TextStyle(
@@ -179,6 +178,7 @@ class BusSeachlistWidget extends StatelessWidget {
                   itemCount: data.amenities?.length,
                   itemBuilder: (context, index) {
                     return Wrap(
+                      spacing: 10,
                       children: [
                         Row(
                           children: [
@@ -192,6 +192,7 @@ class BusSeachlistWidget extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(width: 5)
                       ],
                     );
                   },

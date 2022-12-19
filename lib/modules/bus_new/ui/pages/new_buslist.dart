@@ -75,10 +75,15 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
             BlocBuilder<BusSearchListCubit, BusSearchListState>(
               builder: (context, state) {
                 if (state is BusSearchListLoadingState) {
-                  const Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
+
+                if (state is BusSearchListErrorState) {
+                  return const NoResultWidget();
+                }
+
                 if (state is BusSearchListSuccessState) {
                   return ListView.separated(
                     shrinkWrap: true,
@@ -104,7 +109,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                   );
                 }
                 return const Center(
-                  child: NoResultWidget(),
+                  child: CircularProgressIndicator(),
                 );
               },
             )

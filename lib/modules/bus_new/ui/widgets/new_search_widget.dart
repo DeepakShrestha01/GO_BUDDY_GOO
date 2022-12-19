@@ -29,7 +29,6 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
 
   String? from, to;
 
-  int? fromId, toId;
   CityList? cityList;
 
   final fromController = TextEditingController();
@@ -58,7 +57,7 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
 
   String? shift;
 
-  List<String> shiftList = ["all", "day", "night"];
+  List<String> shiftList = [ "day", "night"];
 
   showShiftMenu(BuildContext context, Offset offset) async {
     return showMenu(

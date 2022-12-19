@@ -46,7 +46,7 @@ class Buses {
   // List<dynamic>? imgList;
   List<String>? amenities;
   // List<dynamic>? detailImage;
-  int? ticketPrice;
+  double? ticketPrice;
   // List<dynamic>? passengerDetail;
   List<SeatLayout>? seatLayout;
   String? operatorName;

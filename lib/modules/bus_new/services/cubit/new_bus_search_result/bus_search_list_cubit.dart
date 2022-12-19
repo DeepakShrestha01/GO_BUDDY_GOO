@@ -41,6 +41,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       }
 
       if (errorResponse.status == false) {
+        emit(BusSearchListErrorState());
         showToast(text: '${errorResponse.details}');
       }
     }

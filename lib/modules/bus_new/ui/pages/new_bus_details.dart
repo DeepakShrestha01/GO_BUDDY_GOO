@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
+import '../../../../configs/theme.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../model/new_bus_search_list_response.dart';
 import '../../services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
@@ -20,8 +20,6 @@ class NewBusSearchDetails extends StatefulWidget {
 class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
   Buses buses = Get.arguments[0];
   int sessionid = Get.arguments[1];
-
-  NewBusSearchListParameters parameters = NewBusSearchListParameters();
 
   buildBusSeatImage(String image, {Color? color}) {
     return Image.asset(
@@ -42,7 +40,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
     }
 
     if (busSeats.bookingStatus == 'No') {
-      return selecteSeat == true
+      return selecteSeat
           ? Image.asset(
               "assets/images/seat_selected_2.png",
               color: MyTheme.primaryColor,
@@ -53,21 +51,22 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
               scale: 2.5,
             );
     } else if (busSeats.bookingStatus == 'Yes') {
-      return Image.asset(
-        'assets/images/seat_booked.png',
-        scale: 2.5,
-      );
+      return Image.asset('assets/images/seat_booked.png',
+          scale: 2.5, color: Colors.purple);
     }
   }
 
-  List<bool> isChooseSeat = List.generate(30, (index) => false);
+  List<bool> isChooseSeat = List.generate(500, (index) => false);
 
   List<String> selectedSeats = [];
 
   @override
   Widget build(BuildContext context) {
+    NewBusSearchListParameters parameters = NewBusSearchListParameters();
+
     var totalprice = '${buses.ticketPrice! * selectedSeats.length}';
-    parameters.totalprice = int.parse(totalprice);
+    parameters.totalprice = int.tryParse(totalprice);
+    // assert(totalprice is int);
 
     final BusSearchListCubit cubit =
         BlocProvider.of<BusSearchListCubit>(context);
@@ -161,7 +160,12 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                                           selectedSeats.remove(seatNo);
                                         } else {
                                           if (selectedSeats.length < 6) {
-                                            selectedSeats.add(seatNo!);
+                                            if (buses.seatLayout?[index]
+                                                    .bookingStatus ==
+                                                'Yes') {
+                                            } else {
+                                              selectedSeats.add(seatNo!);
+                                            }
                                           } else {
                                             isChooseSeat[index] = false;
                                             showToast(
@@ -244,7 +248,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
