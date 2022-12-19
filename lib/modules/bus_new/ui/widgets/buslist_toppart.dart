@@ -68,7 +68,7 @@ class _BusListTopPartState extends State<BusListTopPart> {
                 );
               } else {
                 return Text(
-                  '${DateTimeFormatter.newBusformatDate(widget.date)} | 0 | ${widget.shift.titleCase}',
+                  '${DateTimeFormatter.newBusformatDate(widget.date)} | 0 Buses | ${widget.shift.titleCase} Shift',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,

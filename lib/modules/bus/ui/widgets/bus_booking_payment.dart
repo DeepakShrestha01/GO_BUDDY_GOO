@@ -340,155 +340,155 @@ class _BusBookingPaymentState extends State<BusBookingPayment> {
 
                     // connectIPS
 
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        if (widget.countDownController.currentRemainingTime !=
-                            null) {
-                          String minString = widget.countDownController
-                                      .currentRemainingTime?.min ==
-                                  null
-                              ? "0"
-                              : widget
-                                  .countDownController.currentRemainingTime!.min
-                                  .toString();
+                    // GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   onTap: () async {
+                    //     if (widget.countDownController.currentRemainingTime !=
+                    //         null) {
+                    //       String minString = widget.countDownController
+                    //                   .currentRemainingTime?.min ==
+                    //               null
+                    //           ? "0"
+                    //           : widget
+                    //               .countDownController.currentRemainingTime!.min
+                    //               .toString();
 
-                          String secString = widget.countDownController
-                                      .currentRemainingTime?.sec ==
-                                  null
-                              ? "0"
-                              : widget
-                                  .countDownController.currentRemainingTime!.sec
-                                  .toString();
+                    //       String secString = widget.countDownController
+                    //                   .currentRemainingTime?.sec ==
+                    //               null
+                    //           ? "0"
+                    //           : widget
+                    //               .countDownController.currentRemainingTime!.sec
+                    //               .toString();
 
-                          String timeRemText =
-                              "$minString minutes and $secString seconds ";
+                    //       String timeRemText =
+                    //           "$minString minutes and $secString seconds ";
 
-                          showToast(
-                            text: "You have $timeRemText to make the payment.",
-                            time: 5,
-                          );
+                    //       showToast(
+                    //         text: "You have $timeRemText to make the payment.",
+                    //         time: 5,
+                    //       );
 
-                          KhaltiScope.of(context).pay(
-                            config: PaymentConfig(
-                              amount:
-                                  (widget.cubit.finalTotalPrice! * 100).toInt(),
-                              productIdentity: "bus_${randomAlphaNumeric(10)}",
-                              productName:
-                                  "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
-                              productUrl: callBackUrl,
-                            ),
-                            preferences: [
-                              PaymentPreference.connectIPS,
-                            ],
-                            onSuccess: (result) {
-                              if (widget.countDownController
-                                      .currentRemainingTime !=
-                                  null) {
-                                // print(result.token);
+                    //       KhaltiScope.of(context).pay(
+                    //         config: PaymentConfig(
+                    //           amount:
+                    //               (widget.cubit.finalTotalPrice! * 100).toInt(),
+                    //           productIdentity: "bus_${randomAlphaNumeric(10)}",
+                    //           productName:
+                    //               "Go Buddy Goo Payment for ${widget.cubit.parameters?.selectedBus?.busTag}",
+                    //           productUrl: callBackUrl,
+                    //         ),
+                    //         preferences: [
+                    //           PaymentPreference.connectIPS,
+                    //         ],
+                    //         onSuccess: (result) {
+                    //           if (widget.countDownController
+                    //                   .currentRemainingTime !=
+                    //               null) {
+                    //             // print(result.token);
 
-                                widget.cubit.pay("connectIPS", result.token);
-                              } else {
-                                showToast(
-                                    text:
-                                        "Payment time expired. Go back, check availability again and proceed further.",
-                                    time: 5);
-                              }
-                            },
-                            onFailure: (result) {
-                              showToast(
-                                text:
-                                    "ConnectIPS Payment Error: ${result.message}",
-                              );
-                            },
-                          );
-                        } else {
-                          showToast(
-                              text:
-                                  "Payment time expired. Go back, check availability again and proceed further.",
-                              time: 5);
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/connectips.png",
-                            height: 50,
-                          ),
-                          const Text("Pay with ConnectIPS"),
-                        ],
-                      ),
-                    ),
+                    //             widget.cubit.pay("connectIPS", result.token);
+                    //           } else {
+                    //             showToast(
+                    //                 text:
+                    //                     "Payment time expired. Go back, check availability again and proceed further.",
+                    //                 time: 5);
+                    //           }
+                    //         },
+                    //         onFailure: (result) {
+                    //           showToast(
+                    //             text:
+                    //                 "ConnectIPS Payment Error: ${result.message}",
+                    //           );
+                    //         },
+                    //       );
+                    //     } else {
+                    //       showToast(
+                    //           text:
+                    //               "Payment time expired. Go back, check availability again and proceed further.",
+                    //           time: 5);
+                    //     }
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/connectips.png",
+                    //         height: 50,
+                    //       ),
+                    //       const Text("Pay with ConnectIPS"),
+                    //     ],
+                    //   ),
+                    // ),
 
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        // if (widget.countDownController.currentRemainingTime !=
-                        //     null) {
-                        //   ESewaConfiguration configuration = ESewaConfiguration(
-                        //     clientID: eSewaClientId,
-                        //     secretKey: eSewaClientSecret,
+                    // GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   onTap: () async {
+                    //     // if (widget.countDownController.currentRemainingTime !=
+                    //     //     null) {
+                    //     //   ESewaConfiguration configuration = ESewaConfiguration(
+                    //     //     clientID: eSewaClientId,
+                    //     //     secretKey: eSewaClientSecret,
 
-                        //     // clientID:
-                        //     //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
-                        //     // secretKey:
-                        //     //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
-                        //     environment: ESewaConfiguration.ENVIRONMENT_LIVE,
-                        //   );
+                    //     //     // clientID:
+                    //     //     //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+                    //     //     // secretKey:
+                    //     //     //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+                    //     //     environment: ESewaConfiguration.ENVIRONMENT_LIVE,
+                    //     //   );
 
-                        //   ESewaPnp eSewaPnp =
-                        //       ESewaPnp(configuration: configuration);
+                    //     //   ESewaPnp eSewaPnp =
+                    //     //       ESewaPnp(configuration: configuration);
 
-                        //   ESewaPayment payment = ESewaPayment(
-                        //     amount: widget.cubit.finalTotalPrice,
-                        //     productName:
-                        //         "Go Buddy Goo Payment for ${widget.cubit.parameters.selectedBus.busTag}",
-                        //     productID: "bus_${randomAlphaNumeric(10)}",
-                        //     callBackURL: callBackUrl,
-                        //   );
+                    //     //   ESewaPayment payment = ESewaPayment(
+                    //     //     amount: widget.cubit.finalTotalPrice,
+                    //     //     productName:
+                    //     //         "Go Buddy Goo Payment for ${widget.cubit.parameters.selectedBus.busTag}",
+                    //     //     productID: "bus_${randomAlphaNumeric(10)}",
+                    //     //     callBackURL: callBackUrl,
+                    //     //   );
 
-                        //   try {
-                        //     final res =
-                        //         await eSewaPnp.initPayment(payment: payment);
-                        //     if (res.status == "COMPLETE") {
-                        //       if (widget.countDownController
-                        //               .currentRemainingTime !=
-                        //           null) {
-                        //         widget.cubit.pay("esewa", res.referenceId);
-                        //       } else {
-                        //         showToast(
-                        //           text:
-                        //               "Payment time expired. Go back, check availability again and proceed further.",
-                        //           time: 5,
-                        //         );
-                        //       }
-                        //     } else {
-                        //       showToast(
-                        //           text: "Some error occured! Try Again!!");
-                        //     }
-                        //   } on ESewaPaymentException catch (e) {
-                        //     showToast(
-                        //       text: "eSewa Payment Error: ${e.message}",
-                        //     );
-                        //   }
-                        // } else {
-                        //   showToast(
-                        //     text:
-                        //         "Payment time expired. Go back, check availability again and proceed further.",
-                        //     time: 5,
-                        //   );
-                        // }
-                      },
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/esewa.png",
-                            height: 50,
-                          ),
-                          const Text("Pay with eSewa"),
-                        ],
-                      ),
-                    ),
+                    //     //   try {
+                    //     //     final res =
+                    //     //         await eSewaPnp.initPayment(payment: payment);
+                    //     //     if (res.status == "COMPLETE") {
+                    //     //       if (widget.countDownController
+                    //     //               .currentRemainingTime !=
+                    //     //           null) {
+                    //     //         widget.cubit.pay("esewa", res.referenceId);
+                    //     //       } else {
+                    //     //         showToast(
+                    //     //           text:
+                    //     //               "Payment time expired. Go back, check availability again and proceed further.",
+                    //     //           time: 5,
+                    //     //         );
+                    //     //       }
+                    //     //     } else {
+                    //     //       showToast(
+                    //     //           text: "Some error occured! Try Again!!");
+                    //     //     }
+                    //     //   } on ESewaPaymentException catch (e) {
+                    //     //     showToast(
+                    //     //       text: "eSewa Payment Error: ${e.message}",
+                    //     //     );
+                    //     //   }
+                    //     // } else {
+                    //     //   showToast(
+                    //     //     text:
+                    //     //         "Payment time expired. Go back, check availability again and proceed further.",
+                    //     //     time: 5,
+                    //     //   );
+                    //     // }
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/esewa.png",
+                    //         height: 50,
+                    //       ),
+                    //       const Text("Pay with eSewa"),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

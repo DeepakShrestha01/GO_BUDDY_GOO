@@ -321,88 +321,89 @@ class _RentalBookingBodyState extends State<RentalBookingBody> {
 
                     // connectips
 
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        KhaltiScope.of(context).pay(
-                          config: PaymentConfig(
-                            amount: (cubit!.finalTotalPrice! * 100).toInt(),
-                            productIdentity: "rental_${randomAlphaNumeric(10)}",
-                            productName: "Go  Buddy Goo Payment for rental",
-                          ),
-                          preferences: [
-                            PaymentPreference.connectIPS,
-                          ],
-                          onSuccess: (result) {
-                            cubit?.pay(
-                                "connectIPS", result.token, nextPaymentMethod);
-                          },
-                          onFailure: (result) {
-                            showToast(
-                              text: "ConnectIPS Payment Error: ${result.message}",
-                            );
-                          },
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/connectips.png",
-                            height: 50,
-                          ),
-                          const Text("Pay with ConnectIPS"),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () async {
-                        // ESewaConfiguration configuration = ESewaConfiguration(
-                        //   clientID: eSewaClientId,
-                        //   secretKey: eSewaClientSecret,
+                    // GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   onTap: () async {
+                    //     KhaltiScope.of(context).pay(
+                    //       config: PaymentConfig(
+                    //         amount: (cubit!.finalTotalPrice! * 100).toInt(),
+                    //         productIdentity: "rental_${randomAlphaNumeric(10)}",
+                    //         productName: "Go  Buddy Goo Payment for rental",
+                    //       ),
+                    //       preferences: [
+                    //         PaymentPreference.connectIPS,
+                    //       ],
+                    //       onSuccess: (result) {
+                    //         cubit?.pay(
+                    //             "connectIPS", result.token, nextPaymentMethod);
+                    //       },
+                    //       onFailure: (result) {
+                    //         showToast(
+                    //           text:
+                    //               "ConnectIPS Payment Error: ${result.message}",
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/connectips.png",
+                    //         height: 50,
+                    //       ),
+                    //       const Text("Pay with ConnectIPS"),
+                    //     ],
+                    //   ),
+                    // ),
+                    // GestureDetector(
+                    //   behavior: HitTestBehavior.opaque,
+                    //   onTap: () async {
+                    //     // ESewaConfiguration configuration = ESewaConfiguration(
+                    //     //   clientID: eSewaClientId,
+                    //     //   secretKey: eSewaClientSecret,
 
-                        //   // clientID:
-                        //   //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
-                        //   // secretKey:
-                        //   //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
-                        //   environment: ESewaConfiguration.ENVIRONMENT_LIVE,
-                        // );
+                    //     //   // clientID:
+                    //     //   //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+                    //     //   // secretKey:
+                    //     //   //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+                    //     //   environment: ESewaConfiguration.ENVIRONMENT_LIVE,
+                    //     // );
 
-                        // ESewaPnp eSewaPnp =
-                        //     ESewaPnp(configuration: configuration);
+                    //     // ESewaPnp eSewaPnp =
+                    //     //     ESewaPnp(configuration: configuration);
 
-                        // ESewaPayment payment = ESewaPayment(
-                        //   amount: cubit.finalTotalPrice,
-                        //   productName: "Go  Buddy Goo Payment for rental",
-                        //   productID: "rental_${randomAlphaNumeric(10)}",
-                        //   callBackURL: callBackUrl,
-                        // );
+                    //     // ESewaPayment payment = ESewaPayment(
+                    //     //   amount: cubit.finalTotalPrice,
+                    //     //   productName: "Go  Buddy Goo Payment for rental",
+                    //     //   productID: "rental_${randomAlphaNumeric(10)}",
+                    //     //   callBackURL: callBackUrl,
+                    //     // );
 
-                        // try {
-                        //   final res =
-                        //       await eSewaPnp.initPayment(payment: payment);
-                        //   if (res.status == "COMPLETE") {
-                        //     cubit.pay(
-                        //         "esewa", res.referenceId, nextPaymentMethod);
-                        //   } else {
-                        //     showToast(text: "Some error occured! Try Again!!");
-                        //   }
-                        // } on ESewaPaymentException catch (e) {
-                        //   showToast(
-                        //     text: "eSewa Payment Error: ${e.message}",
-                        //   );
-                        // }
-                      },
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            "assets/images/esewa.png",
-                            height: 50,
-                          ),
-                          const Text("Pay with eSewa"),
-                        ],
-                      ),
-                    ),
+                    //     // try {
+                    //     //   final res =
+                    //     //       await eSewaPnp.initPayment(payment: payment);
+                    //     //   if (res.status == "COMPLETE") {
+                    //     //     cubit.pay(
+                    //     //         "esewa", res.referenceId, nextPaymentMethod);
+                    //     //   } else {
+                    //     //     showToast(text: "Some error occured! Try Again!!");
+                    //     //   }
+                    //     // } on ESewaPaymentException catch (e) {
+                    //     //   showToast(
+                    //     //     text: "eSewa Payment Error: ${e.message}",
+                    //     //   );
+                    //     // }
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/esewa.png",
+                    //         height: 50,
+                    //       ),
+                    //       const Text("Pay with eSewa"),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

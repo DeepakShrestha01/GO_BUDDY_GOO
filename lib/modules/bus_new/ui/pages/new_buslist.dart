@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/common/services/get_it.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
+import 'package:go_buddy_goo_mobile/modules/hotel/ui/widgets/no_result_widget.dart';
 
 import '../widgets/bus_search_list_widget.dart';
 import '../widgets/buslist_toppart.dart';
@@ -73,6 +74,11 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
             const SizedBox(height: 20),
             BlocBuilder<BusSearchListCubit, BusSearchListState>(
               builder: (context, state) {
+                if (state is BusSearchListLoadingState) {
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
                 if (state is BusSearchListSuccessState) {
                   return ListView.separated(
                     shrinkWrap: true,
@@ -86,7 +92,6 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                           ]);
                         },
                         child: BusSeachlistWidget(
-
                           sessionId: state.response.sessionId!,
                           data: state.response.buses![index],
                         ),
@@ -98,7 +103,9 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                     itemCount: state.response.buses!.length,
                   );
                 }
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: NoResultWidget(),
+                );
               },
             )
           ],

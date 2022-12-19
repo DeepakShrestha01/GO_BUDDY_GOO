@@ -264,7 +264,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                           child: CircularProfileAvatar(
                             "",
                             onTap: () {
-                              pickImage();
+                              // pickImage();
                             },
                             cacheImage: true,
                             elevation: 4,
