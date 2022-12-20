@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:go_buddy_goo_mobile/common/services/dio_http_service.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_error_response.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_select_bus_response.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/passenger_details_response.dart';
+import 'package:go_buddy_goo/common/services/dio_http_service.dart';
+import 'package:go_buddy_goo/common/widgets/common_widgets.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_bus_error_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_select_bus_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/passenger_details_response.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/new_bus_search_list_response.dart';

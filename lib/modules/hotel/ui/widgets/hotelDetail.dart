@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/hotel/ui/widgets/hotelRoom.dart';
+import 'package:go_buddy_goo/modules/hotel/ui/widgets/hotelRoom.dart';
 import 'package:readmore/readmore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

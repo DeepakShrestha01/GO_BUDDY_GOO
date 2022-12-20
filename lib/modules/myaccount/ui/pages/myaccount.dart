@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/new_loggedOut.dart';
+import 'package:go_buddy_goo/modules/myaccount/ui/widgets/new_ui/new_loggedOut.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../services/cubit/account/account_cubit.dart';

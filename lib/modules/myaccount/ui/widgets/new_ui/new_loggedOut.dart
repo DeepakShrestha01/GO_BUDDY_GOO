@@ -3,7 +3,7 @@ import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
+import 'package:go_buddy_goo/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -159,7 +159,7 @@ class _LoggedOutWidgetState extends State<LoggedOutWidget> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: Text(
-                    'Welcome, Sign in or Register to explore hourly hotels',
+                    'Welcome, Sign in or Register to explore Go Buddy Goo',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w400,

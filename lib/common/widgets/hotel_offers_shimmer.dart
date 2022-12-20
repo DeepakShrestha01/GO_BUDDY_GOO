@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/shimmer.dart';
+import 'package:go_buddy_goo/common/widgets/shimmer.dart';
 
 import '../../configs/theme.dart';
 
 class HotelOffersShimmer extends StatelessWidget {
+  const HotelOffersShimmer({super.key});
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);

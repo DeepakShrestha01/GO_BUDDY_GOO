@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/common/services/dio_http_service.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
+import 'package:go_buddy_goo/common/services/dio_http_service.dart';
+import 'package:go_buddy_goo/common/widgets/common_widgets.dart';
 import 'package:meta/meta.dart';
 
 part 'registration_state.dart';

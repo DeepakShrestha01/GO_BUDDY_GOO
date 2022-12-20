@@ -1,4 +1,4 @@
-package com.example.go_buddy_goo_mobile
+package com.codeforcore.go_buddy_goo
 
 import io.flutter.embedding.android.FlutterActivity
 

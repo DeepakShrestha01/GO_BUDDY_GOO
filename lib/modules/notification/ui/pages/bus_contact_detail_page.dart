@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/modules/notification/model/notification.dart'  as Notification;
-
+import 'package:go_buddy_goo/modules/notification/model/notification.dart'  as Notification;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/widgets/network_image.dart';

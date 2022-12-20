@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_bus_search_list_response.dart';
 import 'package:recase/recase.dart';
 
 import '../../../../common/functions/format_date.dart';

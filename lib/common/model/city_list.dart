@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:go_buddy_goo_mobile/common/model/city.dart';
-import 'package:go_buddy_goo_mobile/common/model/new_city/new_city.dart';
+import 'package:go_buddy_goo/common/model/city.dart';
+import 'package:go_buddy_goo/common/model/new_city/new_city.dart';
 
 class CityList {
   List<City> cities = [];

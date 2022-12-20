@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
 
 import '../../modules/bus/model/bus_booking_detail_parameters.dart';
 import '../../modules/flight/model/airline_list.dart';

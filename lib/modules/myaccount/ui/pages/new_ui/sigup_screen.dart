@@ -3,9 +3,9 @@ import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/common/services/hide_keyboard.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/new_ui/custom_textformfield.dart';
+import 'package:go_buddy_goo/common/services/hide_keyboard.dart';
+import 'package:go_buddy_goo/modules/myaccount/services/cubit/registration/registration_cubit.dart';
+import 'package:go_buddy_goo/modules/myaccount/ui/widgets/new_ui/custom_textformfield.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/new_ui/auth_privacy_tc.dart';

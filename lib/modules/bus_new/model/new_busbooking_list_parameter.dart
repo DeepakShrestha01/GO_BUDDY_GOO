@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_bus_search_list_response.dart';
 
 class NewBusSearchListParameters {
   String? from;

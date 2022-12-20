@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/modules/notification/model/notification.dart'
+import 'package:go_buddy_goo/modules/notification/model/notification.dart'
     as Notification;
 
 import '../../../../common/widgets/network_image.dart';

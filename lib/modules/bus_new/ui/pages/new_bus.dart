@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/widgets/new_search_widget.dart';
+import 'package:go_buddy_goo/modules/bus_new/ui/widgets/new_search_widget.dart';
 
 class NewSearchBody extends StatefulWidget {
   const NewSearchBody({super.key});

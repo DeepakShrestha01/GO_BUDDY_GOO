@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:go_buddy_goo_mobile/common/model/new_city/new_city.dart';
-import 'package:go_buddy_goo_mobile/common/services/dio_http_service.dart';
+import 'package:go_buddy_goo/common/model/new_city/new_city.dart';
+import 'package:go_buddy_goo/common/services/dio_http_service.dart';
 
 import '../../model/city_list.dart';
 import '../../services/get_it.dart';
@@ -15,7 +15,6 @@ void getNewCityList() async {
     CityList cityList = locator<CityList>();
     cityList.newCities = [];
     for (var city in response.data['routes']) {
-
       cityList.newCities.add(NewCity.fromJson(city));
     }
   } else {

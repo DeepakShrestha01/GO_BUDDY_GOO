@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/bus/ui/widgets/bus_offer_carousel.dart';
+import 'package:go_buddy_goo/modules/bus/ui/widgets/bus_offer_carousel.dart';
 
 import '../../../../common/widgets/dotIndicators.dart';
 import '../../../../configs/theme.dart';

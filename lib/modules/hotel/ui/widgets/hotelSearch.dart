@@ -75,7 +75,7 @@ class _HotelSearchState extends State<HotelSearch> {
     fontWeight: FontWeight.normal,
     fontSize: 17,
   );
-  List<String> shiftList = ["Hourly", " Daily"];
+  List<String> shiftList = [" Daily", "Hourly"];
 
   showShiftMenu(BuildContext context, Offset offset) async {
     return showMenu(
@@ -542,92 +542,92 @@ class _HotelSearchState extends State<HotelSearch> {
                     thickness: 1,
                   ),
                   const SizedBox(height: 30),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTapDown: (TapDownDetails details) async {
-                      int selectedGenderIndex =
-                          await showShiftMenu(context, details.globalPosition);
-                      shift = shiftList[selectedGenderIndex];
-                      setState(() {});
-                    },
-                    child: Row(
-                      children: [
-                        const Icon(
-                          CupertinoIcons.clock,
-                          color: MyTheme.primaryColor,
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Hourly/Daily",
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              shift.toString().titleCase,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    height: 3,
-                    thickness: 1,
-                  ),
-                  const SizedBox(height: 30),
-                  GestureDetector(
-                    onTap: () => pickDateTime(context),
-                    child: Row(
-                      children: [
-                        const PNGIconWidget(
-                          asset: "assets/images/calendar.png",
-                          color: MyTheme.primaryColor,
-                        ),
-                        const SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Check-Date-Time",
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(height: 3),
-                            Text(
-                              mydateTime != null
-                                  ? DateTimeFormatter.formatDateTime(
-                                      mydateTime!)
-                                  : 'Chose Date and Time',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    height: 3,
-                    thickness: 1,
-                  ),
-                  const SizedBox(height: 30),
+                  // GestureDetector(
+                  //   behavior: HitTestBehavior.opaque,
+                  //   onTapDown: (TapDownDetails details) async {
+                  //     int selectedGenderIndex =
+                  //         await showShiftMenu(context, details.globalPosition);
+                  //     shift = shiftList[selectedGenderIndex];
+                  //     setState(() {});
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       const Icon(
+                  //         CupertinoIcons.clock,
+                  //         color: MyTheme.primaryColor,
+                  //       ),
+                  //       const SizedBox(width: 20),
+                  //       Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           Text(
+                  //             "Hourly/Daily",
+                  //             style: TextStyle(
+                  //               color: Colors.grey[700],
+                  //               fontSize: 12,
+                  //             ),
+                  //           ),
+                  //           Text(
+                  //             shift.toString().titleCase,
+                  //             style: const TextStyle(
+                  //               color: Colors.black,
+                  //               fontSize: 16,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const Divider(
+                  //   color: Colors.grey,
+                  //   height: 3,
+                  //   thickness: 1,
+                  // ),
+                  // const SizedBox(height: 30),
+                  // GestureDetector(
+                  //   onTap: () => pickDateTime(context),
+                  //   child: Row(
+                  //     children: [
+                  //       const PNGIconWidget(
+                  //         asset: "assets/images/calendar.png",
+                  //         color: MyTheme.primaryColor,
+                  //       ),
+                  //       const SizedBox(width: 20),
+                  //       Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: [
+                  //           Text(
+                  //             "Check-Date-Time",
+                  //             style: TextStyle(
+                  //               color: Colors.grey[700],
+                  //               fontSize: 12,
+                  //             ),
+                  //           ),
+                  //           const SizedBox(height: 3),
+                  //           Text(
+                  //             mydateTime != null
+                  //                 ? DateTimeFormatter.formatDateTime(
+                  //                     mydateTime!)
+                  //                 : 'Chose Date and Time',
+                  //             style: const TextStyle(
+                  //               color: Colors.black,
+                  //               fontSize: 16,
+                  //             ),
+                  //           )
+                  //         ],
+                  //       ),
+                  //       const SizedBox(height: 5),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const Divider(
+                  //   color: Colors.grey,
+                  //   height: 3,
+                  //   thickness: 1,
+                  // ),
+                  // const SizedBox(height: 30),
                   Shake(
                     key: _dateKey,
                     preferences: const AnimationPreferences(

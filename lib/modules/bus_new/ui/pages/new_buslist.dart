@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/common/services/get_it.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/common_widgets.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
-import 'package:go_buddy_goo_mobile/modules/hotel/ui/widgets/no_result_widget.dart';
+import 'package:go_buddy_goo/common/services/get_it.dart';
+import 'package:go_buddy_goo/common/widgets/common_widgets.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
+import 'package:go_buddy_goo/modules/hotel/ui/widgets/no_result_widget.dart';
 
 import '../../model/new_bus_search_list_response.dart';
 import '../widgets/bus_search_list_widget.dart';

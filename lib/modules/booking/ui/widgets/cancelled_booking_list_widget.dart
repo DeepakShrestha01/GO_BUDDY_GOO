@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/modules/booking/ui/widgets/rental_booking_widget.dart';
-import 'package:go_buddy_goo_mobile/modules/booking/ui/widgets/tour_booking_widget.dart';
+import 'package:go_buddy_goo/modules/booking/ui/widgets/rental_booking_widget.dart';
+import 'package:go_buddy_goo/modules/booking/ui/widgets/tour_booking_widget.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../model/booking.dart';

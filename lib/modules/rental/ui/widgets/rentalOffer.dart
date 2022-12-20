@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/rental/ui/widgets/rentalOfferCarousel.dart';
+import 'package:go_buddy_goo/modules/rental/ui/widgets/rentalOfferCarousel.dart';
 
 import '../../../../common/widgets/dotIndicators.dart';
 import '../../../../configs/theme.dart';

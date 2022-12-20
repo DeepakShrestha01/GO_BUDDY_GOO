@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/network_image.dart';
+import 'package:go_buddy_goo/common/widgets/network_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -30,7 +30,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
         title: Text("Image Viewer",
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headlineMedium
                 ?.copyWith(color: Colors.white)),
       ),
       body: Container(

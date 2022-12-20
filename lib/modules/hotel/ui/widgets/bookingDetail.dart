@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_buddy_goo_mobile/modules/hotel/ui/widgets/singleBookingDetail.dart';
+import 'package:go_buddy_goo/modules/hotel/ui/widgets/singleBookingDetail.dart';
 import 'package:recase/recase.dart';
 
 import '../../../../common/widgets/png_icon_widget.dart';

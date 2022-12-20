@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/png_icon_widget.dart';
+import 'package:go_buddy_goo/common/widgets/png_icon_widget.dart';
 
 import '../../configs/theme.dart';
 

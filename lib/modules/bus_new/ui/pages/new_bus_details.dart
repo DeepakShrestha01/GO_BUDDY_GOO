@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../configs/theme.dart';

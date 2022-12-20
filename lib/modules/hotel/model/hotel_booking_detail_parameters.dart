@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_buddy_goo_mobile/modules/hotel/model/range.dart';
+import 'package:go_buddy_goo/modules/hotel/model/range.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'hotel.dart';

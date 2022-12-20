@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/configs/theme.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
+import 'package:go_buddy_goo/configs/theme.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:random_string/random_string.dart';
 
@@ -253,8 +253,9 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                 divider(),
                 const SizedBox(height: 20),
                 const Text('---------- Enter Passenger Details ---------',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                      fontSize: 18,
+                    )),
                 const SizedBox(height: 40),
                 ListView.builder(
                   shrinkWrap: true,

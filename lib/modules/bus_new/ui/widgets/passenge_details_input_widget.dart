@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/configs/theme.dart';
+import 'package:go_buddy_goo/configs/theme.dart';
 
 import '../../../../common/widgets/divider.dart';
 

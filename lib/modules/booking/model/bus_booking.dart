@@ -1,5 +1,4 @@
-
-import 'package:go_buddy_goo_mobile/modules/booking/model/rental_booking.dart';
+import 'package:go_buddy_goo/modules/booking/model/rental_booking.dart';
 
 import 'booking.dart';
 
@@ -119,9 +118,9 @@ class BookedSeat {
 
   int? id;
   int? booking;
-  int ?seatIndex;
+  int? seatIndex;
   String? seatName;
-  String?seatStatus;
+  String? seatStatus;
 
   factory BookedSeat.fromJson(Map<String, dynamic> json) => BookedSeat(
         id: json["id"],
@@ -153,15 +152,15 @@ class BusDaily {
     this.vehicleInventory,
   });
 
-  int?id;
+  int? id;
   Bus? busFrom;
-  Bus ?busTo;
+  Bus? busTo;
   String? busShift;
-  String ?boardingTime;
-  String?droppingTime;
+  String? boardingTime;
+  String? droppingTime;
   String? busTag;
-  String ?image;
-  int ?vehicleInventory;
+  String? image;
+  int? vehicleInventory;
 
   factory BusDaily.fromJson(Map<String, dynamic> json) => BusDaily(
         id: json["id"],
@@ -193,7 +192,7 @@ class Bus {
     this.name,
   });
 
-  int ?id;
+  int? id;
   String? name;
 
   factory Bus.fromJson(Map<String, dynamic> json) => Bus(
@@ -226,11 +225,11 @@ class Payment {
   String? paymentStatus;
   String? paymentType;
   String? sellingPrice;
-  String ?promotionDiscount;
+  String? promotionDiscount;
   String? giftCard;
-  String ?rewardPoints;
-  String?usePayable;
-  DateTime ?paymentDate;
+  String? rewardPoints;
+  String? usePayable;
+  DateTime? paymentDate;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         id: json["id"],
@@ -265,7 +264,7 @@ class ContactDetail {
     this.data,
   });
 
-  bool ?status;
+  bool? status;
   ContactDetailData? data;
 
   factory ContactDetail.fromJson(Map<String, dynamic> json) => ContactDetail(
@@ -287,8 +286,8 @@ class ContactDetailData {
   });
 
   String? numberPlate;
-  String?driverName;
-  String ?contactNumber;
+  String? driverName;
+  String? contactNumber;
 
   factory ContactDetailData.fromJson(Map<String, dynamic> json) =>
       ContactDetailData(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_buddy_goo_mobile/modules/tour/ui/widgets/tourSearchCitiesDelegate.dart';
+import 'package:go_buddy_goo/modules/tour/ui/widgets/tourSearchCitiesDelegate.dart';
 
 import '../../../../common/model/city.dart';
 import '../../../../common/widgets/network_image.dart';

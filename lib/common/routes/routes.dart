@@ -1,9 +1,9 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus_boarding_points.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_bus_details.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/ui/pages/new_buslist.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/ui/pages/new_ui/sigup_screen.dart';
+import 'package:go_buddy_goo/modules/bus_new/ui/pages/new_bus.dart';
+import 'package:go_buddy_goo/modules/bus_new/ui/pages/new_bus_boarding_points.dart';
+import 'package:go_buddy_goo/modules/bus_new/ui/pages/new_bus_details.dart';
+import 'package:go_buddy_goo/modules/bus_new/ui/pages/new_buslist.dart';
+import 'package:go_buddy_goo/modules/myaccount/ui/pages/new_ui/sigup_screen.dart';
 
 import '../../modules/booking/ui/pages/bus_booking_detail.dart';
 import '../../modules/booking/ui/pages/flight_booking_detail.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/singleTile.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/topPartLoggedIn.dart';
+import 'package:go_buddy_goo/modules/myaccount/ui/widgets/singleTile.dart';
+import 'package:go_buddy_goo/modules/myaccount/ui/widgets/topPartLoggedIn.dart';
 
 import '../../../../common/functions/getInitials.dart';
 import '../../../../common/model/country_list.dart';

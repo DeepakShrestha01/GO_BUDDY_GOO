@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/configs/theme.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:go_buddy_goo/configs/theme.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/new_bus_search_list_response.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:recase/recase.dart';
 
@@ -151,7 +151,8 @@ class BusSeachlistWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 90),
                           child: LinearPercentIndicator(
                             barRadius: const Radius.circular(5),
-                            percent: (availableseat / (totalSeats)).toDouble(),
+                            percent:
+                                1 - (availableseat / (totalSeats)).toDouble(),
                             progressColor: Colors.green,
                             lineHeight: 7.5,
                           ),

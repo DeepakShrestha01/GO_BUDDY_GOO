@@ -1,12 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/modules/bus/ui/widgets/singlebusoffer_widget.dart';
+import 'package:go_buddy_goo/modules/bus/ui/widgets/singlebusoffer_widget.dart';
 
 import '../../model/bus_offer.dart';
 
-
 class BusOfferCarousel extends StatelessWidget {
-  final List<BusOffer> ?offers;
+  final List<BusOffer>? offers;
   final ValueNotifier? currentIndex;
 
   const BusOfferCarousel({Key? key, this.offers, this.currentIndex})

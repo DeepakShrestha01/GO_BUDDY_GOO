@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 // import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/myaccount/model/otp_response.dart';
+import 'package:go_buddy_goo/modules/myaccount/model/otp_response.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
@@ -60,7 +60,7 @@ class AccountCubit extends Cubit<AccountState> {
           showToast(text: "Some error occured! Try Again!!", time: 5);
           emit(AccountLoggedOut());
         }
-      } else if( response.data['profile_status']=='False') {
+      } else if (response.data['profile_status'] == 'False') {
         Get.offAndToNamed("/updateProfile",
             arguments: User.fromJson(response.data));
       }

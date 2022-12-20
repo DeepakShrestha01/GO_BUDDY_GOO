@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/modules/rental/ui/widgets/rentalOfferWidget.dart';
+import 'package:go_buddy_goo/modules/rental/ui/widgets/rentalOfferWidget.dart';
 
 import '../../model/rental_offer.dart';
 

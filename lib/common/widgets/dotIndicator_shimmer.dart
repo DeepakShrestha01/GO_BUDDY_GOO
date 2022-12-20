@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:go_buddy_goo_mobile/common/widgets/shimmer.dart';
+import 'package:go_buddy_goo/common/widgets/shimmer.dart';
 
 class DotIndicatorShimmer extends StatelessWidget {
   final int length;

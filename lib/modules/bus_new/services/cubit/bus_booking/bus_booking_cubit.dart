@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:get/route_manager.dart';
-import 'package:go_buddy_goo_mobile/modules/bus_new/model/payment_response.dart';
+import 'package:go_buddy_goo/modules/bus_new/model/payment_response.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../common/services/dio_http_service.dart';

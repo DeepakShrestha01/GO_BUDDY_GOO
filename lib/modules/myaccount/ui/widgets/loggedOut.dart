@@ -4,7 +4,7 @@
 // import 'package:flutter_animator/flutter_animator.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:get/route_manager.dart';
-// import 'package:go_buddy_goo_mobile/modules/myaccount/ui/widgets/topPartLoggedOut.dart';
+// import 'package:go_buddy_goo/modules/myaccount/ui/widgets/topPartLoggedOut.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 // import '../../../../common/widgets/common_widgets.dart';
