@@ -65,9 +65,6 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
   @override
   void initState() {
     parameters.seats = selectedSeats;
-    BlocProvider.of<BusSearchListCubit>(context)
-        .postSelectedBus(buses.id.toString(), sessionid);
-    setState(() {});
 
     super.initState();
   }
@@ -75,9 +72,8 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
   NewBusSearchListParameters parameters = NewBusSearchListParameters();
   @override
   Widget build(BuildContext context) {
-    var totalprice = '${buses.ticketPrice! * selectedSeats.length}';
-    parameters.totalprice = int.tryParse(totalprice);
-    // assert(totalprice is int);
+    double? totalprice = buses.ticketPrice! * selectedSeats.length;
+    parameters.totalprice = totalprice;
 
     final BusSearchListCubit cubit =
         BlocProvider.of<BusSearchListCubit>(context);
@@ -191,6 +187,8 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                                                 'Yes') {
                                             } else {
                                               selectedSeats.add(seatNo!);
+                                              parameters.seats = selectedSeats;
+                                              setState(() {});
                                             }
                                           } else {
                                             isChooseSeat[index] = false;
@@ -328,9 +326,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                         parameters.seats = selectedSeats;
                         BlocProvider.of<BusSearchListCubit>(context)
                             .postSelectedBus(
-                          buses.id.toString(),
-                          sessionid,
-                        );
+                                buses.id.toString(), sessionid, selectedSeats);
                         Get.toNamed('/busBordingPoint',
                             arguments: [buses, selectedSeats]);
                       } else {

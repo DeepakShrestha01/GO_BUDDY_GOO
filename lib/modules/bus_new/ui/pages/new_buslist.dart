@@ -7,6 +7,7 @@ import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_pa
 import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/hotel/ui/widgets/no_result_widget.dart';
 
+import '../../../../configs/theme.dart';
 import '../widgets/bus_search_list_widget.dart';
 import '../widgets/buslist_toppart.dart';
 
@@ -21,7 +22,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<BusSearchListCubit>(context).getNewBusSearchResult();
+    // BlocProvider.of<BusSearchListCubit>(context).getNewBusSearchResult();
     BlocProvider.of<BusSearchListCubit>(context).buses;
     setState(() {});
   }
@@ -117,13 +118,53 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
         ),
       ),
       floatingActionButton: Container(
-        height: 60,
-        width: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.red,
-        ),
-      ),
+          height: 45,
+          width: 80,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: MyTheme.primaryColor,
+          ),
+          child: FloatingActionButton(
+            backgroundColor: MyTheme.primaryColor,
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isDismissible: true,
+                isScrollControlled: false,
+                backgroundColor: Colors.transparent,
+                barrierColor: Colors.black12.withOpacity(0.75),
+                builder: (BuildContext context) {
+                  return const Text('data');
+                },
+              );
+            },
+            child: Container(
+              height: 45,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: MyTheme.primaryColor,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.filter_list,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    "Filter",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }

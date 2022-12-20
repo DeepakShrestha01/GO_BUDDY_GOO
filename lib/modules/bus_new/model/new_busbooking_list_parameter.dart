@@ -9,9 +9,8 @@ class NewBusSearchListParameters {
   String? shift;
   List<Buses>? buses;
   List<String>? seats = [];
-  int? totalprice;
+  double? totalprice;
   // List<String>? selectedSeats = [];
-
 
   void clearAllField() {
     from = null;

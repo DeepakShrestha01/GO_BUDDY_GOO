@@ -49,20 +49,21 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
 
 // -----------------------------------------------------------
   String getBusSeatReservedString(String busSeat) {
-    return "[$busSeat]";
+    return '["$busSeat"]';
   }
 
-  void postSelectedBus(
-    String busId,
-    int sessionID,
-  ) async {
+  void postSelectedBus(String busId, int sessionID, List<String> seats) async {
     busID = busId;
     sessionId = sessionID;
     selectedSeats = parameters.seats;
+    // print("selectbos : $selectedSeats");
 
     FormData formData = FormData.fromMap({
       'session_id': sessionID,
       'bus_id': busId,
+      // 'seats': seats.map((e) {
+      //   return <String>['"$e"'];
+      // }).toList()
     });
     for (String seat in selectedSeats!) {
       formData.fields.add(MapEntry('seats', getBusSeatReservedString(seat)));
@@ -80,8 +81,8 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         boardingPoint = responsedata.detail?.boardingPoint;
         ticketSerialNo = responsedata.detail?.ticketSerialNo;
       } else if (responseError.status == false) {
-        showToast(text: '${responseError.details}');
-        emit(SelectBusErrorState());
+        // showToast(text: '${responseError.details}');
+        emit(SelectBusErrorState(response:responseError.details ));
       }
     }
   }
@@ -99,7 +100,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       String? name,
       required List<Map<String, String>> seats,
       String? boardingDate}) async {
-    print('ownSeats :$seats');
     FormData formData = FormData.fromMap({
       'session_id': sessionId,
       'bus_id': busID,

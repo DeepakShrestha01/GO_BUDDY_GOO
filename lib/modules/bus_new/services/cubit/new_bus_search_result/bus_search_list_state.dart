@@ -21,7 +21,11 @@ class SelectBusSuccessState extends BusSearchListState {
   SelectBusSuccessState({required this.response});
 }
 
-class SelectBusErrorState extends BusSearchListState {}
+class SelectBusErrorState extends BusSearchListState {
+  final String? response;
+
+  SelectBusErrorState({required this.response});
+}
 
 class SelectBusLoadingState extends BusSearchListState {}
 
