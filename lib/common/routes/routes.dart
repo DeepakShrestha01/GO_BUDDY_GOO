@@ -99,7 +99,7 @@ List<GetPage> routes = [
   // GetPage(name: "/busList", page: () => BusSearchList()),
   GetPage(name: "/newBusList", page: () => const NewBusSearchListBody()),
   GetPage(name: "/newbusSearchDetail", page: () => const NewBusSearchDetails()),
-  GetPage(name: "/passengerDetails", page: () => const PassengerDetails()),
+  // GetPage(name: "/passengerDetails", page: () => const PassengerDetails()),
   GetPage(name: "/busBordingPoint", page: () => const NewBusBoardingPoints()),
 
   GetPage(name: "/rentalBookingSuccess", page: () => RentalBookingSuccess()),

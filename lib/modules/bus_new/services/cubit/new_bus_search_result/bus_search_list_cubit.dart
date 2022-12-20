@@ -88,12 +88,18 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
 
 // --------------------------------------------------------------
 
-  String getBusSeatSelected(String busSeat) {
-    return "[$busSeat]";
-  }
+  // String getBusSeatSelected(String busSeat) {
+  //   return "[$busSeat]";
+  // }
 
-  void passengerDetails(String mobileNumber, String? email, String? name,
-      String? boardingDate) async {
+  void passengerDetails(
+      {String? mobileNumber,
+      String? boardingPoint,
+      String? email,
+      String? name,
+      required List<Map<String, String>> seats,
+      String? boardingDate}) async {
+    print('ownSeats :$seats');
     FormData formData = FormData.fromMap({
       'session_id': sessionId,
       'bus_id': busID,
@@ -103,11 +109,18 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       'boarding_date': boardingDate,
       'email': email,
       'name': name,
+      'seats': seats.map((e) {
+        return {
+          'seat': e['seat'],
+          'name_of_passenger': e['name_of_passenger'],
+          'age': e['age']
+        };
+      })
     });
 
-    for (String seat in selectedSeats!) {
-      formData.fields.add(MapEntry('seats', getBusSeatSelected(seat)));
-    }
+    // for (String seat in selectedSeats!) {
+    //   formData.fields.add(MapEntry('seats', getBusSeatSelected(seat)));
+    // }
 
     Response response = await DioHttpService().handlePostRequest(
       'bus/passengers/details/',
