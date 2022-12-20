@@ -8,8 +8,10 @@ class NewBusSearchListParameters {
   DateTime? departureDate;
   String? shift;
   List<Buses>? buses;
+  // List<Buses>? noofbuses;
   List<String>? seats = [];
   double? totalprice;
+  int? sessionID;
   // List<String>? selectedSeats = [];
 
   void clearAllField() {

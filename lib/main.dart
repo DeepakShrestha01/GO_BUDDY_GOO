@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:go_buddy_goo_mobile/configs/keys.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/login_with_password/login_with_password_cubit.dart';
 import 'package:go_buddy_goo_mobile/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
@@ -13,6 +13,7 @@ import 'common/pages/not_found.dart';
 import 'common/routes/routes.dart';
 import 'common/services/get_it.dart';
 import 'common/services/hive.dart';
+import 'configs/keys.dart';
 import 'configs/theme.dart';
 import 'modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'modules/internet_connection/service/internet_check/int_check_cubit.dart';
@@ -43,6 +44,11 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) {
               return BusSearchListCubit()..getNewBusSearchResult();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return NewBusBookingCubit();
             },
           ),
           BlocProvider(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:recase/recase.dart';
 
 class BusSeachlistWidget extends StatelessWidget {
@@ -15,6 +16,20 @@ class BusSeachlistWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var availableseat = data.seatLayout!
+        .where((element) {
+          return element.bookingStatus == 'No';
+        })
+        .toList()
+        .length;
+
+    var totalSeats = data.seatLayout!
+        .where((element) {
+          return element.bookingStatus != 'na';
+        })
+        .toList()
+        .length;
+
     return Card(
       color: MyTheme.primaryDimColor,
       child: Container(
@@ -72,6 +87,7 @@ class BusSeachlistWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 50),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
@@ -125,25 +141,25 @@ class BusSeachlistWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${data.seatLayout?.length} Seats Available",
+                          "$availableseat Seats Available",
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(right: 90),
-                        //   child: LinearPercentIndicator(
-                        //     barRadius: const Radius.circular(5),
-                        //     percent: data.seatLayout!.length / 20,
-                        //     progressColor: Colors.green,
-                        //     lineHeight: 7.5,
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 90),
+                          child: LinearPercentIndicator(
+                            barRadius: const Radius.circular(5),
+                            percent: (availableseat / (totalSeats)).toDouble(),
+                            progressColor: Colors.green,
+                            lineHeight: 7.5,
+                          ),
+                        ),
                         Text(
-                          "${data.seatLayout?.length} Total Seats ",
+                          "$totalSeats Total Seats ",
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

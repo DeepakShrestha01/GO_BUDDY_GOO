@@ -28,7 +28,8 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     emit(BusSearchListLoadingState());
 
     Response response = await DioHttpService().handleGetRequest(
-      'bus/search/?from=${parameters.from}&to=${parameters.to}&date=${parameters.departureDate?.year}-${parameters.departureDate?.month}-${parameters.departureDate?.day}&shift=${parameters.shift}',
+      'bus/search/?from=${parameters.from}&to=${parameters.to}&date=${parameters.departureDate?.year}-${parameters.departureDate?.month}-${parameters.departureDate?.day}&shift=both',
+      // 'bus/search/?from=${parameters.from}&to=${parameters.to}&date=${parameters.departureDate?.year}-${parameters.departureDate?.month}-${parameters.departureDate?.day}&shift=${parameters.shift}',
     );
 
     if (response.statusCode == 200) {
@@ -55,6 +56,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   void postSelectedBus(String busId, int sessionID, List<String> seats) async {
     busID = busId;
     sessionId = sessionID;
+    parameters.sessionID = sessionID;
     selectedSeats = parameters.seats;
     // print("selectbos : $selectedSeats");
 
@@ -82,7 +84,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         ticketSerialNo = responsedata.detail?.ticketSerialNo;
       } else if (responseError.status == false) {
         // showToast(text: '${responseError.details}');
-        emit(SelectBusErrorState(response:responseError.details ));
+        emit(SelectBusErrorState(response: responseError.details));
       }
     }
   }

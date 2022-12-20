@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -322,37 +321,37 @@ class _NewBusSearchBoxState extends State<NewBusSearchBox> {
                           ),
                         ),
                       ),
-                      divider(),
-                      ListTile(
-                        leading: const Icon(
-                          CupertinoIcons.clock,
-                          color: MyTheme.primaryColor,
-                        ),
-                        title: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTapDown: (TapDownDetails details) async {
-                            int selectedGenderIndex = await showShiftMenu(
-                                context, details.globalPosition);
-                            shift = shiftList[selectedGenderIndex];
-                            setState(() {});
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Shift",
-                                style: headerTextStyle,
-                              ),
-                              Text(
-                                shift!.titleCase,
-                                style: valueTextStyle,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      divider(),
+                      // divider(),
+                      // ListTile(
+                      //   leading: const Icon(
+                      //     CupertinoIcons.clock,
+                      //     color: MyTheme.primaryColor,
+                      //   ),
+                      //   title: GestureDetector(
+                      //     behavior: HitTestBehavior.opaque,
+                      //     onTapDown: (TapDownDetails details) async {
+                      //       int selectedGenderIndex = await showShiftMenu(
+                      //           context, details.globalPosition);
+                      //       shift = shiftList[selectedGenderIndex];
+                      //       setState(() {});
+                      //     },
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       mainAxisSize: MainAxisSize.min,
+                      //       children: [
+                      //         Text(
+                      //           "Shift",
+                      //           style: headerTextStyle,
+                      //         ),
+                      //         Text(
+                      //           shift!.titleCase,
+                      //           style: valueTextStyle,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // divider(),
                       const SizedBox(height: 60),
                     ],
                   ),

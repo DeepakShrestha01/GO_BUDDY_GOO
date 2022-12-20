@@ -1,3 +1,7 @@
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +11,8 @@ import 'package:random_string/random_string.dart';
 
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
+import '../../../../configs/backendUrl.dart';
+import '../../../../configs/keys.dart';
 import '../../../../configs/theme.dart';
 import '../../../bus/ui/widgets/bus_promotion_widget.dart';
 import '../../../hotel/ui/widgets/filterCard.dart';
@@ -91,7 +97,7 @@ class _RentalBookingBodyState extends State<RentalBookingBody> {
           "Rental Booking Payment",
           style: Theme.of(context)
               .textTheme
-              .headline4
+              .headlineMedium
               ?.copyWith(color: Colors.white),
         ),
         leading: GestureDetector(
@@ -355,55 +361,47 @@ class _RentalBookingBodyState extends State<RentalBookingBody> {
                     //     ],
                     //   ),
                     // ),
-                    // GestureDetector(
-                    //   behavior: HitTestBehavior.opaque,
-                    //   onTap: () async {
-                    //     // ESewaConfiguration configuration = ESewaConfiguration(
-                    //     //   clientID: eSewaClientId,
-                    //     //   secretKey: eSewaClientSecret,
-
-                    //     //   // clientID:
-                    //     //   //     "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
-                    //     //   // secretKey:
-                    //     //   //     "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
-                    //     //   environment: ESewaConfiguration.ENVIRONMENT_LIVE,
-                    //     // );
-
-                    //     // ESewaPnp eSewaPnp =
-                    //     //     ESewaPnp(configuration: configuration);
-
-                    //     // ESewaPayment payment = ESewaPayment(
-                    //     //   amount: cubit.finalTotalPrice,
-                    //     //   productName: "Go  Buddy Goo Payment for rental",
-                    //     //   productID: "rental_${randomAlphaNumeric(10)}",
-                    //     //   callBackURL: callBackUrl,
-                    //     // );
-
-                    //     // try {
-                    //     //   final res =
-                    //     //       await eSewaPnp.initPayment(payment: payment);
-                    //     //   if (res.status == "COMPLETE") {
-                    //     //     cubit.pay(
-                    //     //         "esewa", res.referenceId, nextPaymentMethod);
-                    //     //   } else {
-                    //     //     showToast(text: "Some error occured! Try Again!!");
-                    //     //   }
-                    //     // } on ESewaPaymentException catch (e) {
-                    //     //   showToast(
-                    //     //     text: "eSewa Payment Error: ${e.message}",
-                    //     //   );
-                    //     // }
-                    //   },
-                    //   child: Column(
-                    //     children: [
-                    //       Image.asset(
-                    //         "assets/images/esewa.png",
-                    //         height: 50,
-                    //       ),
-                    //       const Text("Pay with eSewa"),
-                    //     ],
-                    //   ),
-                    // ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        try {
+                          EsewaFlutterSdk.initPayment(
+                            esewaConfig: EsewaConfig(
+                              environment: Environment.live,
+                              clientId: eSewaClientId,
+                              secretId: eSewaClientSecret,
+                            ),
+                            esewaPayment: EsewaPayment(
+                              productId: "rental_${randomAlphaNumeric(10)}",
+                              productName: "Go  Buddy Goo Payment for rental",
+                              productPrice: cubit!.finalTotalPrice.toString(),
+                              callbackUrl: callBackUrl,
+                            ),
+                            onPaymentSuccess: (EsewaPaymentSuccessResult data) {
+                              cubit?.pay(
+                                  "esewa", data.refId, nextPaymentMethod);
+                            },
+                            onPaymentFailure: (data) {
+                              showToast(text: "$data");
+                            },
+                            onPaymentCancellation: (data) {
+                              showToast(text: "$data");
+                            },
+                          );
+                        } on Exception catch (e) {
+                          debugPrint("EXCEPTION : ${e.toString()}");
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/esewa.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with eSewa"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ],

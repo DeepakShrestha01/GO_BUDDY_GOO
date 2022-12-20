@@ -1,5 +1,9 @@
 import 'dart:ui';
 
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
@@ -16,6 +20,7 @@ import '../../../../common/model/user_detail.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
 import '../../../../configs/backendUrl.dart';
+import '../../../../configs/keys.dart';
 import '../../../../configs/theme.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../model/hotel_booking_detail.dart';
@@ -970,6 +975,57 @@ class _HotelBookingPaymentBodyState extends State<HotelBookingPaymentBody> {
                     //     ],
                     //   ),
                     // ),
+
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () async {
+                        try {
+                          EsewaFlutterSdk.initPayment(
+                            esewaConfig: EsewaConfig(
+                              environment: Environment.live,
+                              clientId: eSewaClientId,
+                              secretId: eSewaClientSecret,
+                            ),
+                            esewaPayment: EsewaPayment(
+                              productId: "rental_${randomAlphaNumeric(10)}",
+                              productName: "Go  Buddy Goo Payment for rental",
+                              productPrice:
+                                  cubit!.finalTotalPrice.toString().toString(),
+                              callbackUrl: callBackUrl,
+                            ),
+                            onPaymentSuccess: (EsewaPaymentSuccessResult data) {
+                              if (countdownController?.currentRemainingTime !=
+                                  null) {
+                                cubit!.pay("esewa", data.refId);
+                              } else {
+                                showToast(
+                                  text:
+                                      "Payment time expired. Go back, check availability again and proceed further.",
+                                  time: 5,
+                                );
+                              }
+                            },
+                            onPaymentFailure: (data) {
+                              showToast(text: "$data");
+                            },
+                            onPaymentCancellation: (data) {
+                              showToast(text: "$data");
+                            },
+                          );
+                        } on Exception catch (e) {
+                          debugPrint("EXCEPTION : ${e.toString()}");
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/esewa.png",
+                            height: 50,
+                          ),
+                          const Text("Pay with eSewa"),
+                        ],
+                      ),
+                    ),
 
                     // GestureDetector(
                     //   behavior: HitTestBehavior.opaque,

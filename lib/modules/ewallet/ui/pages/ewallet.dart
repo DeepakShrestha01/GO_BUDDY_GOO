@@ -1,3 +1,7 @@
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
@@ -11,6 +15,7 @@ import '../../../../common/widgets/appbar.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/not_loggedIn_text_widget.dart';
 import '../../../../configs/backendUrl.dart';
+import '../../../../configs/keys.dart';
 import '../../../../configs/theme.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../services/cubit/ewallet_cubit.dart';
@@ -272,6 +277,55 @@ class _EwalletInfoLoadedState extends State<EwalletInfoLoaded> {
                       //   ),
                       // ),
 
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () async {
+                          try {
+                            EsewaFlutterSdk.initPayment(
+                              esewaConfig: EsewaConfig(
+                                environment: Environment.live,
+                                clientId: eSewaClientId,
+                                secretId: eSewaClientSecret,
+                              ),
+                              esewaPayment: EsewaPayment(
+                                productId: "rental_${randomAlphaNumeric(10)}",
+                                productName: "Go  Buddy Goo Payment for rental",
+                                productPrice:
+                                    double.parse(amountController.text)
+                                        .toString(),
+                                callbackUrl: callBackUrl,
+                              ),
+                              onPaymentSuccess:
+                                  (EsewaPaymentSuccessResult data) {
+                                widget.cubit.buyGiftCard(
+                                    amount: int.parse(amountController.text),
+                                    email: emailController.text,
+                                    name: fullNameController.text,
+                                    provider: "esewa",
+                                    token: data.refId.toString());
+                              },
+                              onPaymentFailure: (data) {
+                                showToast(text: "$data");
+                              },
+                              onPaymentCancellation: (data) {
+                                showToast(text: "$data");
+                              },
+                            );
+                          } on Exception catch (e) {
+                            debugPrint("EXCEPTION : ${e.toString()}");
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              "assets/images/esewa.png",
+                              height: 50,
+                            ),
+                            const Text("Pay with eSewa"),
+                          ],
+                        ),
+                      ),
+
                       // GestureDetector(
                       //   behavior: HitTestBehavior.opaque,
                       //   onTap: () async {
@@ -355,7 +409,7 @@ class _EwalletInfoLoadedState extends State<EwalletInfoLoaded> {
       builder: (context) => AlertDialog(
         content: Text(
           "Make sure that you have provided correct information.We won't be responsible for any issues caused because of misinformation. Continue?",
-          style: Theme.of(context).textTheme.bodyText2,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         actions: [
           ElevatedButton(

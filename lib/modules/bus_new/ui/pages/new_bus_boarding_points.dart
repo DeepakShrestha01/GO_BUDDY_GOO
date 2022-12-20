@@ -1,3 +1,7 @@
+import 'package:esewa_flutter_sdk/esewa_config.dart';
+import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
+import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:go_buddy_goo_mobile/configs/theme.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_bus_search_list_response.dart';
 import 'package:go_buddy_goo_mobile/modules/bus_new/model/new_busbooking_list_parameter.dart';
+import 'package:go_buddy_goo_mobile/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:random_string/random_string.dart';
 
@@ -12,6 +17,8 @@ import '../../../../common/model/user.dart';
 import '../../../../common/model/user_detail.dart';
 import '../../../../common/widgets/common_widgets.dart';
 import '../../../../common/widgets/divider.dart';
+import '../../../../configs/backendUrl.dart';
+import '../../../../configs/keys.dart';
 import '../../../myaccount/services/hive/hive_user.dart';
 import '../../services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 
@@ -48,9 +55,11 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
   Buses bus = Get.arguments[0];
   NewBusSearchListParameters parameters = NewBusSearchListParameters();
 
+  NewBusBookingCubit cubit = NewBusBookingCubit();
+  String nextPaymentMethod = "online";
   @override
   void initState() {
-    print('obsets : ${selectedSeats?.length}');
+    NewBusBookingCubit cubit = BlocProvider.of<NewBusBookingCubit>(context);
     _keyAge = GlobalKey<AnimatorWidgetState>();
     _keyEmail = GlobalKey<AnimatorWidgetState>();
     _keyFullName = GlobalKey<AnimatorWidgetState>();
@@ -413,8 +422,15 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                                   preferences: [
                                     PaymentPreference.khalti,
                                   ],
-                                  onSuccess: (value) {},
-                                  onFailure: (value) {},
+                                  onSuccess: (result) {
+                                    cubit.pay(
+                                        'khalti',
+                                        parameters.sessionID.toString(),
+                                        nextPaymentMethod);
+                                  },
+                                  onFailure: (value) {
+                                    showToast(text: value.toString());
+                                  },
                                 );
                               },
                               child: Column(
@@ -424,6 +440,51 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                                     height: 50,
                                   ),
                                   const Text("Pay with Khalti"),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () async {
+                                try {
+                                  EsewaFlutterSdk.initPayment(
+                                    esewaConfig: EsewaConfig(
+                                      environment: Environment.live,
+                                      clientId: eSewaClientId,
+                                      secretId: eSewaClientSecret,
+                                    ),
+                                    esewaPayment: EsewaPayment(
+                                      productId:
+                                          "rental_${randomAlphaNumeric(10)}",
+                                      productName:
+                                          "Go  Buddy Goo Payment for rental",
+                                      productPrice:
+                                          parameters.totalprice.toString(),
+                                      callbackUrl: callBackUrl,
+                                    ),
+                                    onPaymentSuccess:
+                                        (EsewaPaymentSuccessResult data) {
+                                      cubit.pay("esewa", data.refId,
+                                          nextPaymentMethod);
+                                    },
+                                    onPaymentFailure: (data) {
+                                      showToast(text: "$data");
+                                    },
+                                    onPaymentCancellation: (data) {
+                                      showToast(text: "$data");
+                                    },
+                                  );
+                                } on Exception catch (e) {
+                                  debugPrint("EXCEPTION : ${e.toString()}");
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/esewa.png",
+                                    height: 50,
+                                  ),
+                                  const Text("Pay with eSewa"),
                                 ],
                               ),
                             ),
@@ -443,104 +504,4 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
       ),
     );
   }
-
-  // buildPassengerField(int index) {
-  //   return
-
-  //   Column(
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //         children: [
-  //           Image.asset(
-  //             "assets/images/seat_selected_2.png",
-  //             color: Colors.purple,
-  //             scale: 2.5,
-  //           ),
-  //           const SizedBox(width: 20),
-  //           Expanded(
-  //             child: Shake(
-  //               key: _keyFullName,
-  //               preferences: const AnimationPreferences(
-  //                   autoPlay: AnimationPlayStates.None),
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text(
-  //                     "Full Name",
-  //                     style: headerTextStyle,
-  //                   ),
-  //                   TextFormField(
-  //                     controller: passengerFullNameController[index],
-  //                     validator: (value) {
-  //                       if (value!.isEmpty) {
-  //                         _keyFullName?.currentState?.forward();
-
-  //                         return "Enter Full Name";
-  //                       }
-  //                       return null;
-  //                     },
-  //                     style: const TextStyle(fontSize: 12),
-  //                     cursorColor: MyTheme.primaryColor,
-  //                     decoration: const InputDecoration(
-  //                       border: InputBorder.none,
-  //                       hintText: "Enter Full Name",
-  //                       isDense: true,
-  //                       contentPadding: EdgeInsets.zero,
-  //                       errorStyle: TextStyle(fontSize: 12),
-  //                     ),
-  //                   ),
-  //                   divider()
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(width: 10),
-  //           SizedBox(
-  //             width: 100,
-  //             child: Expanded(
-  //               child: Shake(
-  //                 key: _keyAge,
-  //                 preferences: const AnimationPreferences(
-  //                     autoPlay: AnimationPlayStates.None),
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Text(
-  //                       "Age",
-  //                       style: headerTextStyle,
-  //                     ),
-  //                     TextFormField(
-  //                       controller: passengerAgeController[index],
-  //                       validator: (value) {
-  //                         if (value!.isEmpty) {
-  //                           _keyAge?.currentState?.forward();
-  //                           return ' Enter Age';
-  //                         }
-  //                         return null;
-  //                       },
-  //                       style: const TextStyle(fontSize: 12),
-  //                       cursorColor: MyTheme.primaryColor,
-  //                       decoration: const InputDecoration(
-  //                         border: InputBorder.none,
-  //                         hintText: "Enter Age",
-  //                         isDense: true,
-  //                         contentPadding: EdgeInsets.zero,
-  //                         errorStyle: TextStyle(fontSize: 12),
-  //                       ),
-  //                     ),
-  //                     divider()
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           const SizedBox(
-  //             height: 20,
-  //           )
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  // }
 }
