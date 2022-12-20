@@ -190,7 +190,7 @@ class BusSeachlistWidget extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: data.amenities?.length,
                   itemBuilder: (context, index) {
