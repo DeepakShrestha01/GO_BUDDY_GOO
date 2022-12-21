@@ -151,8 +151,7 @@ class _LoggedInWidgetState extends State<LoggedInWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TopPartLoggedIn(
-                    image: userDetail!.socialProfilePic ??
-                        userDetail!.image.toString(),
+                    image: userDetail!.image ?? userDetail!.image.toString(),
                     initials: getUserInitials(
                         userDetail!.name.toString(), user!.email.toString()),
                   ),

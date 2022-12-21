@@ -106,7 +106,7 @@ class DioHttpService {
   }) async {
     Dio dio = getDioClient();
     try {
-      return await dio.post(
+      return await dio.put(
         path,
         data: data,
         options: options,

@@ -87,13 +87,12 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
       minWidth: 500,
     );
 
-    updateProfileCubit?.updateImage(compressedimage!.path.toString(), u: user!);
+    updateProfileCubit?.updateImage(compressedimage!.path.toString(), u: user);
   }
 
   Future pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    print('my image ${pickedFile?.path.toString()}');
     await retrieveLostData();
     if (pickedFile != null) {
       _image = File(pickedFile.path);
@@ -101,6 +100,8 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
     }
     setState(() {});
   }
+
+// https://test-gbg.ktm.yetiappcloud.com/booking/api_v_1/profile_update_front_end_user_for_web/111
 
   selectDate(BuildContext context) async {
     DateTime currentDateTime = DateTime.now();
@@ -207,7 +208,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
   @override
   Widget build(BuildContext context) {
     print('main builder');
-    String? userImage = userDetail!.socialProfilePic.toString();
+    String? userImage = userDetail!.image.toString();
     if (userImage.isEmpty) {
       userImage = userDetail!.image.toString();
       if (!userImage.contains("https")) {
@@ -264,7 +265,7 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                           child: CircularProfileAvatar(
                             "",
                             onTap: () {
-                              // pickImage();
+                              pickImage();
                             },
                             cacheImage: true,
                             elevation: 4,
@@ -287,29 +288,28 @@ class _UpdateProfileBodyState extends State<UpdateProfileBody> {
                                       ? userImage == null
                                           ? const AssetImage(
                                               "assets/images/profileb.png")
-                                          : const AssetImage(
-                                                  "assets/images/profileb.png")
+                                          : NetworkImage(userImage)
                                               as ImageProvider
                                       : FileImage(_image!),
                                 ),
                               ),
-                              // child: Align(
-                              //   alignment: Alignment.bottomCenter,
-                              //   child: Container(
-                              //     padding: const EdgeInsets.only(
-                              //         bottom: 5, left: 20, right: 20),
-                              //     decoration: BoxDecoration(
-                              //       color: Colors.grey.withOpacity(0.75),
-                              //     ),
-                              //     child: const Text(
-                              //       "Change",
-                              //       style: TextStyle(
-                              //         color: Colors.white,
-                              //         fontSize: 12,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 5, left: 20, right: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.75),
+                                  ),
+                                  child: const Text(
+                                    "Change",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

@@ -105,7 +105,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     }
   }
 
-  updateImage(String imagePath, {required User u}) async {
+  updateImage(String imagePath, {User? u}) async {
+    print("myImage : $imagePath");
     User? user;
 
     if (u == null) {
@@ -126,7 +127,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     );
 
     if (response.statusCode == 200) {
-      HiveUser.setUser(u);
+      HiveUser.setUser(u!);
+      print('userImage : $user');
 
       HiveUser.setUserDetail(UserDetail.fromJson(response.data));
     } else {
