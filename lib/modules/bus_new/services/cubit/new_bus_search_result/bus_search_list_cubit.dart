@@ -75,18 +75,25 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         await DioHttpService().handlePostRequest('bus/select/', data: formData);
 
     if (response.statusCode == 200) {
-      var responsedata = SelectBusResponse.fromJson(response.data);
-      var responseError = NewBusErrorResponse.fromJson(response.data);
-
-      boardingPoint = responsedata.detail?.boardingPoint;
-      ticketSerialNo = responsedata.detail?.ticketSerialNo;
-      if (responsedata.status == true) {
+      if (response.data['status'] == false) {
+        showToast(text: response.data['details']);
+      }
+      if (response.data['status'] == true) {
+        var responsedata = SelectBusResponse.fromJson(response.data);
+        boardingPoint = responsedata.detail?.boardingPoint;
+        ticketSerialNo = responsedata.detail?.ticketSerialNo;
+        print("boardingpoint : ${responsedata.detail?.boardingPoint}");
         emit(SelectBusSuccessState(response: responsedata));
       }
-      if (responseError.status == false) {
-        showToast(text: responseError.details);
-        emit(SelectBusErrorState(response: responseError.details));
-      }
+      // var responseError = NewBusErrorResponse.fromJson(response.data);
+
+      // if (responsedata.status == true) {
+      //   emit(SelectBusSuccessState(response: responsedata));
+      // }
+      // if (responseError.status == false) {
+      //   showToast(text: responseError.details);
+      //   emit(SelectBusErrorState(response: responseError.details));
+      // }
     }
   }
 

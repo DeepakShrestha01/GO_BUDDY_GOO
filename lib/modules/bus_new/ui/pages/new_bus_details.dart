@@ -308,10 +308,6 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
           if (state is SelectBusSuccessState) {
             Get.toNamed('/busBordingPoint', arguments: [buses, selectedSeats]);
           }
-          if (state is SelectBusErrorState) {
-            print("object error");
-            showToast(text: "error message", time: 5);
-          }
         },
         child: Container(
           height: 120,
