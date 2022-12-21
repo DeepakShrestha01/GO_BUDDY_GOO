@@ -127,7 +127,7 @@ class WideButton extends StatelessWidget {
 
 void showToast({required String? text, int? time}) {
   BotToast.showCustomText(
-    align: Alignment.bottomCenter,
+    align: Alignment.topCenter,
     clickClose: false,
     ignoreContentClick: true,
     enableKeyboardSafeArea: true,

@@ -232,9 +232,7 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                         ),
                       );
                     }
-                    if (state is SelectBusErrorState) {
-                      showToast(text: '${state.response}');
-                    }
+
                     return TextField(
                       style: valueTextStyle,
                       enabled: false,
@@ -312,6 +310,7 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                                 style: headerTextStyle,
                               ),
                               TextFormField(
+                                keyboardType: TextInputType.number,
                                 controller: passengerAgeController[index],
                                 validator: (value) {
                                   if (value!.isEmpty) {

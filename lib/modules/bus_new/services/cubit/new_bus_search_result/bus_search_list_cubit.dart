@@ -77,13 +77,14 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     if (response.statusCode == 200) {
       var responsedata = SelectBusResponse.fromJson(response.data);
       var responseError = NewBusErrorResponse.fromJson(response.data);
-      if (responseError.status == true) {
-        emit(SelectBusSuccessState(response: responsedata));
 
-        boardingPoint = responsedata.detail?.boardingPoint;
-        ticketSerialNo = responsedata.detail?.ticketSerialNo;
-      } else if (responseError.status == false) {
-        // showToast(text: '${responseError.details}');
+      boardingPoint = responsedata.detail?.boardingPoint;
+      ticketSerialNo = responsedata.detail?.ticketSerialNo;
+      if (responsedata.status == true) {
+        emit(SelectBusSuccessState(response: responsedata));
+      }
+      if (responseError.status == false) {
+        showToast(text: responseError.details);
         emit(SelectBusErrorState(response: responseError.details));
       }
     }

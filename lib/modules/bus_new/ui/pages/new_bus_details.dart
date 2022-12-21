@@ -303,82 +303,91 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 120,
-        width: MediaQuery.of(context).size.width,
-        color: MyTheme.primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Selected Seats : ${selectedSeats.toString()}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+      bottomNavigationBar: BlocListener<BusSearchListCubit, BusSearchListState>(
+        listener: (context, state) {
+          if (state is SelectBusSuccessState) {
+            Get.toNamed('/busBordingPoint', arguments: [buses, selectedSeats]);
+          }
+          if (state is SelectBusErrorState) {
+            print("object error");
+            showToast(text: "error message", time: 5);
+          }
+        },
+        child: Container(
+          height: 120,
+          width: MediaQuery.of(context).size.width,
+          color: MyTheme.primaryColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Selected Seats : ${selectedSeats.toString()}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Total Price : NPR ${buses.ticketPrice! * selectedSeats.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 55,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () {
-                    if (selectedSeats.isNotEmpty) {
-                      if (HiveUser.getLoggedIn()) {
-                        parameters.seats = selectedSeats;
-                        BlocProvider.of<BusSearchListCubit>(context)
-                            .postSelectedBus(
-                                buses.id.toString(), sessionid, selectedSeats);
-                        Get.toNamed('/busBordingPoint',
-                            arguments: [buses, selectedSeats]);
+                        Text(
+                          'Total Price : NPR ${buses.ticketPrice! * selectedSeats.length}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 55,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    onPressed: () {
+                      if (selectedSeats.isNotEmpty) {
+                        if (HiveUser.getLoggedIn()) {
+                          parameters.seats = selectedSeats;
+                          BlocProvider.of<BusSearchListCubit>(context)
+                              .postSelectedBus(buses.id.toString(), sessionid,
+                                  selectedSeats);
+                        } else {
+                          Get.toNamed("/accountPage");
+                        }
                       } else {
-                        Get.toNamed("/accountPage");
+                        showToast(text: "No seat selected.");
                       }
-                    } else {
-                      showToast(text: "No seat selected.");
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Proceed'.toUpperCase(),
-                        style: const TextStyle(color: MyTheme.primaryColor),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                        color: MyTheme.primaryColor,
-                      )
-                    ],
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Proceed'.toUpperCase(),
+                          style: const TextStyle(color: MyTheme.primaryColor),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: MyTheme.primaryColor,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
