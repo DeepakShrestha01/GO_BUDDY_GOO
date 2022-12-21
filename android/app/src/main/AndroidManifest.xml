@@ -24,7 +24,7 @@
     </intent>
     </queries>
    <application
-        android:label="go_buddy_goo_mobile"
+        android:label="Go Buddy Goo"
         android:name="${applicationName}"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:icon="@mipmap/ic_launcher">
