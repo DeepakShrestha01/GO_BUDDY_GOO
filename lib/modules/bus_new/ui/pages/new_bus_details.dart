@@ -41,18 +41,44 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
 
     if (busSeats.bookingStatus == 'No') {
       return selecteSeat
-          ? Image.asset(
-              "assets/images/seat_selected_2.png",
-              color: MyTheme.primaryColor,
-              scale: 2.5,
+          ? Column(
+              children: [
+                Image.asset(
+                  "assets/images/seat_selected_2.png",
+                  color: MyTheme.primaryColor,
+                  scale: 2.5,
+                ),
+                Text(
+                  busSeats.displayName.toString(),
+                  style: const TextStyle(fontSize: 12),
+                )
+              ],
             )
-          : Image.asset(
-              'assets/images/seat_available.png',
-              scale: 2.5,
+          : Column(
+              children: [
+                Image.asset(
+                  'assets/images/seat_available.png',
+                  scale: 2.5,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  busSeats.displayName.toString(),
+                  style: const TextStyle(
+                      fontSize: 10, fontWeight: FontWeight.bold),
+                )
+              ],
             );
     } else if (busSeats.bookingStatus == 'Yes') {
-      return Image.asset('assets/images/seat_booked.png',
-          scale: 2.5, color: Colors.purple);
+      return Column(
+        children: [
+          Image.asset('assets/images/seat_booked.png',
+              scale: 2.5, color: Colors.purple),
+          Text(
+            busSeats.displayName.toString(),
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+          )
+        ],
+      );
     }
   }
 
@@ -295,14 +321,14 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Selected Seats : $selectedSeats',
+                        'Selected Seats : ${selectedSeats.toString()}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                         ),
                       ),
                       Text(
-                        'Total Price : ${buses.ticketPrice! * selectedSeats.length}',
+                        'Total Price : NPR ${buses.ticketPrice! * selectedSeats.length}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -337,6 +363,7 @@ class _NewBusSearchDetailsState extends State<NewBusSearchDetails> {
                     }
                   },
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Proceed'.toUpperCase(),

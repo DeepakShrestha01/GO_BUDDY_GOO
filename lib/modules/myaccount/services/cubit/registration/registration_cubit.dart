@@ -13,7 +13,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   String? emailAddress;
   String? phoneNumber;
   String? token;
-  String? otp;
+  // String? otp;
 
   checkPhoneNumber(String phoneNumber, String signatureID) async {
     emit(RegistrationLoadingState());
@@ -27,14 +27,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       emit(RegistertaionOtpState());
       // var responsedata = OtpResponse.fromJson(response.data);
     } else if (response.statusCode == 400) {
-      otp = response.data['data']['otp'];
+      // otp = response.data['data']['otp'];
 
       if (response.data['data']['message']
           .toString()
           .toLowerCase()
           .contains("register")) {
         showToast(text: 'Please Register', time: 3);
-        Get.toNamed('/signupScreen', arguments: [phoneNumber, otp]);
+        Get.toNamed('/signupScreen', arguments: [phoneNumber]);
       } else {
         showToast(text: response.data['data']['phone_number'][0], time: 5);
       }

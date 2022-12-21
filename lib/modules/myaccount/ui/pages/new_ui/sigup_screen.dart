@@ -7,6 +7,7 @@ import 'package:go_buddy_goo/common/services/hide_keyboard.dart';
 import 'package:go_buddy_goo/modules/myaccount/services/cubit/registration/registration_cubit.dart';
 import 'package:go_buddy_goo/modules/myaccount/ui/widgets/new_ui/custom_textformfield.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../widgets/new_ui/auth_privacy_tc.dart';
 
@@ -19,7 +20,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   var phoneNumber = Get.arguments[0];
-  var otp = Get.arguments[1];
+  // var otp = Get.arguments[1];
 
   CountdownTimerController? countdownController;
 
@@ -33,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _referralCodeController = TextEditingController();
   final _otpController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
-
+  String? otpCode;
   @override
   void initState() {
     super.initState();
@@ -199,10 +200,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.012,
                       ),
-                      CustomTextFormField(
-                        readOnly: true,
-                        controller: _otpController..text = otp,
+                      TextFieldPinAutoFill(
+                        currentCode: otpCode,
+                        onCodeChanged: (otp) {
+                          otpCode = otp;
+                        },
+                        codeLength: 4,
+                        decoration: InputDecoration(
+                          errorStyle: GoogleFonts.poppins(fontSize: 12),
+                          filled: true,
+                          fillColor: const Color(0xFFFEFEFE),
+                          contentPadding: const EdgeInsets.only(left: 130),
+                          hintText: "Enter Otp",
+                          hintStyle: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF9B97A0)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide.none),
+                        ),
                       ),
+                      // CustomTextFormField(
+                      //   readOnly: true,
+                      //   controller: _otpController..text = otp,
+                      // ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.012),
                       SizedBox(
@@ -221,6 +243,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     _referralCodeController.text.isEmpty
                                         ? ''
                                         : _referralCodeController.text,
+                                'otp': otpCode
                               };
                               BlocProvider.of<RegistrationCubit>(context)
                                   .registration(credentials);
