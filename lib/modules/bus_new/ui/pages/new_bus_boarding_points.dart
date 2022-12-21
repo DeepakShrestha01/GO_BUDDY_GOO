@@ -253,9 +253,7 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                 divider(),
                 const SizedBox(height: 20),
                 const Text('---------- Enter Passenger Details ---------',
-                    style: TextStyle(
-                      fontSize: 18,
-                    )),
+                    style: TextStyle(fontSize: 18)),
                 const SizedBox(height: 40),
                 ListView.builder(
                   shrinkWrap: true,
@@ -263,7 +261,6 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                   itemCount: selectedSeats?.length,
                   itemBuilder: (context, index) {
                     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           "assets/images/seat_selected_2.png",
@@ -272,6 +269,7 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                         ),
                         const SizedBox(width: 20),
                         Expanded(
+                          flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -304,43 +302,39 @@ class _NewBusBoardingPointsState extends State<NewBusBoardingPoints> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        SizedBox(
-                          width: 100,
-                          child: Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Age",
-                                  style: headerTextStyle,
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Age",
+                                style: headerTextStyle,
+                              ),
+                              TextFormField(
+                                controller: passengerAgeController[index],
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    _keyAge?.currentState?.forward();
+                                    return ' Enter Age';
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(fontSize: 12),
+                                cursorColor: MyTheme.primaryColor,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Enter Age",
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  errorStyle: TextStyle(fontSize: 12),
                                 ),
-                                TextFormField(
-                                  controller: passengerAgeController[index],
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      _keyAge?.currentState?.forward();
-                                      return ' Enter Age';
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(fontSize: 12),
-                                  cursorColor: MyTheme.primaryColor,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Enter Age",
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.zero,
-                                    errorStyle: TextStyle(fontSize: 12),
-                                  ),
-                                ),
-                                divider()
-                              ],
-                            ),
+                              ),
+                              divider()
+                            ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        )
+                        const SizedBox(height: 20)
                       ],
                     );
                   },
