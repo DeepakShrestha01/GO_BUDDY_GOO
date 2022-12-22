@@ -331,7 +331,7 @@ class _FlightSearchResultBodyState extends State<FlightSearchResultBody> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black12.withOpacity(0.75),
       builder: (BuildContext context) {
-        return FlightFilter(cubit);
+        return FlightFilter(cubit!);
       },
     );
   }

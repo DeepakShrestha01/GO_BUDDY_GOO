@@ -31,7 +31,7 @@ class _FlightFilterState extends State<FlightFilter> {
   applyFilter() {
     Get.back();
 
-    widget.cubit?.filterAirline(selectedAirlines!);
+    widget.cubit?.filterAirline(selectedAirlines);
   }
 
   @override
@@ -125,7 +125,7 @@ class _FlightFilterState extends State<FlightFilter> {
                           const SizedBox(width: 10),
                           GestureDetector(
                             onTap: () {
-                              widget.cubit!.sortAsc = false;
+                              widget.cubit?.sortAsc = false;
                               setState(() {});
                             },
                             child: Container(
