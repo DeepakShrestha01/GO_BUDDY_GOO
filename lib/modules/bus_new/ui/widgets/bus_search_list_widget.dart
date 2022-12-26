@@ -6,8 +6,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:recase/recase.dart';
 
 class BusSeachlistWidget extends StatelessWidget {
-  final Buses data;
-  final int sessionId;
+  final Buses? data;
+  final int? sessionId;
   const BusSeachlistWidget({
     super.key,
     required this.data,
@@ -16,15 +16,15 @@ class BusSeachlistWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var availableseat = data.seatLayout!
-        .where((element) {
+    var availableseat = data?.seatLayout
+        ?.where((element) {
           return element.bookingStatus == 'No';
         })
         .toList()
         .length;
 
-    var totalSeats = data.seatLayout!
-        .where((element) {
+    var totalSeats = data?.seatLayout
+        ?.where((element) {
           return element.bookingStatus != 'na';
         })
         .toList()
@@ -53,7 +53,7 @@ class BusSeachlistWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                data.operatorName!.titleCase,
+                data!.operatorName!.titleCase,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
@@ -61,7 +61,7 @@ class BusSeachlistWidget extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                '${data.busType}',
+                '${data?.busType}',
                 style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class BusSeachlistWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 13),
                       ),
                       Text(
-                        '- ${data.departureTime}',
+                        '- ${data?.departureTime}',
                         style: const TextStyle(
                           fontSize: 13,
                         ),
@@ -97,7 +97,7 @@ class BusSeachlistWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '- ${data.journeyHour} hr',
+                        '- ${data?.journeyHour} hr',
                         style: const TextStyle(
                           fontSize: 13,
                         ),
@@ -111,7 +111,7 @@ class BusSeachlistWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Shift : ${data.shift} ",
+                    "Shift : ${data?.shift} ",
                     style: const TextStyle(
                       fontSize: 13,
                     ),
@@ -119,7 +119,7 @@ class BusSeachlistWidget extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        'NPR ${data.ticketPrice}',
+                        'NPR ${data?.ticketPrice}',
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
@@ -152,7 +152,7 @@ class BusSeachlistWidget extends StatelessWidget {
                           child: LinearPercentIndicator(
                             barRadius: const Radius.circular(5),
                             percent:
-                                1 - (availableseat / (totalSeats)).toDouble(),
+                                1 - (availableseat! / (totalSeats!)).toDouble(),
                             progressColor: Colors.green,
                             lineHeight: 7.5,
                           ),
@@ -193,7 +193,7 @@ class BusSeachlistWidget extends StatelessWidget {
                   shrinkWrap: true,
                   // physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: data.amenities?.length,
+                  itemCount: data?.amenities?.length,
                   itemBuilder: (context, index) {
                     return Wrap(
                       spacing: 10,
@@ -205,7 +205,7 @@ class BusSeachlistWidget extends StatelessWidget {
                               backgroundColor: MyTheme.primaryColor,
                             ),
                             Text(
-                              ' ${data.amenities![index].toUpperCase()}',
+                              ' ${data?.amenities![index].toUpperCase()}',
                               style: const TextStyle(fontSize: 11),
                             ),
                           ],

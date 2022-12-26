@@ -134,7 +134,7 @@ class _FlightFilterState extends State<FlightFilter> {
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: !widget.cubit!.sortAsc
+                                color: widget.cubit!.sortAsc
                                     ? MyTheme.primaryColor
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(20),

@@ -1,19 +1,32 @@
 import 'package:bloc/bloc.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:go_buddy_goo/common/services/dio_http_service.dart';
 import 'package:go_buddy_goo/common/widgets/common_widgets.dart';
 import 'package:go_buddy_goo/modules/bus_new/model/new_bus_error_response.dart';
 import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter.dart';
 import 'package:go_buddy_goo/modules/bus_new/model/new_select_bus_response.dart';
 import 'package:go_buddy_goo/modules/bus_new/model/passenger_details_response.dart';
-import 'package:meta/meta.dart';
 
+import '../../../../../common/functions/format_date.dart';
 import '../../../model/new_bus_search_list_response.dart';
+import '../../../model/no_of_busnotifier.dart';
 
 part 'bus_search_list_state.dart';
 
 class BusSearchListCubit extends Cubit<BusSearchListState> {
   BusSearchListCubit() : super(BusSearchListInitial());
+
+  bool? sortPrice;
+  bool? sortTime;
+  bool sortAsc = true;
+
+  // updateValueNotifierValues() {
+  //   noOfBusesFilter.value = inBoundData?.length;
+  // }
+
+  NewBusSearchListResponse? responsedatafilter;
 
   List<Buses>? buses = [];
   int? sessionId;
@@ -82,18 +95,8 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         var responsedata = SelectBusResponse.fromJson(response.data);
         boardingPoint = responsedata.detail?.boardingPoint;
         ticketSerialNo = responsedata.detail?.ticketSerialNo;
-        print("boardingpoint : ${responsedata.detail?.boardingPoint}");
         emit(SelectBusSuccessState(response: responsedata));
       }
-      // var responseError = NewBusErrorResponse.fromJson(response.data);
-
-      // if (responsedata.status == true) {
-      //   emit(SelectBusSuccessState(response: responsedata));
-      // }
-      // if (responseError.status == false) {
-      //   showToast(text: responseError.details);
-      //   emit(SelectBusErrorState(response: responseError.details));
-      // }
     }
   }
 
@@ -149,5 +152,80 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         showToast(text: '${responseError.details}');
       }
     }
+  }
+
+//  filter by price and time
+  void filterBus() async {
+    BotToast.showLoading();
+
+    if (sortPrice != null) {
+      sortPrice = sortAsc;
+      print('asc : $sortPrice');
+
+      if (sortPrice!) {
+        buses?.sort(
+          (a, b) {
+            return double.parse(a.ticketPrice.toString())
+                .compareTo(double.parse(b.ticketPrice.toString()));
+          },
+        );
+      } else {
+        buses?.sort(
+          (a, b) {
+            return double.parse(b.ticketPrice.toString())
+                .compareTo(double.parse(a.ticketPrice.toString()));
+          },
+        );
+      }
+    }
+
+    if (sortTime != null) {
+      sortTime = sortAsc;
+      if (sortTime!) {
+        buses?.sort(
+          (a, b) {
+            TimeOfDay time1 = DateTimeFormatter.formatTimeWithAmPm(
+                a.departureTime.toString());
+            int mins1 = time1.hour * 60 + time1.minute;
+
+            TimeOfDay time2 = DateTimeFormatter.formatTimeWithAmPm(
+                b.departureTime.toString());
+            int mins2 = time2.hour * 60 + time2.minute;
+
+            if (mins1 > mins2) {
+              return 1;
+            } else if (mins1 < mins2) {
+              return -1;
+            } else {
+              return 0;
+            }
+          },
+        );
+      } else {
+        buses?.sort(
+          (a, b) {
+            TimeOfDay time1 = DateTimeFormatter.formatTimeWithAmPm(
+                b.departureTime.toString());
+            int mins1 = time1.hour * 60 + time1.minute;
+
+            TimeOfDay time2 = DateTimeFormatter.formatTimeWithAmPm(
+                a.departureTime.toString());
+            int mins2 = time2.hour * 60 + time2.minute;
+
+            if (mins1 > mins2) {
+              return 1;
+            } else if (mins1 < mins2) {
+              return -1;
+            } else {
+              return 0;
+            }
+          },
+        );
+      }
+    }
+    await Future.delayed(const Duration(seconds: 1), () {});
+
+    BotToast.closeAllLoading();
+    emit(BusSearchListSuccessState(response: responsedatafilter!));
   }
 }

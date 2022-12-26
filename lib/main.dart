@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:go_buddy_goo/common/services/location_service.dart';
 import 'package:go_buddy_goo/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
 import 'package:go_buddy_goo/modules/myaccount/services/cubit/login_with_password/login_with_password_cubit.dart';
 import 'package:go_buddy_goo/modules/myaccount/services/cubit/registration/registration_cubit.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
   await setUpHive();
 
   await setUpLocator();
+  await setUserLocation();
 
   runApp(const MyApp());
 }

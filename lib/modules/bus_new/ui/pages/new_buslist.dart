@@ -8,9 +8,11 @@ import 'package:go_buddy_goo/modules/bus_new/model/new_busbooking_list_parameter
 import 'package:go_buddy_goo/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 import 'package:go_buddy_goo/modules/hotel/ui/widgets/no_result_widget.dart';
 
+import '../../../../configs/theme.dart';
 import '../../model/new_bus_search_list_response.dart';
 import '../widgets/bus_search_list_widget.dart';
 import '../widgets/buslist_toppart.dart';
+import 'bus_filter.dart';
 
 class NewBusSearchListBody extends StatefulWidget {
   const NewBusSearchListBody({super.key});
@@ -20,12 +22,12 @@ class NewBusSearchListBody extends StatefulWidget {
 }
 
 class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
+  // BusSearchListCubit? cubit;
+
   @override
   void initState() {
     super.initState();
-    // BlocProvider.of<BusSearchListCubit>(context).getNewBusSearchResult();
-    BlocProvider.of<BusSearchListCubit>(context).buses;
-    setState(() {});
+    // cubit = BlocProvider.of<BusSearchListCubit>(context);
   }
 
   List<Buses>? noOfBuses;
@@ -79,8 +81,13 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
             BlocBuilder<BusSearchListCubit, BusSearchListState>(
               builder: (context, state) {
                 if (state is BusSearchListLoadingState) {
-                  return const Center(
-                    child: LoadingWidget(),
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        LoadingWidget(),
+                      ],
+                    ),
                   );
                 }
 
@@ -90,6 +97,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
 
                 if (state is BusSearchListSuccessState) {
                   return ListView.separated(
+                    itemCount: state.response.buses!.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
@@ -102,75 +110,82 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                           ]);
                         },
                         child: BusSeachlistWidget(
-                          sessionId: state.response.sessionId!,
-                          data: state.response.buses![index],
+                          sessionId: state.response.sessionId,
+                          data: state.response.buses?[index],
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: 10);
                     },
-                    itemCount: state.response.buses!.length,
                   );
                 }
                 return const Center(
                   child: LoadingWidget(),
                 );
               },
-            )
+            ),
           ],
         ),
       ),
-      // floatingActionButton: Container(
-      //     height: 45,
-      //     width: 80,
-      //     decoration: BoxDecoration(
-      //       borderRadius: BorderRadius.circular(30),
-      //       color: MyTheme.primaryColor,
-      //     ),
-      //     child: FloatingActionButton(
-      //       backgroundColor: MyTheme.primaryColor,
-      //       onPressed: () {
-      //         showModalBottomSheet(
-      //           context: context,
-      //           isDismissible: true,
-      //           isScrollControlled: false,
-      //           backgroundColor: Colors.transparent,
-      //           barrierColor: Colors.black12.withOpacity(0.75),
-      //           builder: (BuildContext context) {
-      //             return BusFilter(
-      //               buses: noOfBuses!,
-      //             );
-      //           },
-      //         );
-      //       },
-      //       child: Container(
-      //         height: 45,
-      //         width: 80,
-      //         decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(30),
-      //           color: MyTheme.primaryColor,
-      //         ),
-      //         child: Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: const [
-      //             Icon(
-      //               Icons.filter_list,
-      //               color: Colors.white,
-      //               size: 15,
-      //             ),
-      //             SizedBox(width: 5),
-      //             Text(
-      //               "Filter",
-      //               style: TextStyle(
-      //                 color: Colors.white,
-      //                 fontSize: 15,
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     )),
+      floatingActionButton: BlocBuilder<BusSearchListCubit, BusSearchListState>(
+        builder: (context, state) {
+          if (state is BusSearchListSuccessState) {
+            return Container(
+              height: 45,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: MyTheme.primaryColor,
+              ),
+              child: FloatingActionButton(
+                backgroundColor: MyTheme.primaryColor,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isDismissible: true,
+                    isScrollControlled: false,
+                    backgroundColor: Colors.transparent,
+                    barrierColor: Colors.black12.withOpacity(0.75),
+                    builder: (BuildContext context) {
+                      return BusFilter(
+                        cubit: cubit,
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  height: 45,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: MyTheme.primaryColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        "Filter",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
