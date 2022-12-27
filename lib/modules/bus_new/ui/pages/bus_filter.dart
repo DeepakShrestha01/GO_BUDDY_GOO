@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo/modules/bus_new/services/cubit/new_bus_search_result/bus_search_list_cubit.dart';
 
 import '../../../../common/widgets/png_icon_widget.dart';
 import '../../../../configs/theme.dart';
+import '../../model/new_bus_search_list_response.dart';
 
 class BusFilter extends StatefulWidget {
   BusSearchListCubit? cubit;
@@ -19,10 +19,10 @@ class BusFilter extends StatefulWidget {
 }
 
 class _BusFilterState extends State<BusFilter> {
-  BusSearchListCubit? cubit;
+  Buses? buses;
   @override
   void initState() {
-    cubit = BlocProvider.of<BusSearchListCubit>(context);
+    // cubit = BlocProvider.of<BusSearchListCubit>(context);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _BusFilterState extends State<BusFilter> {
 
   applyFilter() {
     Get.back();
-    cubit?.filterBus();
+    widget.cubit?.filterBus(buses);
   }
 
   @override
@@ -92,7 +92,7 @@ class _BusFilterState extends State<BusFilter> {
                           GestureDetector(
                             onTap: () {
                               setState(() {});
-                              cubit?.sortAsc = true;
+                              widget.cubit?.sortAsc = true;
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -100,7 +100,7 @@ class _BusFilterState extends State<BusFilter> {
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: cubit!.sortAsc
+                                color: widget.cubit!.sortAsc
                                     ? MyTheme.primaryColor
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(20),
@@ -109,7 +109,7 @@ class _BusFilterState extends State<BusFilter> {
                                 "Asc",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: cubit!.sortAsc
+                                  color: widget.cubit!.sortAsc
                                       ? Colors.white
                                       : Colors.black,
                                 ),
@@ -120,7 +120,7 @@ class _BusFilterState extends State<BusFilter> {
                           GestureDetector(
                             onTap: () {
                               setState(() {});
-                              cubit?.sortAsc = false;
+                              widget.cubit?.sortAsc = false;
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -128,7 +128,7 @@ class _BusFilterState extends State<BusFilter> {
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: cubit!.sortAsc
+                                color: widget.cubit!.sortAsc
                                     ? MyTheme.primaryColor
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(20),
@@ -137,7 +137,7 @@ class _BusFilterState extends State<BusFilter> {
                                 "Desc",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: cubit!.sortAsc
+                                  color: widget.cubit!.sortAsc
                                       ? Colors.white
                                       : Colors.black,
                                 ),
@@ -158,8 +158,8 @@ class _BusFilterState extends State<BusFilter> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    cubit?.sortPrice = true;
-                    cubit?.sortTime = null;
+                    widget.cubit?.sortPrice = true;
+                    widget.cubit?.sortTime = null;
                     setState(() {});
                   },
                   child: Container(
@@ -171,7 +171,7 @@ class _BusFilterState extends State<BusFilter> {
                         Text(
                           "Price",
                           style: TextStyle(
-                            color: cubit?.sortPrice == null
+                            color: widget.cubit?.sortPrice == null
                                 ? Colors.black
                                 : MyTheme.primaryColor,
                             fontWeight: FontWeight.w300,
@@ -181,15 +181,15 @@ class _BusFilterState extends State<BusFilter> {
                           children: [
                             PNGIconWidget(
                               asset: "assets/images/money.png",
-                              color: cubit?.sortPrice == null
+                              color: widget.cubit?.sortPrice == null
                                   ? Colors.black
                                   : MyTheme.primaryColor,
                             ),
                             const SizedBox(width: 5),
                             Icon(
-                              cubit?.sortPrice == null
+                              widget.cubit?.sortPrice == null
                                   ? null
-                                  : cubit!.sortAsc
+                                  : widget.cubit!.sortAsc
                                       ? Icons.arrow_drop_up
                                       : Icons.arrow_drop_down,
                               color: MyTheme.primaryColor,
@@ -203,8 +203,8 @@ class _BusFilterState extends State<BusFilter> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    cubit?.sortTime = true;
-                    cubit?.sortPrice = null;
+                    widget.cubit?.sortTime = true;
+                    widget.cubit?.sortPrice = null;
                     setState(() {});
                   },
                   child: Container(
@@ -216,7 +216,7 @@ class _BusFilterState extends State<BusFilter> {
                         Text(
                           "Time",
                           style: TextStyle(
-                            color: cubit?.sortTime == null
+                            color: widget.cubit?.sortTime == null
                                 ? Colors.black
                                 : MyTheme.primaryColor,
                             fontWeight: FontWeight.w300,
@@ -226,15 +226,15 @@ class _BusFilterState extends State<BusFilter> {
                           children: [
                             PNGIconWidget(
                               asset: "assets/images/clock.png",
-                              color: cubit?.sortTime == null
+                              color: widget.cubit?.sortTime == null
                                   ? Colors.black
                                   : MyTheme.primaryColor,
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              cubit?.sortTime == null
+                              widget.cubit?.sortTime == null
                                   ? "         "
-                                  : cubit!.sortAsc
+                                  : widget.cubit!.sortAsc
                                       ? "Early"
                                       : "Late ",
                               style:

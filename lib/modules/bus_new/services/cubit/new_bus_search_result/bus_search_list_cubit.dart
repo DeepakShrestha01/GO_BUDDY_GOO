@@ -22,11 +22,12 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   bool? sortTime;
   bool sortAsc = true;
 
-  // updateValueNotifierValues() {
-  //   noOfBusesFilter.value = inBoundData?.length;
-  // }
+  updateValueNotifierValues() {
+    noOfBusesFilter.value = buses?.length;
+  }
 
   NewBusSearchListResponse? responsedatafilter;
+  List<Buses>? outbuses = [];
 
   List<Buses>? buses = [];
   int? sessionId;
@@ -46,6 +47,8 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     );
 
     if (response.statusCode == 200) {
+      responsedatafilter = NewBusSearchListResponse.fromJson(response.data);
+
       var responsedata = NewBusSearchListResponse.fromJson(response.data);
       var errorResponse = NewBusErrorResponse.fromJson(response.data);
       if (responsedata.status == true) {
@@ -155,8 +158,18 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   }
 
 //  filter by price and time
-  void filterBus() async {
+  void filterBus(Buses? bus) async {
     BotToast.showLoading();
+
+    if (bus != null) {
+      List<Buses> filteredBuses = [];
+      for (var x in responsedatafilter!.buses!) {
+        filteredBuses.add(x);
+      }
+      buses = filteredBuses;
+    } else {
+      buses = responsedatafilter?.buses;
+    }
 
     if (sortPrice != null) {
       sortPrice = sortAsc;
@@ -224,6 +237,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       }
     }
     await Future.delayed(const Duration(seconds: 1), () {});
+    updateValueNotifierValues();
 
     BotToast.closeAllLoading();
     emit(BusSearchListSuccessState(response: responsedatafilter!));

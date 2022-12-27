@@ -22,20 +22,20 @@ class NewBusSearchListBody extends StatefulWidget {
 }
 
 class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
-  // BusSearchListCubit? cubit;
+  BusSearchListCubit? cubit;
 
   @override
   void initState() {
     super.initState();
-    // cubit = BlocProvider.of<BusSearchListCubit>(context);
+    cubit = BlocProvider.of<BusSearchListCubit>(context);
   }
 
   List<Buses>? noOfBuses;
   NewBusSearchListParameters parameters = NewBusSearchListParameters();
   @override
   Widget build(BuildContext context) {
-    final BusSearchListCubit cubit =
-        BlocProvider.of<BusSearchListCubit>(context);
+    // final BusSearchListCubit cubit =
+    //     BlocProvider.of<BusSearchListCubit>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -71,11 +71,11 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
         child: Column(
           children: [
             BusListTopPart(
-              from: cubit.parameters.from.toString(),
-              to: cubit.parameters.to.toString(),
-              date: cubit.parameters.departureDate!,
-              shift: cubit.parameters.shift.toString(),
-              noOfBuses: cubit.parameters.buses,
+              from: cubit!.parameters.from.toString(),
+              to: cubit!.parameters.to.toString(),
+              date: cubit!.parameters.departureDate!,
+              shift: cubit!.parameters.shift.toString(),
+              noOfBuses: cubit!.parameters.buses,
             ),
             const SizedBox(height: 20),
             BlocBuilder<BusSearchListCubit, BusSearchListState>(
