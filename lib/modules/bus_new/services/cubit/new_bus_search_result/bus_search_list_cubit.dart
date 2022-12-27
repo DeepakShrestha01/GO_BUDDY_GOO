@@ -27,7 +27,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   }
 
   NewBusSearchListResponse? responsedatafilter;
-  List<Buses>? outbuses = [];
 
   List<Buses>? buses = [];
   int? sessionId;
@@ -53,7 +52,7 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
       var errorResponse = NewBusErrorResponse.fromJson(response.data);
       if (responsedata.status == true) {
         buses = responsedata.buses;
-        // sessionId = responsedata.sessionId;
+
         emit(BusSearchListSuccessState(response: responsedata));
       }
 
@@ -74,14 +73,10 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
     sessionId = sessionID;
     parameters.sessionID = sessionID;
     selectedSeats = parameters.seats;
-    // print("selectbos : $selectedSeats");
 
     FormData formData = FormData.fromMap({
       'session_id': sessionID,
       'bus_id': busId,
-      // 'seats': seats.map((e) {
-      //   return <String>['"$e"'];
-      // }).toList()
     });
     for (String seat in selectedSeats!) {
       formData.fields.add(MapEntry('seats', getBusSeatReservedString(seat)));
@@ -104,10 +99,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
   }
 
 // --------------------------------------------------------------
-
-  // String getBusSeatSelected(String busSeat) {
-  //   return "[$busSeat]";
-  // }
 
   void passengerDetails(
       {String? mobileNumber,
@@ -133,10 +124,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
         };
       })
     });
-
-    // for (String seat in selectedSeats!) {
-    //   formData.fields.add(MapEntry('seats', getBusSeatSelected(seat)));
-    // }
 
     Response response = await DioHttpService().handlePostRequest(
       'bus/passengers/details/',
@@ -173,7 +160,6 @@ class BusSearchListCubit extends Cubit<BusSearchListState> {
 
     if (sortPrice != null) {
       sortPrice = sortAsc;
-      print('asc : $sortPrice');
 
       if (sortPrice!) {
         buses?.sort(
