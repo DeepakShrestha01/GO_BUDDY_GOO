@@ -85,7 +85,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        LoadingWidget(),
+                        Center(child: LoadingWidget()),
                       ],
                     ),
                   );

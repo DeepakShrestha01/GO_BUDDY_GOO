@@ -91,8 +91,8 @@ class _BusFilterState extends State<BusFilter> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              setState(() {});
                               widget.cubit?.sortAsc = true;
+                              setState(() {});
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -128,7 +128,7 @@ class _BusFilterState extends State<BusFilter> {
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: widget.cubit!.sortAsc
+                                color: !widget.cubit!.sortAsc
                                     ? MyTheme.primaryColor
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(20),
@@ -137,7 +137,7 @@ class _BusFilterState extends State<BusFilter> {
                                 "Desc",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: widget.cubit!.sortAsc
+                                  color: !widget.cubit!.sortAsc
                                       ? Colors.white
                                       : Colors.black,
                                 ),
