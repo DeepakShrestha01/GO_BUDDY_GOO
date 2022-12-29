@@ -1,7 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:go_buddy_goo/modules/bus_new/services/cubit/bus_booking/bus_booking_cubit.dart';
 import 'package:go_buddy_goo/modules/myaccount/services/cubit/login_with_password/login_with_password_cubit.dart';
@@ -23,7 +25,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // await FlutterDownloader.initialize(debug: kDebugMode);
+  await FlutterDownloader.initialize(debug: kDebugMode);
   // await Firebase.initializeApp();
   // FirebaseCrashlytics.instance.crash();
   // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
