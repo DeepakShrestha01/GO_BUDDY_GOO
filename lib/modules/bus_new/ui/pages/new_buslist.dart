@@ -69,6 +69,7 @@ class _NewBusSearchListBodyState extends State<NewBusSearchListBody> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BusListTopPart(
               from: cubit!.parameters.from.toString(),
